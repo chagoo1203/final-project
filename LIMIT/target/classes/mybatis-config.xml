@@ -13,6 +13,8 @@
 		<typeAlias type="com.kh.limit.common.model.vo.ResellInfo" alias="resellInfo"/>
 		<typeAlias type="com.kh.limit.common.model.vo.Trade" alias="trade"/>
 		<typeAlias type="com.kh.limit.admin.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.limit.member.model.vo.Member" alias="member"/>
+		
 
 	</typeAliases>
 
