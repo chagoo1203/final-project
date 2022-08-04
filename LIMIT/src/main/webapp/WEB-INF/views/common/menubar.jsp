@@ -75,6 +75,7 @@
 		        </div>
 		    </c:when>
 		    <c:otherwise>
+		    	<c:choose>
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
 	                <a href="#">고객센터</a>
@@ -89,7 +90,8 @@
 		                <a href="myPage.me">마이페이지</a>
 		                <a href="logout.me">로그아웃</a>
 	            </c:otherwise>
-            </c:otherwise>
+	            </c:choose>
+            </c:otherwise>            
 		</c:choose>
         <div id="header2">
             <div id = "logo" align = "left">
@@ -98,7 +100,7 @@
             <div id ="boardTag" align = "right">
                 <a href=""> STYLE </a>
                 <a href=""> SHOP </a>
-                <a href=""> USEDSHOP </a>
+                <a href="list.used"> USEDSHOP </a>
             </div>
         </div>
     </div>    
