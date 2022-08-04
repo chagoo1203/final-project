@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.kh.limit.common.model.vo.Attachment" alias="attachment"/>
+		<typeAlias type="com.kh.limit.common.model.vo.CommonName" alias="commonName"/>
+		<typeAlias type="com.kh.limit.common.model.vo.Interested" alias="interested"/>
+		<typeAlias type="com.kh.limit.common.model.vo.PageInfo" alias="pageInfo"/>
+		<typeAlias type="com.kh.limit.common.model.vo.ResellInfo" alias="resellInfo"/>
+		<typeAlias type="com.kh.limit.common.model.vo.Trade" alias="trade"/>
+		<typeAlias type="com.kh.limit.admin.model.vo.Notice" alias="notice"/>
+
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
+	</mappers>
+	
+
+
+
+
+
+
+
+
+
+</configuration>
