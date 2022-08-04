@@ -24,7 +24,7 @@
 				USER_NAME,
 				EMAIL,
 				GENDER,
-				BIRTH_DATE,
+				AGE,
 				PHONE,
 				ADDRESS,
 				ENROLL_DATE,
