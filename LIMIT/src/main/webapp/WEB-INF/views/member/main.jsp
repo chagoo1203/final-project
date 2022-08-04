@@ -5,9 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메인 페이지</title>
 </head>
 <body>
-
+	<jsp:include page="../common/menubar.jsp" />
+	<div></div>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>인덱스</title>
 </head>
 <body>
-	<h1>ㅎㅇ</h1>
+	<jsp:forward page="WEB-INF/views/member/main.jsp"></jsp:forward>
 </body>
 </html>
