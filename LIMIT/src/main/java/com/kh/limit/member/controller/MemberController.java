@@ -14,7 +14,14 @@ import com.kh.limit.member.model.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+
 	@RequestMapping("login.me")
+	public String login() {
+		
+		return "member/loginForm";
+	}
+	
+	@RequestMapping("loginForm.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);
 		
