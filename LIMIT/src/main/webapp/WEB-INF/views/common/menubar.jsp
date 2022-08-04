@@ -100,7 +100,7 @@
             <div id ="boardTag" align = "right">
                 <a href=""> STYLE </a>
                 <a href=""> SHOP </a>
-                <a href="enrollForm.used"> USEDSHOP </a>
+                <a href="list.used"> USEDSHOP </a>
             </div>
         </div>
     </div>    

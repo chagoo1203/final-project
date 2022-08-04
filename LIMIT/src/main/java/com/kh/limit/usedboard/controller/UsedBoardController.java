@@ -10,4 +10,8 @@ public class UsedBoardController {
 	public String enrollForm() {
 		return "/usedboard/usedBoardEnrollForm";
 	}
+	@RequestMapping("list.used")
+	public String listView() {
+		return "/usedboard/usedBoardList";
+	}
 }
