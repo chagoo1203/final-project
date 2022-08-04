@@ -25,7 +25,7 @@
 				EMAIL,
 				GENDER,
 				BIRTH_DATE,
-				PHONE,
+				PHONE,  
 				ADDRESS,
 				ENROLL_DATE,
 				MODIFY_DATE,
