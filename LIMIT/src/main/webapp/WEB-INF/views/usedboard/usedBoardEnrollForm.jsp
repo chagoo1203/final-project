@@ -68,7 +68,7 @@
         <div id = "imgInsertWrap" style="height: 200px;">
             <div id ="textWrap" style="width : 152px; height : 152px; float: left;"><p style="font-weight: bold;">상품 이미지</p><p style="color : red">*</p><p style="color : gray;" id="photoCount">(0/10)</p></div>
             <div id = "imgWrap" style=" width: 1000px; float:left; margin-top: 20px;">
-                <img src="pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
+                <img src="resources/enrollFormImges/pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
                 <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this);">
 
             </div>
@@ -82,43 +82,43 @@
                 </div>
 
                 <div id="categoryRadioWrap" class ="d-grid gap-2" style="width: 45%; height : 100%; float : left;">
-                    <input type="radio" class="btn-check" name="productTypeName" id="option1" autocomplete="off" style="padding: 100px;">
-                    <label class="btn btn-outline-secondary btn-block" for="option1" >의류</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option2" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option2">신발</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option3" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option3">악세사리</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option4" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option4">기타</label>
+                	<c:set var ="index" value ="0"/>                
+                	<c:forEach var ="category" items = "${categoryList }">          	
+                		<input type="radio" class="btn-check" name="productTypeName" id="option${index }" autocomplete="off" value="${category.commonName }">
+                    	<label class="btn btn-outline-secondary btn-block" for="option${index}" >${category.commonName}</label>
+                    	<c:set var ="index" value ="${index + 1 }"/>
+                	</c:forEach>                                       
                 </div>                
             </div>
             <div id ="brandBox" style="margin-left : 200px;">
                 <div id="brandBoxNameWrap">
                     <p class = "categoryLogo" >BRAND</p>
                 </div>
-                <div id="categoryDropBoxWrap">
-                    <select class="selectpicker" name ="brandName">
-                        <optgroup label="A">
-                          <option>Adidas</option>                          
-                        </optgroup>
-                        <optgroup label="N">
-                          <option>Nike</option>                          
-                        </optgroup>
-                      </select>
+                <div id="categoryDropBoxWrap">                	
+                   	<select class="selectpicker" name ="brandName">                    	
+                        <optgroup label="BRAND">
+	                        <c:forEach var ="brand" items = "${brandList}">
+	                        	
+	                        	<option value = "${brand.commonName }">${brand.commonName}</option>
+	                        </c:forEach>                          
+                        </optgroup>	                        	                        
+                     </select>                     
                 </div>
             </div>
+            
+            
+            
             <div id ="collectionBox" style="margin-left : 150px;">
                 <div id="collectionNameWrap" >
                     <p class = "categoryLogo" >COLLECTION</p>
                 </div>
                 <div id="categoryDropBoxWrap">
-                    <select class="selectpicker" name="collectionName">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
+                    <select class="selectpicker" name="collectionName"> 
+                    	<option>${categoryList.get(0).commonName }</option>
+                    	<option>이건 ?</option>                       
+                    	<c:forEach var = "collection" items = "${collectionList}">                    		
+	                        <option value ="${collection.commonName }">${collection.commonName }</option>	                        
+                        </c:forEach>
                     </select>
                 </div>
             </div>
