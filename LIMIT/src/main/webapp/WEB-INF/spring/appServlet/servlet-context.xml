@@ -25,8 +25,8 @@
 	
 		<interceptors>
 		  <interceptor>
-		  	<mapping path=""/>
-		  	<mapping path=""/>
+		  	<mapping path="/myPage.me"/>
+		  	<mapping path="/enrollForm.bo"/>
 			<beans:bean class="com.kh.limit.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>
 		  </interceptor>
 		</interceptors>
