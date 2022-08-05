@@ -19,6 +19,7 @@
             float: left;
          }
         #wrap{
+        	
             margin: auto;
             width: 1200px;
             height: 1200px;
@@ -58,13 +59,17 @@
         </style>
 </head>
 <body>
-	
-	  <div id="wrap">
-        <form action="insertStyle">
+	   <jsp:include page="../common/menubar.jsp" />
+	   <div style="width:1200px; height:100px"></div>
 
+	  <div id="wrap">
+        <form action="insertStyle.bo" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="styleWriter" value="${ loginUser.userId }">
+            
             <div id="insert_area">
+            
                 <div id="pictures">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS19qRJ378QvEm6CXiFecdqj7SdIzU7-Bc2hw&usqp=CAU" alt="">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS19qRJ378QvEm6CXiFecdqj7SdIzU7-Bc2hw&usqp=CAU"">
                 </div>
                 
                 <button>썸네일</button><button>사진1</button><button>사진2</button><button>사진3</button>
@@ -75,7 +80,7 @@
                 <input id="4" type="hidden" type="file" name="file">
                 <br><br><br><br>
 
-                <textarea name="" id="" cols="70" rows="10" style="resize: none; margin-left:75px ;"
+                <textarea name="styleContent" id="" cols="70" rows="10" style="resize: none; margin-left:75px ;"
                 placeholder="해시태그또는 내용을 입력해주세요" required></textarea>
                 <br><br><br><br>
                 
@@ -83,12 +88,13 @@
 
                 <div id="product_tag_area">
                     <p>상품태그 N개</p>
-                    <input type="text" name="" id="" placeholder="상품검색"> <button>검색</button>
+                    <input type="text" name="styleTag" id="" placeholder="상품검색"> <button>검색</button>
                 </div>
                 
                 <br><br><br><br><br><br><br><br>
                 
                 <div id="product_list_area">
+                    <!-- 
                     <ul class="produt_list">
                         <li class="product_items">
                             <a href="">
@@ -122,6 +128,7 @@
                         </li>
                     </ul>
                 </div>
+                     -->
                 <div class="submit">
                     <button type="submit" style="margin-left: 250px;">작성</button>
                     <button type="reset">되돌리기</button>
@@ -130,8 +137,8 @@
             </div>
             
         </form>
+	<jsp:include page="../common/footer.jsp" />
     </div>
-	
 	
 	
 	
