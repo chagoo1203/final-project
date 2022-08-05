@@ -3,13 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
  		<style>
         
         #usedBoardArea{
             width: 1200px;
-            height: 1200px;
+            overflow : auto;
             margin: 0 auto;
         }
         #productTypeForm{
@@ -110,6 +113,7 @@
     </style>
 </head>
 <body>
+	<jsp:include page="../common/menubar.jsp" />
 	<div id ="usedBoardArea">
         <div id = "productTypeForm">
             <ul id = "productTypeBrandList">
@@ -135,75 +139,96 @@
 
         <div id ="mainCotentForm">
             
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-            <div class = "usedItem">
-                <div class ="usedImgWrap">
-                    <img src="./test.png" alt="" width="100%" height="100%">
-                </div>
-                <div class = "titleWrap">
-                    NikeAirForceOne
-                </div>
-                <div class ="priceWrap">
-                    98,00000
-                </div>
-            </div>
-
-
+            
+        </div>
+        
+        <div id="pagingArea">
+                          
         </div>
     </div>
+    <script>
+        var cpage =1;
+        var productTypeName = "";
+        var brandName = "";        
+        var collectionName = "";
+        $(function(){
+            
+        	ajaxLoadToUsedBoardPaging();
+        })
+        
+        
+        
+        
+        function ajaxLoadToUsedBoardPaging(){
+        	$("#pagingArea").empty();         
+        	var result ="";
+        	$.ajax({
+        			url : "aJaxLoadtoUsedBoardPaging.used",
+        			data : {cpage : cpage,productTypeName : productTypeName, brandName : brandName, collectionName : collectionName},
+        			success : function(pi){
+        				console.dir(pi);
+        				console.log(pi.listCount);
+        				if(pi.currentPage == 1){
+        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxloadToList(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
+        				}
+        				else{
+        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxloadToList(' + (pi.currentPage - 1) + ')" >&lt;</button>'
+        				}
+        				
+        				
+        				for(var i = pi.startPage; i <= pi.endPage; i++){
+                            console.log(i);
+                            if(i != pi.currentPage){
+                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxloadToList(' + i + ')">'+ i +'</button>';
+                            }else{
+                                result +=  '<button class="btn btn-outline-secondary" disabled>' + i + '</button>'
+                            }
+                        }
+        				if(pi.currentPage < pi.maxPage){
+                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxloadToList(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
+                        }
+        				console.log(result);
+        				$("#pagingArea").append(result);
+        				ajaxLoadToUsedBoardPage(pi);
+        			}
+        	})
+        }
+        
+        
+        
+        
+        function ajaxLoadToUsedBoardPage(pi){
+            $("#mainCotentForm").empty();
+            var result = "";
+            var startRow = (pi.currentPage - 1) * pi.boardLimit + 1;
+            var endRow = startRow + pi.boardLimit - 1;
+            
+            $.ajax({
+                url : "aJaxLoadtoUsedBoard.used",
+                data : {cpage : cpage,productTypeName : productTypeName, brandName : brandName, collectionName : collectionName, startRow : startRow, endRow : endRow},
+                success : function(list){
+                	console.log(list);
+                	for(let i in list){
+                		console.log(i + '번쨰');
+                		result += '<div class = "usedItem">' + 
+                		'<div class ="usedImgWrap">' +
+                            '<img src="' + list[i].titleImg +'" alt="" width="100%" height="100%">' +
+                        '</div>' +
+                        '<div class = "titleWrap">' +
+                            list[i].boardTitle +
+                        '</div>' +
+                        '<div class ="priceWrap">' +
+                            list[i].usedPrice + 
+                        '</div>' +
+                    	'</div>';
+                	}
+                	$("#mainCotentForm").append(result);
+                },error : function(){
+					console.log("test");
+                }
+            })
+        }
+    </script>
+    <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

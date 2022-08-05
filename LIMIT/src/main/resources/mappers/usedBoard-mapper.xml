@@ -10,7 +10,12 @@
 	<resultMap type="commonName" id="collectionSet">
 		<result column="COLLECTION_NAME" property="commonName"/>
 	</resultMap>
-	
+	<resultMap type="usedBoard" id="selectListRet">
+		<result column ="BOARD_NO" property = "boardNo"/>
+		<result column ="BOARD_TITLE" property = "boardTitle"/>
+		<result column ="USED_PRICE" property = "usedPrice"/>
+		<result column ="TITLEIMG" property = "titleImg"/>
+	</resultMap>
 
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
@@ -60,9 +65,50 @@
 		#{originName},
 		#{changeName},
 		#{filePath},
-		1,
+		#{fileLevel},
 		SEQ_BNO.CURRVAL,
 		2)
 	</insert>
 	
+	<select id ="selectListCount" parameterType="selectUsedBoardVo" resultType ="_int">
+		SELECT COUNT(*) COUNT
+		FROM(
+			SELECT BOARD_NO
+			FROM USEDBOARD
+			WHERE STATUS = 'Y'
+			<if test="productTypeName != '' ">
+				AND PRODUCT_TYPE_NAME = #{productTypeName}
+			</if>
+			<if test="brandName != '' ">
+				AND BRANDNAME = #{brandName}
+			</if>
+			<if test="collectionName != '' ">
+				AND COLLECTION_NAME = #{collectionName}
+			</if>
+			
+			)
+		
+	</select>
+	<select id="selectList" parameterType="selectUsedBoardVo" resultMap="selectListRet">
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, A.*
+		    FROM(
+			    SELECT BOARD_NO, BOARD_TITLE, USED_PRICE, FILE_PATH||CHANGE_NAME TITLEIMG
+			    FROM USEDBOARD U
+			    JOIN ATTACHMENT ON(BOARD_NO = REF_NO)
+			    WHERE U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 2
+			    <if test="productTypeName != '' ">
+					AND PRODUCT_TYPE_NAME = #{productTypeName}
+				</if>
+				<if test="brandName != '' ">
+					AND BRANDNAME = #{brandName}
+				</if>
+				<if test="collectionName != '' ">
+					AND COLLECTION_NAME = #{collectionName}
+				</if>
+				) A)
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+		
+		ORDER BY RNUM 
+	</select>
 </mapper>
