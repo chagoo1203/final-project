@@ -78,7 +78,7 @@
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
 	                <a href="customer.ct">고객센터</a>
-	                <a href="myPage.me">관리자페이지</a>
+	                <a href="admin.ad">관리자페이지</a>
 	                <a href="logout.me">로그아웃</a>
                 </c:when>
                 <c:otherwise>

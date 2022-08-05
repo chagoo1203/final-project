@@ -21,11 +21,11 @@ public class CustomerController {
 		
 		String type = "Q";
 		
-		PageInfo pi = Pagination.getPageInfo(customerService.selectListCount(type), currentPage, 5, 10);
+		//PageInfo pi = Pagination.getPageInfo(customerService.selectListCount(type), currentPage, 5, 10);
 		
-		mv.addObject("pi", pi)
-		  .addObject("list", customerService.selectList(pi,type))
-		  .setViewName("notice/qnaListView");
+		//mv.addObject("pi", pi)
+		//  .addObject("list", customerService.selectList(pi,type))
+		  mv.setViewName("notice/qnaListView");
 		
 		return mv;
 	}
