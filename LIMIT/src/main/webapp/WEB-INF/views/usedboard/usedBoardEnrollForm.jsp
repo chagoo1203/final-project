@@ -19,7 +19,7 @@
             overflow: auto;
             margin: 0 auto;
         }
-        #imgInsertWrap, #categoryWrap, #titleContextWrap{
+        #imgInsertWrap, #categoryWrap, #titleContentPriceWrap{
             border-top: 2px solid gray;
             overflow: auto;
             width: 100%;            
@@ -127,10 +127,10 @@
         </div>
         
 
-        <div id = "titleContextWrap">
+        <div id = "titleContentPriceWrap">
             <div id = "titleWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;  font-weight: bold; float : left;" >PRODUCT TITLE</div>
-                <div id="titleWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
+                <div id="titleInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
                     <input class="form-control" type="text" placeholder="INSERT TITLE" name = "boardTitle">
                 </div>
             </div>
@@ -138,13 +138,22 @@
             <div id="contentWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT CONTENT</div>
 
-                <div class = "form-group" id="titleWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
+                <div class = "form-group" id="contentInputWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
                     
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="16" style="resize : none;" name ="boardContent"></textarea>
                 </div>
 
             </div>
             
+            
+            
+             <div id="priceWrap" style="width : 100%; overflow : auto; ">
+              <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT PRICE</div>
+
+              <div id="priceInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">                  
+                  <input class="form-control" type="number" placeholder="INSERT PRICE" name = "usedPrice">
+              </div>
+            </div>
         </div>
         <div id="submitWrap" style="margin : auto; width: 100px; height: 100px; margin-top : 25px;" >
             <button type="submit" class="btn btn-secondary">작성완료</button>

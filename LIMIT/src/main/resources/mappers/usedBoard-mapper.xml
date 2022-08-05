@@ -33,7 +33,8 @@
 		BOARD_PRODUCT_NO,
 		PRODUCT_TYPE_NAME,
 		COLLECTION_NAME,
-		BRAND_NAME)
+		BRAND_NAME,
+		USED_PRICE)
 		VALUES(SEQ_BNO.NEXTVAL, 
 		#{boardTitle}, 
 		#{boardContent}, 
@@ -41,7 +42,8 @@
 		0, 
 		#{productTypeName}, 
 		#{collectionName}, 
-		#{brandName})
+		#{brandName},
+		#{usedPrice})
 	</insert>
 	
 	<insert id="insertImgUsedBoard">
