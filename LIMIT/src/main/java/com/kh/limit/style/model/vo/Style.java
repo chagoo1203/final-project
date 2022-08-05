@@ -21,4 +21,5 @@ public class Style {
 	private String createDate; // CREATE_DATE	DATE
 	private String modifyDate; // MODIFY_DATE	DATE
 	private String styleWriter; // STYLE_WRITER	VARCHAR2(40 BYTE)
+	
 }
