@@ -6,8 +6,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.usedboard.model.dao.UsedBoardDao;
+import com.kh.limit.usedboard.model.vo.UsedBoard;
 
 @Service
 public class UsedBoardService {
@@ -29,5 +31,19 @@ public class UsedBoardService {
 	public ArrayList<CommonName> selectCollection() {
 		return usedBoardDao.selectCollection(sqlSession);
 	}
+
+	public int insertUsedBoard(UsedBoard usedBoard) {
+		return usedBoardDao.insertUsedBoard(sqlSession, usedBoard);
+	}
+
+	public int insertUsedBoardImges(ArrayList<Attachment> imgList) {
+		int result = 1;
+		for(Attachment img : imgList) {
+			result *= usedBoardDao.insertAttachment(sqlSession, img);
+		}
+		return result;
+	}
+
+	
 
 }

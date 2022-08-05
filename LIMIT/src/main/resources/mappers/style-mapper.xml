@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="styleMapper">
+
+	<insert id="insertStyle" parameterType="style">
+		INSERT INTO STYLE (STYLE_NO, STYLE_TAG, STYLE_CONTENT, STYLE_WRITER)
+		VALUES(SEQ_SNO.NEXTVAL, #{styleTag}, #{styleContent}, #{styleWriter})		
+	</insert>
+
+
+
+	<insert id="insertStyleAttachment">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,
+		ORIGIN_NAME,
+		CHANGE_NAME,
+		FILE_PATH,
+		FILE_LEVEL,
+		REF_NO,
+		TYPE_NO)
+		VALUES
+		(SEQ_FNO.NEXTVAL,
+		#{originName},
+		#{changeName},
+		#{filePath},
+		1,
+		SEQ_SNO.CURRVAL,
+		3)
+	</insert>
+
+  
+  
+</mapper>
