@@ -14,6 +14,8 @@
 		<typeAlias type="com.kh.limit.common.model.vo.Trade" alias="trade"/>
 		<typeAlias type="com.kh.limit.admin.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.limit.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.limit.usedboard.model.vo.UsedBoard" alias ="usedBoard"/>
+		<typeAlias type="com.kh.limit.style.model.vo.Style" alias="style"/>
 		
 
 	</typeAliases>
@@ -25,6 +27,7 @@
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/usedBoard-mapper.xml"/>
 		<mapper resource="/mappers/notice-mapper.xml"/>
+		<mapper resource="/mappers/style-mapper.xml"/>	
 	</mappers>
 	
 
