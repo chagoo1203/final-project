@@ -69,8 +69,7 @@
 		<c:choose>
            	<c:when test="${ empty loginUser }">
 		        <div id="header1">
-		            <a href="">고객센터</a>
-		            <a href="#">공지사항</a>
+		            <a href="customer.ct">고객센터</a>
 		            <a href="login.me" style="margin-right : 12.5px">로그인/회원가입</a>
 		        </div>
 		    </c:when>
@@ -78,15 +77,13 @@
 		    	<c:choose>
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
-	                <a href="#">고객센터</a>
-	                <a href="#">공지사항</a>
+	                <a href="customer.ct">고객센터</a>
 	                <a href="myPage.me">관리자페이지</a>
 	                <a href="logout.me">로그아웃</a>
                 </c:when>
                 <c:otherwise>
 		                <!-- 로그인 후 -->
-		                <a href="#">고객센터</a>
-		                <a href="#">공지사항</a>
+		                <a href="customer.ct">고객센터</a>
 		                <a href="myPage.me">마이페이지</a>
 		                <a href="logout.me">로그아웃</a>
 	            </c:otherwise>
