@@ -24,7 +24,43 @@
 		SELECT *
 		FROM COLLECTION
 	</select>
+	<insert id="insertUsedBoard" parameterType="usedBoard">
+		INSERT INTO USEDBOARD 
+		(BOARD_NO, 
+		BOARD_TITLE, 
+		BOARD_CONTENT, 
+		BOARD_WRITER, 
+		BOARD_PRODUCT_NO,
+		PRODUCT_TYPE_NAME,
+		COLLECTION_NAME,
+		BRAND_NAME)
+		VALUES(SEQ_BNO.NEXTVAL, 
+		#{boardTitle}, 
+		#{boardContent}, 
+		#{boardWriter}, 
+		0, 
+		#{productTypeName}, 
+		#{collectionName}, 
+		#{brandName})
+	</insert>
 	
-	
+	<insert id="insertImgUsedBoard">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,
+		ORIGIN_NAME,
+		CHANGE_NAME,
+		FILE_PATH,
+		FILE_LEVEL,
+		REF_NO,
+		TYPE_NO)
+		VALUES
+		(SEQ_FNO.NEXTVAL,
+		#{originName},
+		#{changeName},
+		#{filePath},
+		1,
+		SEQ_BNO.CURRVAL,
+		2)
+	</insert>
 	
 </mapper>

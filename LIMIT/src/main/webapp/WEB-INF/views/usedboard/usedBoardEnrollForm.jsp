@@ -62,7 +62,9 @@
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	<div id = "enrollFromWrap">
-        <form action="">
+        <form method="post" action = "insert.used" enctype="multipart/form-data">
+        
+        <input type ="text" hidden value ="${loginUser.userId }" name ="boardWriter">
         <p style="font-weight: bold; font-size: 24px; margin : 0px; margin-bottom: 5px;">필수 입력</p>
         
         <div id = "imgInsertWrap" style="height: 200px;">
