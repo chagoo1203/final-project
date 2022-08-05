@@ -98,8 +98,8 @@
                 LIM:IT
             </div>
             <div id ="boardTag" align = "right">
-                <a href=""> STYLE </a>
-                <a href=""> SHOP </a>
+            	<a href="style.bo"> STYLE </a>
+                <a href="resellList.resell"> SHOP </a>
                 <a href="enrollForm.used"> USEDSHOP </a>
             </div>
         </div>
