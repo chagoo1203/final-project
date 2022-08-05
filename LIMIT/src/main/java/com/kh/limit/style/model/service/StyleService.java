@@ -21,6 +21,11 @@ public class StyleService {
 	
 	
 	
+	public ArrayList<Style> selectStyleList(){
+		return styleDao.selectStyleList(sqlSession);
+	}
+	
+	
 	public int insertStyle(Style style) {
 		return styleDao.insetStyle(sqlSession, style);
 	}
@@ -34,6 +39,9 @@ public class StyleService {
 		}
 		return result;
 	}
+	
+	
+	
 	
 
 	

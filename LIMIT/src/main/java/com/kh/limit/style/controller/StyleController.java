@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.limit.common.model.vo.Attachment;
+import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.template.Pagination;
 import com.kh.limit.style.model.service.StyleService;
 import com.kh.limit.style.model.vo.Style;
 
@@ -28,6 +30,11 @@ public class StyleController {
 	@RequestMapping("style.bo")
 	public String styleList() {
 		
+		PageInfo pi = Pagination.getPageInfo(styleService.seletListCount(), currentPage, 10, 5);
+		ArrayList<Style> list = styleService.selectStyleList();
+		
+		
+		
 		return "style/styleListView";
 	}
 	
@@ -35,6 +42,11 @@ public class StyleController {
 	public String styleEnrollForm() {
 		return "style/styleEnrollForm";
 	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping("insertStyle.bo")
 	public String insertStyle(HttpSession session, MultipartFile[] styleImg, Style style, Model model ) {
@@ -70,12 +82,12 @@ public class StyleController {
 		String changeName;
 		String saveParh;
 		int index = 0;
-		int fileLevel = 2;
+		int fileLevel = 1;
 		
 		
 		for(MultipartFile img : styleImg) {
-			if(index == 0) {
-				fileLevel = 1;
+			if(index != 0) {
+				fileLevel = 2;
 			}
 			index++;
 			// 파일 명 수정 후 서버에 업로드시키기("스프링순서도.jpg" => "20220722352355.jpg"

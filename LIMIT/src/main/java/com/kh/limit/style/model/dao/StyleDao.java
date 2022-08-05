@@ -13,6 +13,10 @@ import com.kh.limit.style.model.vo.Style;
 
 public class StyleDao {
 
+	public ArrayList<Style> selectStyleList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("styleMapper.selectStyleList");
+	}
+	
 	public int insetStyle(SqlSessionTemplate sqlSession, Style style) {
 		return sqlSession.insert("styleMapper.insertStyle", style);
 	}
@@ -21,6 +25,8 @@ public class StyleDao {
 	public int insertStyleAttachment(SqlSessionTemplate sqlSession, Attachment img) {
 		return sqlSession.insert("styleMapper.insertStyleAttachment",img);
 	}
+
+
 	
 
 }
