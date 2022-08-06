@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-	<style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
         #detailFormWrap{
+        	
             width: 1200px;
             margin: 0 auto;
             height: 400px;
@@ -47,28 +55,30 @@
         #detailMainContentWrap{
             margin-top: 10px;
             width: 1200px;
-            height: 600px;
-            border : 2px solid gray;
+            height: 550px;
+            border-bottom : 2px solid gray;
+            border-top : 2px solid gray;
         }
+        
         #mainContentWrap{
-            width: 1060px;
+            width: 100%;
             height: 400px;
             margin-top: 30px;
-            margin-left: 60px;
+            
             float : left;
-            border : 1px solid black;
+            border-bottom: 2px solid gray;
         }
         #imgSliderWrap{
             float:left;
             margin-top: 50px;
             margin-left: 100px;
             height: 300px;
-            width : 30%;
-            border : 1px solid black;
+            width : 320px;
+            
         }
 
         .slider{
-            width: 100%;
+            width: 315px;
             height: 100%;
             position: relative;
             margin: 0 auto;
@@ -148,15 +158,16 @@
             margin-top: 100px;
             width: 500px;
             height: 100px;
-            border: 1px solid black;
+            
             float : left;
         }
         #mainContentBtnWrap{
-            margin-left: 145px;
+            margin-left: 45px;
             margin-top: 20px;
-            width: 350px;
-            height: 100px;
-            border: 1px solid black;
+            width: 550px;
+            height: 75px;
+            
+            
             float : left;
         }
         #mainContentTitleWrap,#mainContentPriceWrap{
@@ -164,11 +175,37 @@
             height: 50%;
             float : left;
             box-sizing: border-box;
-            border : 1px solid black;
+            margin-top : -10px;
+            font-weight: bold;
+            
         }
-    </style>
+        #mainContentPriceWrap{
+            height: 50%;
+            border-bottom: 2px solid gray;
+            font-weight: bold;
+        }
+        .btnWrap{
+            margin-left: 45px;
+            width: 125px;
+            height: 65px;
+            
+            float:left;
+            
+        }
+        #titleLogWrap{
+            width: 150px;
+            height: 70px;
+            
+            margin-left: 50px;
+            margin-top: 30px;
+            float: left;
+        }
+       </style>
 </head>
 <body>
+	<jsp:include page="../common/menubar.jsp" />
+	<br><br>
+	
 	<div id = "detailFormWrap">
         <div id="detaiHeaderWrap">
             <div id ="categoryWrap">
@@ -176,15 +213,15 @@
                     <p>종류별</p>
                 </div>
                 <div class="categoryValueWrap">
-                    <p>하의</p>
+                    <p>${usedBoard.productTypeName}</p>
                 </div>
             </div>
             <div id ="brandWrap">
                 <div class="categoryLogWrap">
                     <p>BRAND</p>
                 </div>
-                <div class="categoryValueWrap">
-                    <p>Nike</p>
+                <div class="categoryValueWrap" style ="margin-top : -10px">
+                    <p>${usedBoard.brandName }</p>
                 </div>
             </div>
             <div id = "collectionWrap">
@@ -192,7 +229,7 @@
                     <p>COLLECTION</p>
                 </div>
                 <div class="categoryValueWrap">
-                    <p>하의</p>
+                    <p>${usedBoard.collectionName }</p>
                 </div>
             </div>
         </div>
@@ -201,41 +238,66 @@
         <div id="detailMainContentWrap">
             <div id="mainContentWrap">
                 <div id="imgSliderWrap">
-                    <div class="slider">
-                        <input type="radio" name="slide" id="slide1" checked>
-                        <input type="radio" name="slide" id="slide2">
-                        <input type="radio" name="slide" id="slide3">
-                        <input type="radio" name="slide" id="slide4">
+                    <div class="slider">                    	                    
+                        <c:set var = "i" value = "1"/>
+                        <c:forEach var = "img" items = "${usedImgList}">                        	
+                        	<c:choose>
+                        		<c:when test="${i eq 1}">
+                        			<input type="radio" name="slide" id="slide${i}" checked>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<input type="radio" name="slide" id="slide${i}">
+                        		</c:otherwise>
+                        	</c:choose>                        	                 
+                        	<c:set var = "i" value = "${i + 1}"/>       	
+                        </c:forEach>
                         <ul id="imgholder" class="imgs">
-                            <li><img src="./test.png"></li>
-                            <li><img src="./test.png"></li>
-                            <li><img src="./test.png"></li>
-                            <li><img src="./test.png"></li>
+                        	<c:forEach var = "img" items = "${ usedImgList}">                        		
+                        		<li><img src="${img.filePath }${img.changeName }"></li>
+                        	</c:forEach>                                                       
                         </ul>
                         <div class="bullets">
-                            <label for="slide1">&nbsp;</label>
-                            <label for="slide2">&nbsp;</label>
-                            <label for="slide3">&nbsp;</label>
-                            <label for="slide4">&nbsp;</label>
+	                        <c:forEach var ="j" begin ="1" end ="${i-1}">
+	                        	<label for="slide${j }">&nbsp;</label>
+	                        </c:forEach>
                         </div>
                     </div>
                 </div>
 
                 <div id="mainContentTextWrap">
                     <div id="mainContentTitleWrap">
-
+                        <p>ㄹㅇ 개급처</p>
                     </div>
                     
                     <div id="mainContentPriceWrap">
-
+                        <p>50,000</p>
                     </div>
                 </div>
 
                 <div id = "mainContentBtnWrap">
+                    <div class = "btnWrap">
+                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off">
+                        <label class="btn btn-outline-secondary btn-lg" for="btn-check-2-outlined" style="width: 100%; height : 100%; padding-top: 15px;">관심 상품</label><br>
 
+                    </div>
+                    <div class = "btnWrap">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 100%; height : 100%;">test</button>
+                    </div>
+                    <div class = "btnWrap">
+                        <button type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
+                    </div>
                 </div>
             </div>
+            <div id="titleLogWrap">
+                <p style="font-weight: bold; font-size : large;">PRODUCT INTRODUCE</p>
+            </div>
+        </div>
+        <div id="introduceWrap" style="width: 1100px; height: 300px; margin-left: 50px; margin-top:25px; float:left;">
+			${usedBoard.boardContent }
         </div>
     </div>
+    
+    <br style="clear : both;"/>
+    <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

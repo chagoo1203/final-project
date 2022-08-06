@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -19,7 +19,7 @@
             overflow: auto;
             margin: 0 auto;
         }
-        #imgInsertWrap, #categoryWrap, #titleContextWrap{
+        #imgInsertWrap, #categoryWrap, #titleContentPriceWrap{
             border-top: 2px solid gray;
             overflow: auto;
             width: 100%;            
@@ -62,13 +62,15 @@
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	<div id = "enrollFromWrap">
-        <form action="">
+        <form method="post" action = "insert.used" enctype="multipart/form-data">
+        
+        <input type ="text" hidden value ="${loginUser.userId }" name ="boardWriter">
         <p style="font-weight: bold; font-size: 24px; margin : 0px; margin-bottom: 5px;">필수 입력</p>
         
         <div id = "imgInsertWrap" style="height: 200px;">
             <div id ="textWrap" style="width : 152px; height : 152px; float: left;"><p style="font-weight: bold;">상품 이미지</p><p style="color : red">*</p><p style="color : gray;" id="photoCount">(0/10)</p></div>
             <div id = "imgWrap" style=" width: 1000px; float:left; margin-top: 20px;">
-                <img src="pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
+                <img src="resources/enrollFormImges/pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
                 <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this);">
 
             </div>
@@ -82,53 +84,51 @@
                 </div>
 
                 <div id="categoryRadioWrap" class ="d-grid gap-2" style="width: 45%; height : 100%; float : left;">
-                    <input type="radio" class="btn-check" name="productTypeName" id="option1" autocomplete="off" style="padding: 100px;">
-                    <label class="btn btn-outline-secondary btn-block" for="option1" >의류</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option2" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option2">신발</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option3" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option3">악세사리</label>
-
-                    <input type="radio" class="btn-check" name="productTypeName" id="option4" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="option4">기타</label>
+                	<c:set var ="index" value ="0"/>                
+                	<c:forEach var ="category" items = "${categoryList }">          	
+                		<input type="radio" class="btn-check" name="productTypeName" id="option${index }" autocomplete="off" value="${category.commonName }">
+                    	<label class="btn btn-outline-secondary btn-block" for="option${index}" >${category.commonName}</label>
+                    	<c:set var ="index" value ="${index + 1 }"/>
+                	</c:forEach>                                       
                 </div>                
             </div>
             <div id ="brandBox" style="margin-left : 200px;">
                 <div id="brandBoxNameWrap">
                     <p class = "categoryLogo" >BRAND</p>
                 </div>
-                <div id="categoryDropBoxWrap">
-                    <select class="selectpicker" name ="brandName">
-                        <optgroup label="A">
-                          <option>Adidas</option>                          
-                        </optgroup>
-                        <optgroup label="N">
-                          <option>Nike</option>                          
-                        </optgroup>
-                      </select>
+                <div id="categoryDropBoxWrap">                	
+                   	<select class="selectpicker" name ="brandName">                    	
+                        <optgroup label="BRAND">
+	                        <c:forEach var ="brand" items = "${brandList}">
+	                        	
+	                        	<option value = "${brand.commonName }">${brand.commonName}</option>
+	                        </c:forEach>                          
+                        </optgroup>	                        	                        
+                     </select>                     
                 </div>
             </div>
+            
+            
+            
             <div id ="collectionBox" style="margin-left : 150px;">
                 <div id="collectionNameWrap" >
                     <p class = "categoryLogo" >COLLECTION</p>
                 </div>
                 <div id="categoryDropBoxWrap">
-                    <select class="selectpicker" name="collectionName">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
+                    <select class="selectpicker" name="collectionName">                     	       
+                    	<c:forEach var = "collection" items = "${collectionList}">                    		
+	                        <option value ="${collection.commonName }">${collection.commonName }</option>	                        
+                        </c:forEach>
                     </select>
                 </div>
             </div>
         </div>
         
 
-        <div id = "titleContextWrap">
+        <div id = "titleContentPriceWrap">
             <div id = "titleWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;  font-weight: bold; float : left;" >PRODUCT TITLE</div>
-                <div id="titleWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
+                <div id="titleInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
                     <input class="form-control" type="text" placeholder="INSERT TITLE" name = "boardTitle">
                 </div>
             </div>
@@ -136,13 +136,22 @@
             <div id="contentWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT CONTENT</div>
 
-                <div class = "form-group" id="titleWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
+                <div class = "form-group" id="contentInputWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
                     
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="16" style="resize : none;" name ="boardContent"></textarea>
                 </div>
 
             </div>
             
+            
+            
+             <div id="priceWrap" style="width : 100%; overflow : auto; ">
+              <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT PRICE</div>
+
+              <div id="priceInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">                  
+                  <input class="form-control" type="number" placeholder="INSERT PRICE" name = "usedPrice">
+              </div>
+            </div>
         </div>
         <div id="submitWrap" style="margin : auto; width: 100px; height: 100px; margin-top : 25px;" >
             <button type="submit" class="btn btn-secondary">작성완료</button>

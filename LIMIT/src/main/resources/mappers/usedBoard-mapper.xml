@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="usedBoardMapper">
+	<resultMap type="commonName" id="categorySet">
+		<result column="PRODUCT_TYPE_NAME" property="commonName"/>
+	</resultMap>
+	<resultMap type="commonName" id="brandSet">
+		<result column="BRAND_NAME" property="commonName"/>
+	</resultMap>
+	<resultMap type="commonName" id="collectionSet">
+		<result column="COLLECTION_NAME" property="commonName"/>
+	</resultMap>
+	<resultMap type="usedBoard" id="selectListSet">
+		<result column ="BOARD_NO" property = "boardNo"/>
+		<result column ="BOARD_TITLE" property = "boardTitle"/>
+		<result column = "BOARD_CONTENT" property = "boardContent"/>
+		<result column = "PRODUCT_TYPE_NAME" property = "productTypeName"/>
+		<result column = "BRAND_NAME" property = "brandName"/>
+		<result column = "COLLECTION_NAME" property = "collectionName"/>
+		<result column ="USED_PRICE" property = "usedPrice"/>
+		<result column ="TITLEIMG" property = "titleImg"/>
+	</resultMap>
+	<resultMap type="attachment" id="attachmentSet">		
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+	</resultMap>
+	<select id = "selectCategory" resultMap = "categorySet">
+		SELECT *
+		FROM "CATEGORY"
+	</select>
+	<select id = "selectBrand" resultMap = "brandSet">
+		SELECT *
+		FROM BRAND
+	</select>
+	<select id = "selectCollection" resultMap = "collectionSet">
+		SELECT *
+		FROM COLLECTION
+	</select>
+	<insert id="insertUsedBoard" parameterType="usedBoard">
+		INSERT INTO USEDBOARD 
+		(BOARD_NO, 
+		BOARD_TITLE, 
+		BOARD_CONTENT, 
+		BOARD_WRITER, 
+		BOARD_PRODUCT_NO,
+		PRODUCT_TYPE_NAME,
+		COLLECTION_NAME,
+		BRAND_NAME,
+		USED_PRICE)
+		VALUES(SEQ_BNO.NEXTVAL, 
+		#{boardTitle}, 
+		#{boardContent}, 
+		#{boardWriter}, 
+		0, 
+		#{productTypeName}, 
+		#{collectionName}, 
+		#{brandName},
+		#{usedPrice})
+	</insert>
+	
+	<insert id="insertImgUsedBoard">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,
+		ORIGIN_NAME,
+		CHANGE_NAME,
+		FILE_PATH,
+		FILE_LEVEL,
+		REF_NO,
+		TYPE_NO)
+		VALUES
+		(SEQ_FNO.NEXTVAL,
+		#{originName},
+		#{changeName},
+		#{filePath},
+		#{fileLevel},
+		SEQ_BNO.CURRVAL,
+		2)
+	</insert>
+	
+	<select id ="selectListCount" parameterType="selectUsedBoardVo" resultType ="_int">
+		SELECT COUNT(*) COUNT
+		FROM(
+			SELECT BOARD_NO
+			FROM USEDBOARD
+			WHERE STATUS = 'Y'
+			<if test="productTypeName != '' ">
+				AND PRODUCT_TYPE_NAME = #{productTypeName}
+			</if>
+			<if test="brandName != '' ">
+				AND BRANDNAME = #{brandName}
+			</if>
+			<if test="collectionName != '' ">
+				AND COLLECTION_NAME = #{collectionName}
+			</if>
+			
+			)
+		
+	</select>
+	<select id="selectList" parameterType="selectUsedBoardVo" resultMap="selectListSet">
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, A.*
+		    FROM(
+			    SELECT BOARD_NO, BOARD_TITLE, USED_PRICE, FILE_PATH||CHANGE_NAME TITLEIMG
+			    FROM USEDBOARD U
+			    JOIN ATTACHMENT ON(BOARD_NO = REF_NO)
+			    WHERE U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 2
+			    <if test="productTypeName != '' ">
+					AND PRODUCT_TYPE_NAME = #{productTypeName}
+				</if>
+				<if test="brandName != '' ">
+					AND BRANDNAME = #{brandName}
+				</if>
+				<if test="collectionName != '' ">
+					AND COLLECTION_NAME = #{collectionName}
+				</if>
+				) A)
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+		
+		ORDER BY RNUM 
+	</select>
+	
+	<select id="selectBoardDetail" resultMap ="selectListSet" parameterType="_int">
+		SELECT BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME
+		FROM USEDBOARD
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	<select id="selectBoardDetailImges" resultMap ="attachmentSet" parameterType = "_int">
+		SELECT CHANGE_NAME, FILE_PATH
+		FROM ATTACHMENT
+		WHERE REF_NO = #{boardNo}
+		AND TYPE_NO = 2
+		ORDER BY FILE_LEVEL ASC
+	</select>
+</mapper>
