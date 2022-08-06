@@ -87,6 +87,18 @@ public class UsedBoardController {
 		return pi;		
 	}
 	
+	
+	@RequestMapping("detail.used")
+	public ModelAndView detailUsedBord(int boardNo, ModelAndView mv) {
+		
+		mv.addObject("usedBoard", boardService.selectBoardDetail(boardNo));
+		mv.addObject("usedImgList",boardService.selectBoardDetailImges(boardNo));
+		
+		mv.setViewName("usedboard/usedBoardDeatilView");
+		
+		return mv;
+	}
+	
 	public ArrayList<Attachment> saveFile(MultipartFile[] usedImg,HttpSession session) { //실제 넘어온 파일을 이름을 변경해서 서버에 업로드
 		//여러파일을 입력받고싶을때 mulitpartFile을 배열로 받는다 
 		String originName;
@@ -119,6 +131,7 @@ public class UsedBoardController {
 		 		 										
 		return imgList;
 	}
+	
 	
 	
 }

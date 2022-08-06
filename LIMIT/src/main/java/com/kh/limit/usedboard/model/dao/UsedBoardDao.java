@@ -40,6 +40,14 @@ public class UsedBoardDao {
 		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectList", subv);
 	}
 
+	public UsedBoard selectBoardDetail(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("usedBoardMapper.selectBoardDetail",boardNo);
+	}
+
+	public ArrayList<Attachment> selectBoardDetailImges(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectBoardDetailImges", boardNo);
+	}
+
 
 
 }

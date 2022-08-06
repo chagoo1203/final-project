@@ -79,28 +79,27 @@
             width: 24%;
             height: 240px;
             float:left;
-            border : 1px solid violet;
+            
         }
         .usedImgWrap{
             width : 165px;
             height : 150px;
             margin: 0 auto;
-            border : 1px solid violet;
+            border-top: 1px solid gray;
+            border-left: 1px solid gray;
+            border-right: 1px solid gray;
+            
             margin-top: 20px;
+            
+            
         }
         .titleWrap{
             width : 165px;
             height: 25px;
             margin: 0 auto;
-            border : 1px solid violet;
-        }
-        .titleWrap{
-            width: 165px;            
-            height: 25px;
-            margin: 0 auto;           
+            border-left: 1px solid gray;
+            border-right: 1px solid gray;
             color : gray;
-
-            border : 1px solid violet;             
         }
         .priceWrap{
             width: 165px;            
@@ -108,7 +107,13 @@
             margin: 0 auto;           
             color : gray;
             text-align: right;
-            border : 1px solid violet;
+         	border-left: 1px solid gray;
+            border-right: 1px solid gray;
+            border-bottom: 1px solid gray;
+        }
+        img {
+        	
+        	cursor : pointer;
         }
     </style>
 </head>
@@ -156,7 +161,11 @@
         	ajaxLoadToUsedBoardPaging();
         })
         
-        
+        $(document).on("click", "img", function(){
+        	var bno = $(this).parent().siblings("input").val();
+        	
+        	location.href = "detail.used?boardNo="+bno; 
+        })
         
         
         function ajaxLoadToUsedBoardPaging(){
@@ -211,6 +220,7 @@
                 	for(let i in list){
                 		console.log(i + '번쨰');
                 		result += '<div class = "usedItem">' + 
+                		'<input type="hidden" value ="' + list[i].boardNo + '"/>' +
                 		'<div class ="usedImgWrap">' +
                             '<img src="' + list[i].titleImg +'" alt="" width="100%" height="100%">' +
                         '</div>' +

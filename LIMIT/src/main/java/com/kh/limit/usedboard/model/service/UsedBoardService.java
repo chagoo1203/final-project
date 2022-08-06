@@ -56,6 +56,14 @@ public class UsedBoardService {
 		return usedBoardDao.selectList(sqlSession, subv);
 	}
 
+	public UsedBoard selectBoardDetail(int boardNo) {
+		return usedBoardDao.selectBoardDetail(sqlSession, boardNo);
+	}
+
+	public ArrayList<Attachment> selectBoardDetailImges(int boardNo) {
+		return usedBoardDao.selectBoardDetailImges(sqlSession, boardNo);
+	}
+
 	
 
 }

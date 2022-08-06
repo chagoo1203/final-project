@@ -10,13 +10,20 @@
 	<resultMap type="commonName" id="collectionSet">
 		<result column="COLLECTION_NAME" property="commonName"/>
 	</resultMap>
-	<resultMap type="usedBoard" id="selectListRet">
+	<resultMap type="usedBoard" id="selectListSet">
 		<result column ="BOARD_NO" property = "boardNo"/>
 		<result column ="BOARD_TITLE" property = "boardTitle"/>
+		<result column = "BOARD_CONTENT" property = "boardContent"/>
+		<result column = "PRODUCT_TYPE_NAME" property = "productTypeName"/>
+		<result column = "BRAND_NAME" property = "brandName"/>
+		<result column = "COLLECTION_NAME" property = "collectionName"/>
 		<result column ="USED_PRICE" property = "usedPrice"/>
 		<result column ="TITLEIMG" property = "titleImg"/>
 	</resultMap>
-
+	<resultMap type="attachment" id="attachmentSet">		
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+	</resultMap>
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
 		FROM "CATEGORY"
@@ -89,7 +96,7 @@
 			)
 		
 	</select>
-	<select id="selectList" parameterType="selectUsedBoardVo" resultMap="selectListRet">
+	<select id="selectList" parameterType="selectUsedBoardVo" resultMap="selectListSet">
 		SELECT *
 		FROM(SELECT ROWNUM RNUM, A.*
 		    FROM(
@@ -110,5 +117,18 @@
 		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
 		
 		ORDER BY RNUM 
+	</select>
+	
+	<select id="selectBoardDetail" resultMap ="selectListSet" parameterType="_int">
+		SELECT BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME
+		FROM USEDBOARD
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	<select id="selectBoardDetailImges" resultMap ="attachmentSet" parameterType = "_int">
+		SELECT CHANGE_NAME, FILE_PATH
+		FROM ATTACHMENT
+		WHERE REF_NO = #{boardNo}
+		AND TYPE_NO = 2
+		ORDER BY FILE_LEVEL ASC
 	</select>
 </mapper>
