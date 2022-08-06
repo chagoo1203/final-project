@@ -8,6 +8,10 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <!-- jQuery 라이브러리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- 부트스트랩에서 제공하고 있는 스타일 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +23,7 @@
             background-color: lightgray;
             margin: 0 auto;
         }
-        #header1{
+        .header1{
             text-align: right;
             border-bottom: 2px solid gray;
             height: 25%;
@@ -27,11 +31,12 @@
         #header2{
             height: 75%;
         }
-        #header1 > a{
+        .header1 > a{
             text-decoration: none;
             color : rgb(59, 59, 59);
             font-weight: 600;
             font-size: small;
+            margin-right: 10px;
             
         }
         #boardTag > a{
@@ -54,7 +59,6 @@
             margin-top: 10px;            
             float: right;            
         }
-        
     </style>
 </head>
 <body>
@@ -68,7 +72,7 @@
 	</c:if>
 		<c:choose>
            	<c:when test="${ empty loginUser }">
-		        <div id="header1">
+		        <div class="header1">
 		            <a href="">고객센터</a>
 		            <a href="#">공지사항</a>
 		            <a href="login.me" style="margin-right : 12.5px">로그인/회원가입</a>
@@ -78,17 +82,21 @@
 		    	<c:choose>
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
-	                <a href="#">고객센터</a>
-	                <a href="#">공지사항</a>
-	                <a href="myPage.me">관리자페이지</a>
-	                <a href="logout.me">로그아웃</a>
+	                <div class="header1">
+		                <a href="#">고객센터</a>
+		                <a href="#">공지사항</a>
+		                <a href="myPage.me">관리자페이지</a>
+		                <a href="logout.me">로그아웃</a>
+	                </div>
                 </c:when>
                 <c:otherwise>
 		                <!-- 로그인 후 -->
-		                <a href="#">고객센터</a>
-		                <a href="#">공지사항</a>
-		                <a href="myPage.me">마이페이지</a>
-		                <a href="logout.me">로그아웃</a>
+		                <div class="header1">
+			                <a href="#">고객센터</a>
+			                <a href="#">공지사항</a>
+			                <a href="myPage.me">마이페이지</a>
+			                <a href="logout.me">로그아웃</a>
+		                 </div>
 	            </c:otherwise>
 	            </c:choose>
             </c:otherwise>            
