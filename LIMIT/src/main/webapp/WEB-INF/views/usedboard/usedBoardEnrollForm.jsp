@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -19,7 +19,7 @@
             overflow: auto;
             margin: 0 auto;
         }
-        #imgInsertWrap, #categoryWrap, #titleContextWrap{
+        #imgInsertWrap, #categoryWrap, #titleContentPriceWrap{
             border-top: 2px solid gray;
             overflow: auto;
             width: 100%;            
@@ -115,9 +115,7 @@
                     <p class = "categoryLogo" >COLLECTION</p>
                 </div>
                 <div id="categoryDropBoxWrap">
-                    <select class="selectpicker" name="collectionName"> 
-                    	<option>${categoryList.get(0).commonName }</option>
-                    	<option>이건 ?</option>                       
+                    <select class="selectpicker" name="collectionName">                     	       
                     	<c:forEach var = "collection" items = "${collectionList}">                    		
 	                        <option value ="${collection.commonName }">${collection.commonName }</option>	                        
                         </c:forEach>
@@ -127,10 +125,10 @@
         </div>
         
 
-        <div id = "titleContextWrap">
+        <div id = "titleContentPriceWrap">
             <div id = "titleWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;  font-weight: bold; float : left;" >PRODUCT TITLE</div>
-                <div id="titleWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
+                <div id="titleInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
                     <input class="form-control" type="text" placeholder="INSERT TITLE" name = "boardTitle">
                 </div>
             </div>
@@ -138,13 +136,22 @@
             <div id="contentWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT CONTENT</div>
 
-                <div class = "form-group" id="titleWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
+                <div class = "form-group" id="contentInputWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
                     
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="16" style="resize : none;" name ="boardContent"></textarea>
                 </div>
 
             </div>
             
+            
+            
+             <div id="priceWrap" style="width : 100%; overflow : auto; ">
+              <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT PRICE</div>
+
+              <div id="priceInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">                  
+                  <input class="form-control" type="number" placeholder="INSERT PRICE" name = "usedPrice">
+              </div>
+            </div>
         </div>
         <div id="submitWrap" style="margin : auto; width: 100px; height: 100px; margin-top : 25px;" >
             <button type="submit" class="btn btn-secondary">작성완료</button>

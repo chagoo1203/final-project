@@ -19,4 +19,16 @@ public class MemberService {
 		Member loginUser = memberDao.loginMember(sqlSession, m);
 		return loginUser;
 	}
+	
+	public int idCheck(String checkId) {
+		return memberDao.idCheck(sqlSession, checkId);
+	}
+	public int nickCheck(String checkNick) {
+		return memberDao.nickCheck(sqlSession, checkNick);
+	}
+	public int insertMember(Member m) {
+		
+		int result = memberDao.insertMember(sqlSession, m);
+		return result;
+	}
 }

@@ -25,4 +25,7 @@ public class UsedBoard {
 	private int boardProductNo;
 	private String modifyDate;
 	private String collectionName;	
+	private int usedPrice;
+	private String titleImg;
+	
 }
