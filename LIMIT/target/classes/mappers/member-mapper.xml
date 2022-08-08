@@ -37,6 +37,48 @@
 		 		USER_ID = #{ userId }
 		   AND STATUS = 'Y' 
      </select>
+     <select id="idCheck" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	MEMBER
+		WHERE	USER_ID = #{checkId}	
+
+	</select>
+	
+     <select id="nickCheck" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	MEMBER
+		WHERE	NICKNAME = #{checkNick}	
+
+	</select>
+	<insert id="insertMember">
+		INSERT
+		  INTO
+		  		MEMBER
+		  		(
+		  		USER_ID,
+		  		USER_PWD,
+		  		USER_NAME,
+		  		EMAIL,
+		  		BIRTH_DATE,
+		  		PHONE,
+		  		ADDRESS,
+		  		NICKNAME,
+		  		GENDER
+		  		)
+		VALUES
+				(
+				#{ userId },
+				#{ userPwd },
+				#{ userName },
+				#{ email },
+				#{ birthDate },
+				#{ phone },
+				#{ address },
+				#{ nickName },
+				#{ gender }
+				)
+
+	</insert>
   
   
 </mapper>

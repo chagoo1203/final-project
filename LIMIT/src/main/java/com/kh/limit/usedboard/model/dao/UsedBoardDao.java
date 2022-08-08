@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.usedboard.model.vo.UsedBoard;
 @Repository
 public class UsedBoardDao {
@@ -29,6 +30,22 @@ public class UsedBoardDao {
 
 	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment img) {
 		return sqlSession.insert("usedBoardMapper.insertImgUsedBoard", img);
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession, SelectUsedBoardVo subv) {
+		return sqlSession.selectOne("usedBoardMapper.selectListCount", subv);
+	}
+
+	public ArrayList<UsedBoard> selectList(SqlSessionTemplate sqlSession, SelectUsedBoardVo subv) {
+		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectList", subv);
+	}
+
+	public UsedBoard selectBoardDetail(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("usedBoardMapper.selectBoardDetail",boardNo);
+	}
+
+	public ArrayList<Attachment> selectBoardDetailImges(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectBoardDetailImges", boardNo);
 	}
 
 

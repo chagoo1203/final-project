@@ -8,6 +8,10 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <!-- jQuery 라이브러리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- 부트스트랩에서 제공하고 있는 스타일 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +23,7 @@
             background-color: lightgray;
             margin: 0 auto;
         }
-        #header1{
+        .header1{
             text-align: right;
             border-bottom: 2px solid gray;
             height: 25%;
@@ -27,11 +31,12 @@
         #header2{
             height: 75%;
         }
-        #header1 > a{
+        .header1 > a{
             text-decoration: none;
             color : rgb(59, 59, 59);
             font-weight: 600;
             font-size: small;
+            margin-right: 10px;
             
         }
         #boardTag > a{
@@ -54,7 +59,6 @@
             margin-top: 10px;            
             float: right;            
         }
-        
     </style>
 </head>
 <body>
