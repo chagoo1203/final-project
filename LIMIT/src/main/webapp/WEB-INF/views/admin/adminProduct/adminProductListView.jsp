@@ -13,7 +13,7 @@
 	<jsp:include page="../adminMenu.jsp" />
 	
 	
-	<br><br>
+	<br><br><br><br><br><br><br><br clear="both">
 	<jsp:include page="../../common/footer.jsp" />
 
 </body>

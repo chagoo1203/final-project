@@ -8,12 +8,10 @@
 <title>관리자페이지</title>
 </head>
 <style>
-div{
-    border: 1px solid red;
-}
 .outer{
-    border: 1px solid red;
-    width: 750px;
+    width: 800px;
+    margin-left: 35%;
+    margin-top: 15px;
 }
 .title {
     font-size: xx-large;
@@ -39,7 +37,12 @@ div{
 .btn{
     float: right;
     margin-right: 10%;
+    margin-bottom: 10px;
 }
+thead{
+    background-color: rgb(220, 218, 218);
+}
+
 </style>
 
 <body>
@@ -52,11 +55,11 @@ div{
         <hr>
         <br>
         <div id="btn">
-            <buttot class="btn btn-secondary">글작성</buttot>
+            <a class="btn btn-secondary" href="enrollForm.qna">글작성</a>
         </div>
         <br>
         <table class="table" align="center">
-            <thead class="thead-light">
+            <thead>
             <tr>
                 <th>글번호</th>
                 <th>글제목</th>
@@ -65,24 +68,14 @@ div{
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>10</td>
-                <td>[Q&A] 회원가입 문의</td>
-                <td>60</td>
-                <td>2000-10-10</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>[Q&A] 회원가입 문의</td>
-                <td>60</td>
-                <td>2000-10-10</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>[Q&A] 회원가입 문의</td>
-                <td>60</td>
-                <td>2000-10-10</td>
-            </tr>
+                <c:forEach var="n" items="${list}">
+                	<tr>
+                		<td>${n.noticeNo}</td>
+                		<td>${n.noticeTitle}</td>
+                		<td>${n.noticeCount}</td>
+                		<td>${n.createDate}</td>
+                	</tr>
+                </c:forEach>
             </tbody>
         </table>
         <br>

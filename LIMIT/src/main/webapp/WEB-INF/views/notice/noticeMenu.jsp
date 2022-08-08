@@ -60,17 +60,17 @@ input[id*="answer"]:checked+label img {
 	margin-top: 15px;
 }
 
-.adminMenu label:hover {
+.customerMenu label:hover {
 	font-size: 26px;
 	color: gray
 }
 
-.adminMenu a:hover {
+.customerMenu a:hover {
 	font-size: 26px;
 	color: gray
 }
 
-.adminMenu div {
+.customerMenu div {
 	margin-bottom: 25px;
 	margin-top: 25px;
 }

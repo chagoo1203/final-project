@@ -31,6 +31,7 @@
 		<mapper resource="/mappers/notice-mapper.xml"/>
 		<mapper resource="/mappers/product-mapper.xml" />
 		<mapper resource="/mappers/style-mapper.xml"/>	
+		<mapper resource="/mappers/admin-mapper.xml"/>	
 	</mappers>
 	
 
