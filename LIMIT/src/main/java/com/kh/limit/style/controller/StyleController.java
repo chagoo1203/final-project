@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.PageInfo;
@@ -28,14 +30,18 @@ public class StyleController {
 	private StyleService styleService;
 	
 	@RequestMapping("style.bo")
-	public String styleList() {
+	public ModelAndView selectStyleList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
 		
-		PageInfo pi = Pagination.getPageInfo(styleService.seletListCount(), currentPage, 10, 5);
-		ArrayList<Style> list = styleService.selectStyleList();
+		PageInfo pi = Pagination.getPageInfo(styleService.seletListCount(), currentPage, 5, 12);
+		ArrayList<Style> list = styleService.selectStyleList(pi);
 		
+		mv.addObject("pi", pi)
+		  .addObject("list", styleService.selectStyleList(pi))
+		  .setViewName("style/styleListView");
 		
+		return mv;
 		
-		return "style/styleListView";
+
 	}
 	
 	@RequestMapping("styleEnrollForm.bo")
@@ -53,7 +59,7 @@ public class StyleController {
 		
 						
 		ArrayList<Attachment> list = saveFile(styleImg,session);
-		
+		System.out.println(styleImg.toString());
 		int result = styleService.insertStyle(style);
 		result *= styleService.insertStyleAttachment(list);
 		
@@ -72,49 +78,44 @@ public class StyleController {
 	
 	
 					
-	public ArrayList<Attachment> saveFile(MultipartFile[] styleImg, HttpSession session) { // 실제 넘어온 파일을 이름변경해서 서버에 업로드
-		
-		ArrayList<Attachment> list = new ArrayList();
+	public ArrayList<Attachment> saveFile(MultipartFile[] styleImg, HttpSession session) { 
+		ArrayList<Attachment>list = new ArrayList<Attachment>();					
 		String originName;
 		String currentTime;
 		int ranNum;
 		String ext;
 		String changeName;
-		String saveParh;
-		int index = 0;
-		int fileLevel = 1;
+		String savePath;
+		int fileLevel;
 		
+		System.out.println(styleImg.length);
 		
 		for(MultipartFile img : styleImg) {
-			if(index != 0) {
-				fileLevel = 2;
-			}
-			index++;
-			// 파일 명 수정 후 서버에 업로드시키기("스프링순서도.jpg" => "20220722352355.jpg"
 			originName = img.getOriginalFilename();
-			// 202207220242455(년월일시분초)
 			currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-			// 12312(5자리 랜덤값)
 			ranNum = (int)(Math.random() * 90000) + 10000;
-			// 확장자
 			ext = originName.substring(originName.lastIndexOf("."));
-			changeName = currentTime + ranNum + ext;
-			// 업로드 시키고자 하는 폴더의 물리적인 주소
-			String savePath = session.getServletContext().getRealPath("/resources/styleImges/");
+			changeName =  currentTime + ranNum + ext;
+			savePath = session.getServletContext().getRealPath("/resources/styleImges/");
 			try {
-				img.transferTo(new File(savePath + changeName)); // 저장되게하는 내용
+				img.transferTo(new File(savePath + changeName));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
+			}		
+			int i = 0;
+			
+			if(i == 0) {
+				fileLevel = 1;
+			}else {
+				fileLevel = 2;
 			}
-			
+			i++;
 			list.add(new Attachment(originName, changeName, savePath, fileLevel));
-			
-			
+		 		 										
 		}
 		return list;
+	
 	}
-	
-	
 	
 	
 	

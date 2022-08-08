@@ -13,16 +13,19 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="STYLE_WRITER" property="styleWriter"/>
+		<result column="TITLE_IMG" property="titleImg" />
 	</resultMap>
 
 
   
 
 	<select id="selectStyleList" resultMap="styleResultSet">
-		SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,COUNT, LIKE, STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLEIMG
-			FROM STYLE S
+		SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+        FROM STYLE S
 		JOIN ATTACHMENT ON(STYLE_NO = REF_NO)
-		WHERE U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 3
+		WHERE S.STATUS = 'Y'
+        AND FILE_LEVEL = 1
+        AND TYPE_NO = 3
 	</select>
 
 
@@ -47,11 +50,20 @@
 		#{originName},
 		#{changeName},
 		#{filePath},
-		1,
+		#{fileLevel},
 		SEQ_SNO.CURRVAL,
 		3)
 	</insert>
 
-  
+  	<select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM STYLE
+  		WHERE STATUS = 'Y'
+  	</select>
+  	
+
+  	
+  	
+  	
   
 </mapper>

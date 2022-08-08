@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.limit.common.model.vo.Attachment;
+import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.style.model.dao.StyleDao;
 import com.kh.limit.style.model.vo.Style;
 
@@ -21,8 +22,8 @@ public class StyleService {
 	
 	
 	
-	public ArrayList<Style> selectStyleList(){
-		return styleDao.selectStyleList(sqlSession);
+	public ArrayList<Style> selectStyleList(PageInfo pi){
+		return styleDao.selectStyleList(sqlSession, pi);
 	}
 	
 	
@@ -38,6 +39,11 @@ public class StyleService {
 			result*= styleDao.insertStyleAttachment(sqlSession, img);
 		}
 		return result;
+	}
+
+
+	public int seletListCount() {
+		return styleDao.selectListCount(sqlSession);
 	}
 	
 	
