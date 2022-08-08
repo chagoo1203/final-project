@@ -23,7 +23,7 @@
             background-color: lightgray;
             margin: 0 auto;
         }
-        .header1{
+        #header1{
             text-align: right;
             border-bottom: 2px solid gray;
             height: 25%;
@@ -31,7 +31,7 @@
         #header2{
             height: 75%;
         }
-        .header1 > a{
+        #header1 > a{
             text-decoration: none;
             color : rgb(59, 59, 59);
             font-weight: 600;
@@ -72,9 +72,8 @@
 	</c:if>
 		<c:choose>
            	<c:when test="${ empty loginUser }">
-		        <div class="header1">
-		            <a href="">고객센터</a>
-		            <a href="#">공지사항</a>
+		        <div id="header1">
+		            <a href="customer.ct">고객센터</a>
 		            <a href="login.me" style="margin-right : 12.5px">로그인/회원가입</a>
 		        </div>
 		    </c:when>
@@ -82,18 +81,16 @@
 		    	<c:choose>
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
-	                <div class="header1">
-		                <a href="#">고객센터</a>
-		                <a href="#">공지사항</a>
-		                <a href="myPage.me">관리자페이지</a>
+	                <div id="header1">
+		                <a href="customer.ct">고객센터</a>
+		                <a href="admin.ad">관리자페이지</a>
 		                <a href="logout.me">로그아웃</a>
 	                </div>
                 </c:when>
                 <c:otherwise>
 		                <!-- 로그인 후 -->
-		                <div class="header1">
-			                <a href="#">고객센터</a>
-			                <a href="#">공지사항</a>
+		                <div id="header1">
+			                <a href="customer.ct">고객센터</a>
 			                <a href="myPage.me">마이페이지</a>
 			                <a href="logout.me">로그아웃</a>
 		                 </div>
