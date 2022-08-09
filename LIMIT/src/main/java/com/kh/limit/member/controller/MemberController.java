@@ -28,6 +28,11 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);
 		
+		//주석 풀고 비밀번호 다 암호화 해준 후 다시 주석 처리 해주시면됩니다. 
+		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		//System.out.println(encPwd);
+		
+				
 		if(loginUser != null && bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
 			session.setAttribute("loginUser", loginUser);
@@ -72,7 +77,9 @@ public class MemberController {
 	public String insertMember(Member m, Model model, HttpSession session) {
 		
 		//암호화 작업(암호문을 만4들어내는 과정)
+		
 		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		//System.out.println(encPwd);
 		
 		m.setUserPwd(encPwd);
 		int result = memberService.insertMember(m);
