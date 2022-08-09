@@ -14,11 +14,10 @@
 		<typeAlias type="com.kh.limit.common.model.vo.Trade" alias="trade"/>
 		<typeAlias type="com.kh.limit.admin.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.limit.member.model.vo.Member" alias="member"/>
-		<typeAlias type="com.kh.limit.product.model.vo.Brand" alias="brand" />
-		<typeAlias type="com.kh.limit.product.model.vo.Collection" alias="collectionInfo" />
 		<typeAlias type="com.kh.limit.usedboard.model.vo.UsedBoard" alias ="usedBoard"/>
 		<typeAlias type="com.kh.limit.common.model.vo.SelectUsedBoardVo" alias = "selectUsedBoardVo"/>
 		<typeAlias type="com.kh.limit.style.model.vo.Style" alias="style"/>
+		<typeAlias type="com.kh.limit.product.model.vo.Product" alias="product"/>
 	</typeAliases>
 
 	
