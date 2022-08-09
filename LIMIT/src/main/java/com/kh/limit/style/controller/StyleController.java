@@ -35,6 +35,10 @@ public class StyleController {
 		PageInfo pi = Pagination.getPageInfo(styleService.seletListCount(), currentPage, 5, 12);
 		ArrayList<Style> list = styleService.selectStyleList(pi);
 		
+		for(Style s : list) {
+			System.out.println(s.toString());
+		}
+		
 		mv.addObject("pi", pi)
 		  .addObject("list", styleService.selectStyleList(pi))
 		  .setViewName("style/styleListView");
@@ -79,38 +83,39 @@ public class StyleController {
 	
 					
 	public ArrayList<Attachment> saveFile(MultipartFile[] styleImg, HttpSession session) { 
+		System.out.println(styleImg.length);
 		ArrayList<Attachment>list = new ArrayList<Attachment>();					
 		String originName;
 		String currentTime;
 		int ranNum;
 		String ext;
 		String changeName;
-		String savePath;
-		int fileLevel;
+		String filePath;
+		int fileLevel = 1;
+		int i = 0;
 		
 		System.out.println(styleImg.length);
 		
 		for(MultipartFile img : styleImg) {
+			if(img.getOriginalFilename().equals("")) break;
+			if(i != 0) fileLevel = 2;
 			originName = img.getOriginalFilename();
 			currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 			ranNum = (int)(Math.random() * 90000) + 10000;
 			ext = originName.substring(originName.lastIndexOf("."));
 			changeName =  currentTime + ranNum + ext;
-			savePath = session.getServletContext().getRealPath("/resources/styleImges/");
+			
+			filePath = session.getServletContext().getRealPath("/resources/styleImges/");
+			
+			System.out.println(filePath);
 			try {
-				img.transferTo(new File(savePath + changeName));
+				img.transferTo(new File(filePath + changeName));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}		
-			int i = 0;
-			
-			if(i == 0) {
-				fileLevel = 1;
-			}else {
-				fileLevel = 2;
-			}
+
+			list.add(new Attachment(originName, changeName, "resources/styleImges/", fileLevel));
 			i++;
-			list.add(new Attachment(originName, changeName, savePath, fileLevel));
 		 		 										
 		}
 		return list;
