@@ -59,6 +59,10 @@
             margin-top: 10px;            
             float: right;            
         }
+        #alogo{
+        	text-decoration : none;
+        	color : black;
+        }
     </style>
 </head>
 <body>
@@ -100,7 +104,7 @@
 		</c:choose>
         <div id="header2">
             <div id = "logo" align = "left">
-                LIM:IT
+                <a href="${pageContext.request.contextPath}" id="alogo">LIM:IT</a>
             </div>
             <div id ="boardTag" align = "right">
             	<a href="style.bo"> STYLE </a>
