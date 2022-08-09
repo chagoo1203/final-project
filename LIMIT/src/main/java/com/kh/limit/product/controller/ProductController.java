@@ -16,13 +16,10 @@ public class ProductController {
 	@RequestMapping("resellList.resell")
 	public ModelAndView resellList(ModelAndView mv) {
 		
-		mv.addObject("brand", productService.selectBrand());
-		mv.addObject("collection", productService.selectCollection());
-		
-		System.out.println(productService.selectBrand());
-		System.out.println(productService.selectCollection());
-		
-		mv.setViewName("product/resellBoardList");
+		mv.addObject("brand", productService.selectBrand())
+		  .addObject("collection", productService.selectCollection())
+		  .addObject("list", productService.selectResellList())
+		  .setViewName("product/resellBoardList");
 		
 		return mv;
 		

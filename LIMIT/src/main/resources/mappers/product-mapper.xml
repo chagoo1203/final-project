@@ -2,15 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="productMapper">
 
-	<select id="selectBrand" resultType="brand">
-	SELECT BRAND_NAME brandName
+	<resultMap type="commonName" id="brandSet">
+		<result column="BRAND_NAME" property="commonName"/>
+	</resultMap>
+	
+	<resultMap type="commonName" id="collectionSet">
+		<result column="COLLECTION_NAME" property="commonName" />
+	</resultMap>
+
+	<select id="selectBrand" resultMap="brandSet">
+	SELECT BRAND_NAME
 	FROM BRAND ORDER BY BRAND_NAME ASC
 	</select>
 	
-	<select id="selectCollection" resultType="collectionInfo">
-	SELECT COLLECTION_NAME collectionName
+	<select id="selectCollection" resultMap="collectionSet">
+	SELECT COLLECTION_NAME
 	FROM COLLECTION ORDER BY COLLECTION_NAME ASC
 	</select>
-	
 
 </mapper>
