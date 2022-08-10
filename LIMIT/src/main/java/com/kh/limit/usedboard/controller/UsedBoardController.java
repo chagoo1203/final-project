@@ -103,7 +103,7 @@ public class UsedBoardController {
 		System.out.println(boardNo);
 		if(boardService.deleteUsedBoard(boardNo) > 0) {
 			session.setAttribute("alertMsg", "삭제 성공 ~");
-			return "redirect:list.used;
+			return "redirect:list.used";
 		}
 		else {
 			model.addAttribute("errorMsg", "게시글 삭제 실패");
