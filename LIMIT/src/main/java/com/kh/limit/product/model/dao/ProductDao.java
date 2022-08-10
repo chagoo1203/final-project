@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.product.model.vo.Product;
 
 
 @Repository
@@ -21,7 +22,7 @@ public class ProductDao {
 	}
 	
 	public ArrayList<Product> selectResellList(SqlSessionTemplate sqlSession){
-		return (ArrayList)sqlSession.selectResellList("productMapper.selectResellList");
+		return (ArrayList)sqlSession.selectList("productMapper.selectResellList");
 	}
 	
 	

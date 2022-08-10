@@ -40,11 +40,6 @@
      		margin : auto;
      		display : inline-block;
      }
-     table{
-     	margin-left : 15px;
-     	
-     }
-     
 </style>
 </head>
 <body>
@@ -60,97 +55,22 @@
         <jsp:include page="resellBoardFilter.jsp" />
         
 		    <div class="resellList" style="border : 1px solid red;">
-		    
+		    	
+		    	<c:forEach var="b" items="${list}">
 		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
-					<img class="resellThumbnail" src="../../webapp/resources/resellListImges/rabbit.jpg">
-					<table align="left">
-						<tr>
-							<th>브랜드</th>
-						</tr>
-						<tr>
-							<td>이름</td>
-						</tr>
-						<tr>
-							<td>이름2</td>
-						</tr>
-						<tr>
-							<td>가격</td>
-						</tr>
-					
-					</table>		    	
+					<img class="resellThumbnail" src="${b.titleImg}">
+					<div class="productInfo" align="left">
+						<p class="brand">${b.brandName}</p>
+						<p class="name">${b.productName}</p>
+						<p class="translatedName">${b.productContent}</p>
+						<p class="price">${b.resellPrice}</p>
+					</div>
+					<div class="interest" align="left">
+						<span>♥ ${b.likes}</span>
+					</div>
+						    	
 		    	</div>
-		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
-					<img class="resellThumbnail" src="../../webapp/resources/resellListImges/rabbit.jpg">
-					<table align="left">
-						<tr>
-							<th>브랜드</th>
-						</tr>
-						<tr>
-							<td>이름</td>
-						</tr>
-						<tr>
-							<td>이름2</td>
-						</tr>
-						<tr>
-							<td>가격</td>
-						</tr>
-					
-					</table>		    	
-		    	</div>
-		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
-					<img class="resellThumbnail" src="../../webapp/resources/resellListImges/rabbit.jpg">
-					<table align="left">
-						<tr>
-							<th>브랜드</th>
-						</tr>
-						<tr>
-							<td>이름</td>
-						</tr>
-						<tr>
-							<td>이름2</td>
-						</tr>
-						<tr>
-							<td>가격</td>
-						</tr>
-					
-					</table>		    	
-		    	</div>
-		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
-					<img class="resellThumbnail" src="../../webapp/resources/resellListImges/rabbit.jpg">
-					<table align="left">
-						<tr>
-							<th>브랜드</th>
-						</tr>
-						<tr>
-							<td>이름</td>
-						</tr>
-						<tr>
-							<td>이름2</td>
-						</tr>
-						<tr>
-							<td>가격</td>
-						</tr>
-					
-					</table>		    	
-		    	</div>
-		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
-					<img class="resellThumbnail" src="../../webapp/resources/resellListImges/rabbit.jpg">
-					<table align="left">
-						<tr>
-							<th>브랜드</th>
-						</tr>
-						<tr>
-							<td>이름</td>
-						</tr>
-						<tr>
-							<td>이름2</td>
-						</tr>
-						<tr>
-							<td>가격</td>
-						</tr>
-					
-					</table>		    	
-		    	</div>
+		    	</c:forEach>
 		    	
 	    	</div>
 		  </div>

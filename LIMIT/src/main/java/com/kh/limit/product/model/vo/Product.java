@@ -17,7 +17,7 @@ public class Product {
 	private int productNo;
 	private String productName;
 	private String productContent;
-	private int like;
+	private int likes;
 	private int count;
 	private String status;
 	private String createDate;
@@ -30,5 +30,7 @@ public class Product {
 	private String modelNo;
 	private String collectionName;
 	private String releasePrice;
+	private String resellPrice;
+	private String titleImg;
 
 }
