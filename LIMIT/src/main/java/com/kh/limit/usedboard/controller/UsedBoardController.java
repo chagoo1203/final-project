@@ -65,7 +65,7 @@ public class UsedBoardController {
 			session.setAttribute("alertMsg", "게시글 입력 성공 !");
 			return "redirect:list.used";
 		}else {
-			model.addAttribute("errorMsg", "게시글 실패");
+			model.addAttribute("errorMsg", "게시글 입력 실패");
 			return "common/errorPage";
 		}
 				
@@ -98,7 +98,18 @@ public class UsedBoardController {
 		
 		return mv;
 	}
-	
+	@RequestMapping("delete.used")
+	public String deleteUsedBoard(int boardNo, HttpSession session, Model model) {
+		System.out.println(boardNo);
+		if(boardService.deleteUsedBoard(boardNo) > 0) {
+			session.setAttribute("alertMsg", "삭제 성공 ~");
+			return "redirect:list.used;
+		}
+		else {
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			return "common/errorPage";
+		}				
+	}
 	public ArrayList<Attachment> saveFile(MultipartFile[] usedImg,HttpSession session) { //실제 넘어온 파일을 이름을 변경해서 서버에 업로드
 		//여러파일을 입력받고싶을때 mulitpartFile을 배열로 받는다 
 		String originName;
