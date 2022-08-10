@@ -107,7 +107,7 @@
     
        
 
-                <button id="btn1" type="button" onclick="fileupload1()">썸네일</button>
+                <button id="btn1" type="button"  onclick="fileupload1()">썸네일</button>
                 <button id="btn2" type="button"  onclick="fileupload2()">사진1</button>
                 <button id="btn3" type="button"  onclick="fileupload3()">사진2</button>
                 <button id="btn4" type="button"  onclick="fileupload4()">사진3</button>
