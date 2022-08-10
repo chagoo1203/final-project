@@ -31,6 +31,7 @@ public class Product {
 	private String collectionName;
 	private String releasePrice;
 	private String resellPrice;
+	
 	private String titleImg;
 
 }

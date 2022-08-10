@@ -16,9 +16,16 @@
             border:1px solid lightgray;
             width:80%;
             margin:auto;
-            padding:5% 10%;
+            padding:5% 5%;
             background-color:white;
         }
+  #list_detail {
+  		border : 1px solid lightgray;
+  		width : 320px;
+  		height : 400px;
+  		display : inline-box;
+  		margin : 0 0 ;
+  }
 </style>
 </head>
 <body>
@@ -30,23 +37,43 @@
 			<br>
 			<a href="list.pr" style="float:right; color:lightgrey;">>>더보기</a>
 			<br>
-			<table id="boardList" class="table table-hover" align="center">
-			<thead>
-				<tr>
-					<th>상품 이름</th>	
-					<th>작성자</th>	
-					<th>조회수</th>	
-					<th>작성일</th>	
-					<th>첨부파일</th>	
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 현재 조회수가 가장 높은 상위 5개의 게시글 조회해서 뿌리기(ajax를 이용해서) -->
-			</tbody>
-			</table>
+			<div class="product_list list_first">
+				<div id="product_item"></div>
+			</div>
 		</div>
 		<script>
-			
+		$(function(){
+			topBoardList();
+			$(document).on("click","#product_item > div", function(){
+	            location.href="#?pno=" + $(this).children().eq(0).val();
+	        });
+		})
+		
+		
+		function topBoardList(){
+			$.ajax({
+				url : 'topList.pr',
+				success : function(data){
+					let value=''
+					for(let i in data){
+						value += '<div id="list_detail">'
+							   + '<input type="hidden" name="productName" value="' + data[i].productNo + '">'
+							   + '<img src="' + data[i].titleImg + '">'
+							   + '<p>' + data[i].brandName + '</p>'
+							   + '<p>' + data[i].productName + '</p>'
+							   + '<p>' + data[i].releasePrice + '</p>'
+							   + '<p>' + data[i].likes + '</p>'
+							   + '<p>' + data[i].count + '</p>'
+							   + '</div>'
+					}
+					$('#product_item').html(value);
+
+				}, error : function(){
+					console.log("실패");
+				}
+			})
+		}
+		
 		</script>
 	</div>	<jsp:include page="../common/footer.jsp" />
 </body>
