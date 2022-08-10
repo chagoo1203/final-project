@@ -1,11 +1,14 @@
 package com.kh.limit.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.limit.member.model.dao.MemberDao;
 import com.kh.limit.member.model.vo.Member;
+import com.kh.limit.product.model.vo.Product;
 
 @Service
 public class MemberService {
@@ -30,5 +33,8 @@ public class MemberService {
 		
 		int result = memberDao.insertMember(sqlSession, m);
 		return result;
+	}
+	public ArrayList<Product> selectTopBoardList() {
+		return memberDao.selectTopBoardList(sqlSession);
 	}
 }

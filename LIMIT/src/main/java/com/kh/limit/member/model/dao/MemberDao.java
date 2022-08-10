@@ -1,9 +1,12 @@
 package com.kh.limit.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.limit.member.model.vo.Member;
+import com.kh.limit.product.model.vo.Product;
 
 @Repository
 public class MemberDao {
@@ -20,6 +23,11 @@ public class MemberDao {
 	}
 	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.insertMember", m);
+	}
+	public ArrayList<Product> selectTopBoardList(SqlSessionTemplate sqlSession) {
+		// AND FILE_LEVEL = 1
+		// AND TYPE_NO = 1  나중에 추가
+		return (ArrayList)sqlSession.selectList("memberMapper.selectTopBoardList");
 	}
 	
 }

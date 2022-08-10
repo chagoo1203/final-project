@@ -30,23 +30,29 @@
 			<br>
 			<a href="list.pr" style="float:right; color:lightgrey;">>>더보기</a>
 			<br>
-			<table id="boardList" class="table table-hover" align="center">
-			<thead>
-				<tr>
-					<th>상품 이름</th>	
-					<th>작성자</th>	
-					<th>조회수</th>	
-					<th>작성일</th>	
-					<th>첨부파일</th>	
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 현재 조회수가 가장 높은 상위 5개의 게시글 조회해서 뿌리기(ajax를 이용해서) -->
-			</tbody>
-			</table>
+			<div class="product_list list_first">
+				<div class="product_item"></div>
+			</div>
 		</div>
 		<script>
-			
+		$(function(){
+			topBoardList();
+		})
+		
+		
+		function topBoardList(){
+			$.ajax({
+				url : 'topList.pr',
+				success : function(data){
+					
+					
+					
+				}, error : function(){
+					console.log("실패");
+				}
+			})
+		}
+		
 		</script>
 	</div>	<jsp:include page="../common/footer.jsp" />
 </body>
