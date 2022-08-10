@@ -79,14 +79,17 @@
     .option  {
         font-size: larger;
     }
-  
+    #pagingArea{
+    	margin-left:500px;
+    }
+
 </style>
 </head>
 <body>
 	  <jsp:include page="../common/menubar.jsp" />
     <div class="wrap">
         <div id="style_tab_lst" align="center">
-            <a href="" class="option">인기</a> <a href="" class="option">최신</a> <a href="" class="option">팔로잉</a>
+            <a href="" class="option">최신</a> <a href="" class="option">인기</a> <a href="" class="option">팔로잉</a>
         </div>
         <div id="hash_tag">
             <div id="hash_bar" align="center">#나이키 #아디다스 #조던1 </div>
@@ -106,7 +109,8 @@
 			
 			<c:forEach var="s" items="${ list }">
 	            <div class="style">
-	                <img src="${ s.titleImg }">
+	            	<input type="hidden" value="${ s.styleNo }">
+	                <img src="${ s.titleImg }" style="width:210px; height:200px">
 	                <p>${ s.styleContent }</p>
 	                <ul>
 	                    <li>
@@ -126,6 +130,58 @@
             
             </c:forEach>                
         </div>
+        
+        <script>
+  		$(function(){
+			
+			$(".style").click(function(){
+					var sno = $(this).children().eq(0).val();
+					 		//$(this).children('.bno').text
+					location.href = "stdetail.bo?sno=" + sno;
+			})
+		})
+        
+        
+        </script>
+        
+        
+        
+        
+        
+        
+           <br clear="both">
+           <br><br>
+         <div id="pagingArea">
+             <ul class="pagination">
+             
+             	<c:choose>
+	         		<c:when test="${ pi.currentPage eq 1 }">    	
+                 		<li class=""><a class="page-link" href="#">Previous</a></li>
+             		</c:when>
+             		<c:otherwise>
+             			<li class="page-item"><a class="page-link" href="style.bo?cpage=${pi.currentPage - 1}">Previous</a></li>
+             		</c:otherwise>
+                 
+             	</c:choose>
+
+                 <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                 	<li class=""><a class="page-link" href="style.bo?cpage=${ p }">${ p }</a></li>
+                 </c:forEach>
+                 
+                 <c:choose>
+                 	<c:when test="${ pi.currentPage eq pi.maxPage }">
+                 		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                 	</c:when>
+                 	<c:otherwise>
+             			<li class=""><a class="page-link" href="style.bo?cpage=${pi.currentPage + 1}">Next</a></li>
+             		</c:otherwise>
+             	</c:choose>
+             
+             </ul>
+         </div>
+        
+    	
+        
     
     </div>
     <br clear="both">
