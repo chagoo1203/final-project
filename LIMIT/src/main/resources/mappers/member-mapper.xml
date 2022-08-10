@@ -18,6 +18,7 @@
 	</resultMap>
 		<resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
+		<result column="BRAND_NAME" property="brandName" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="LIKES" property="likes" />
 		<result column="COUNT" property="count" />
@@ -92,7 +93,7 @@
 	</insert>
 	
 	<select id="selectTopBoardList" resultMap="productResultSet">
- 	 	SELECT PRODUCT_NO, PRODUCT_NAME, COUNT, FILE_PATH||CHANGE_NAME TITLEIMG, LIKES, RELEASE_PRICE, PRODUCT_TYPE_NAME
+ 	 	SELECT PRODUCT_NO, PRODUCT_NAME, COUNT, FILE_PATH||CHANGE_NAME TITLEIMG, LIKES, RELEASE_PRICE, PRODUCT_TYPE_NAME, BRAND_NAME
 		  FROM PRODUCT P
 		  JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
 		 WHERE P.STATUS = 'Y'

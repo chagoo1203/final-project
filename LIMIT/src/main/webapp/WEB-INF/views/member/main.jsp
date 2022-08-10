@@ -16,9 +16,16 @@
             border:1px solid lightgray;
             width:80%;
             margin:auto;
-            padding:5% 10%;
+            padding:5% 5%;
             background-color:white;
         }
+  #list_detail {
+  		border : 1px solid lightgray;
+  		width : 320px;
+  		height : 400px;
+  		display : inline-box;
+  		margin : 0 0 ;
+  }
 </style>
 </head>
 <body>
@@ -31,12 +38,15 @@
 			<a href="list.pr" style="float:right; color:lightgrey;">>>더보기</a>
 			<br>
 			<div class="product_list list_first">
-				<div class="product_item"></div>
+				<div id="product_item"></div>
 			</div>
 		</div>
 		<script>
 		$(function(){
 			topBoardList();
+			$(document).on("click","#product_item > div", function(){
+	            location.href="#?pno=" + $(this).children().eq(0).val();
+	        });
 		})
 		
 		
@@ -44,9 +54,20 @@
 			$.ajax({
 				url : 'topList.pr',
 				success : function(data){
-					
-					
-					
+					let value=''
+					for(let i in data){
+						value += '<div id="list_detail">'
+							   + '<input type="hidden" name="productName" value="' + data[i].productNo + '">'
+							   + '<img src="' + data[i].titleImg + '">'
+							   + '<p>' + data[i].brandName + '</p>'
+							   + '<p>' + data[i].productName + '</p>'
+							   + '<p>' + data[i].releasePrice + '</p>'
+							   + '<p>' + data[i].likes + '</p>'
+							   + '<p>' + data[i].count + '</p>'
+							   + '</div>'
+					}
+					$('#product_item').html(value);
+
 				}, error : function(){
 					console.log("실패");
 				}

@@ -25,8 +25,7 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 	public ArrayList<Product> selectTopBoardList(SqlSessionTemplate sqlSession) {
-		// AND FILE_LEVEL = 1
-		// AND TYPE_NO = 1  나중에 추가
+
 		return (ArrayList)sqlSession.selectList("memberMapper.selectTopBoardList");
 	}
 	

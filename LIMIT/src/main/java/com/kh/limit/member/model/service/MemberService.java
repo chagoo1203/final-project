@@ -35,6 +35,7 @@ public class MemberService {
 		return result;
 	}
 	public ArrayList<Product> selectTopBoardList() {
+		
 		return memberDao.selectTopBoardList(sqlSession);
 	}
 }
