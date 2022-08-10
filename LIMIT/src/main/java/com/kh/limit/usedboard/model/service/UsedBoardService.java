@@ -64,6 +64,10 @@ public class UsedBoardService {
 		return usedBoardDao.selectBoardDetailImges(sqlSession, boardNo);
 	}
 
+	public int deleteUsedBoard(int boardNo) {
+		return usedBoardDao.deleteUsedBoard(sqlSession, boardNo);
+	}
+
 	
 
 }

@@ -28,7 +28,7 @@ public class ProductService {
 	}
 	
 	public ArrayList<Product> selectResellList(){
-		return productDao.selectResellList();
+		return productDao.selectResellList(sqlSession);
 	}
 
 }
