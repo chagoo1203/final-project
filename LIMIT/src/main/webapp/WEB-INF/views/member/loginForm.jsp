@@ -6,25 +6,83 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 폼</title>
+<style>
+.login_outer{
+	border : solid 1px black;
+	width : 400px;
+	height : 450px;
+	margin : auto;
+	border-radius : 6px;
+}
+header{
+	background-color:lightgray;
+	align: center;
+	height : 50px;
+	text-align: center;
+  	padding-top : 5px;
+}
+.input-box{
+    position:relative;
+    margin:10px 0;
+}
+.input-box > input{
+    background:transparent;
+    border:none;
+    border-bottom: solid 1px #ccc;
+    padding:20px 0px 5px 0px;
+    font-size:14pt;
+    width:100%;
+}
+#loginSubmit{
+	width : 100%;
+	background-color : 15AC8E; 
+
+}
+.enroll{
+	display : inline;
+	margin-right : 10px;
+	float : right;
+}
+.logSave{
+	margin-right : 10px;
+	float : right;
+}
+#aEnroll {
+ 	 text-decoration: none;
+ 	 color : black;
+}
+.formouter{
+	padding : 5px 10px;
+}
+
+</style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
-	<form method="post" action="loginForm.me" id="loginForm" name="loginForm" onsubmit="return frm_check();">
-		<table id="table" align="center">
-			<tr><td><input type="text" name="userId" id="userId" required placeholder=" 아이디"></td></tr>
-			<tr><td><input type="password" name="userPwd" id="userPwd" required placeholder=" 비밀번호"></td></tr>
-		</table>
-		<div class="logSave" align="center">
-		    <input type="checkbox" class="save_id" name="checkId" id="saveId" >
-		    <label for="saveId">아이디 저장</label>
-		</div>
-		<div align="center">
-			<button type="submit" class="btn btn-sm btn-info">로그인</button>
-		</div>
-	</form>
-	<div align="center">
-		<a href="enrollForm.me" class="btn btn-sm btn-warning">회원가입</a>
-		<a href="enrollForm.me" class="btn btn-sm btn-warning">아이디/비밀번호 찾기</a>
+	<jsp:include page="../common/menubar.jsp" /><br><br>
+	<div class="login_outer">
+		<header>
+			<h2>Login</h2>
+		</header><br>
+			<form method="post" action="loginForm.me" id="loginForm" name="loginForm" onsubmit="return frm_check();">
+		        <div class="formouter">
+		            <div class="input-box">
+						<label for="userId">아이디 :</label>
+						<input type="text" name="userId" id="userId" required>
+					</div>
+		            <div class="input-box">			
+						<label for="userPwd">비밀번호 :</label>
+						<input type="password" name="userPwd" id="userPwd" required>
+				    </div><br>
+					<div class="logSave" style="display:inline;">
+					    <input type="checkbox" class="save_id" name="checkId" id="saveId" >
+					    <label for="saveId" id="labelSaveId">아이디 저장</label>
+					</div>
+					<div class="enroll">
+						<a href="enrollForm.me" id="aEnroll">회원가입</a>
+					</div><br><br><br>
+					<input type="submit" id="loginSubmit" value="로그인">
+		        </div>    
+			</form>
 	</div>
 	<script>
      $(function() {
