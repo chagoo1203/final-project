@@ -14,6 +14,7 @@
 		<result column ="BOARD_NO" property = "boardNo"/>
 		<result column ="BOARD_TITLE" property = "boardTitle"/>
 		<result column = "BOARD_CONTENT" property = "boardContent"/>
+		<result column = "BOARD_WRITER" property = "boardWriter"/>
 		<result column = "PRODUCT_TYPE_NAME" property = "productTypeName"/>
 		<result column = "BRAND_NAME" property = "brandName"/>
 		<result column = "COLLECTION_NAME" property = "collectionName"/>
@@ -120,15 +121,21 @@
 	</select>
 	
 	<select id="selectBoardDetail" resultMap ="selectListSet" parameterType="_int">
-		SELECT BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME, BOARD_WRITER
 		FROM USEDBOARD
 		WHERE BOARD_NO = #{boardNo}
+		AND STATUS = 'Y'
 	</select>
 	<select id="selectBoardDetailImges" resultMap ="attachmentSet" parameterType = "_int">
 		SELECT CHANGE_NAME, FILE_PATH
 		FROM ATTACHMENT
 		WHERE REF_NO = #{boardNo}
-		AND TYPE_NO = 2
+		AND TYPE_NO = 2	
 		ORDER BY FILE_LEVEL ASC
 	</select>
+	<update id ="deleteUsedBoard" parameterType="_int">
+		UPDATE USEDBOARD
+		SET STATUS = 'N'
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 </mapper>

@@ -76,8 +76,9 @@
                     
                     <label for="address"> * 주소 : </label>
                     <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
-                    <input type="text" class="form-control" name="address_detail"/> <br>
-                    <input type="hidden" class="form-control" name="address" value="서울시" required /> <br>
+                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!
+                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
                     
                     
                     <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
@@ -86,7 +87,7 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary" id="enrollbutton">회원가입</button>
+                    <button type="button" class="btn btn-primary" id="enrollbutton" onclick="enroll();">회원가입</button>
                     <button type="reset" class="btn btn-danger">초기화</button>
                 </div>
             </form>
@@ -98,9 +99,9 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	    
+				var ok1;
 		function idCheck(){
 			//아이디 중복 체크
-				var ok1;
 				const $idInput = $('#enrollForm input[name=userId]');
 					//console.log($idInput.val());
 									
@@ -111,9 +112,11 @@
 							success : function(result){
 								//console.log(result);
 								if(result == 'NNNNN'){
+									console.log(result);
 									$('#checkResult').show();
 									$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
 								}else{ //사용가능
+									console.log(result);
 									var regExpId = /^[a-z]+[a-z0-9]{5,19}$/g;
 	
 									if(!regExpId.test($idInput.val())){ //정규식에 맞지 않는 경우
@@ -122,7 +125,7 @@
 									}else{
 										$('#checkResult').show();
 										$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디입니다');
-										ok1 = result;
+										ok1 = "Y";
 									}
 								}
 							},
@@ -133,6 +136,7 @@
 					}else{
 					    $('#checkResult').hide();
 				    }	
+					//console.log(ok1);
 					return ok1;
 			}
 			
@@ -245,12 +249,14 @@
 			return ok6;
 		}			
 		
+		var ok7;
+		
 		function nickCheck(){
 			
 			
 			//닉네임 중복 체크
 				const $nickName = $('#enrollForm input[name=nickName]');
-				var ok7;	
+			
 					if($nickName.val().length >= 2 && $nickName.val().length <= 8){
 						$.ajax({
 							url : 'nickCheck.me',
@@ -269,7 +275,7 @@
 									}else{
 										$('#nickCheck').show();
 										$('#nickCheck').css('color', 'yellowgreen').text('사용가능한 닉네임입니다');
-										ok7 = result1;
+										ok7 = "Y";
 									}
 								}
 							},
@@ -305,6 +311,20 @@
 			return ok8;
 		}			
 		
+		function enroll(){
+			var success = "";
+			//console.log("먼데이게 : " + typeof(idCheck()));
+			success = idCheck() + nickCheck() + pwdInput() + rePwd() + nameCheck() + birthCheck() + phoneCheck() + genderCheck();
+			//console.log(success);
+			if(success == "YYYYYYYY") { // 조건에 모두 만족할 경우 회원가입이 가능
+				$("#enrollbutton").attr('type',"submit");
+			} else {
+				alert("필수항목을 조건에 맞게 입력해주세요.");
+					  
+				return false;
+			}
+			
+		}
 		
 		// 입력값에 따른 회원가입 요청 버튼 함수
 	</script>
@@ -321,6 +341,17 @@
 		        }).open();
 		    });
 		}
+	  
+	  function addrSuccess(){
+		  
+		  var addr1 = document.getElementById("address_kakao");
+		  var addr2 = document.getElementById("address_detail");
+		  var addr3 = addr1.value + " " + addr2.value;
+		  
+		  $('input[id=address]').attr('value',addr3);
+		  console.log(addr3);
+		  
+	  }
 	</script>
 		
 

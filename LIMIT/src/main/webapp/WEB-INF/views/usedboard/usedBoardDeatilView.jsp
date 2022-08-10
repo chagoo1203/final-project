@@ -162,7 +162,7 @@
             float : left;
         }
         #mainContentBtnWrap{
-            margin-left: 45px;
+            margin-left: 120px;
             margin-top: 20px;
             width: 550px;
             height: 75px;
@@ -280,9 +280,7 @@
                         <label class="btn btn-outline-secondary btn-lg" for="btn-check-2-outlined" style="width: 100%; height : 100%; padding-top: 15px;">관심 상품</label><br>
 
                     </div>
-                    <div class = "btnWrap">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 100%; height : 100%;">test</button>
-                    </div>
+                    
                     <div class = "btnWrap">
                         <button type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
                     </div>
@@ -295,8 +293,33 @@
         <div id="introduceWrap" style="width: 1100px; height: 300px; margin-left: 50px; margin-top:25px; float:left;">
 			${usedBoard.boardContent }
         </div>
+        
+        <c:if test="${loginUser.userId eq usedBoard.boardWriter}">
+            <div id="updateDeleteWrap" align="center">
+                <button type="button" class="btn btn-outline-dark" onclick="location.href='update.used?boardNo=${usedBoard.boardNo}'">수정</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    삭제
+                </button>
+            </div>
+        </c:if>
     </div>
-    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">삭제 하려고 ?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              다시 안돌려줌
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" onclick="location.href = 'delete.used?boardNo=${usedBoard.boardNo}'">Delete</button>
+            </div>
+          </div>
+        </div>
+    </div>
     <br style="clear : both;"/>
     <jsp:include page="../common/footer.jsp" />
 </body>

@@ -21,14 +21,14 @@
             margin : 0 auto;
             margin-bottom: 100px;
         }
-        #productTypeBrandList{
+        #productTypeBrandCollectionList{
             list-style-type: none;
             margin : 0px;
             padding : 0px;
             height : 100%;
             
         }
-        #productTypeBrandList>li{
+        #productTypeBrandCollectionList>li{
             
             float:left;
             width : 50%;
@@ -36,7 +36,7 @@
             height:100%;
             
         }
-        #productTypeBrandList p{
+        #productTypeBrandCollectionList p{
             text-decoration: none;            
             font-size: 13px;
             font-weight: 900;
@@ -49,24 +49,24 @@
             /*화면 통합시 이슈가 발생함*/            
             transform: scale(1);
         }
-        #productTypeBrandList p:hover{                                    
+        #productTypeBrandCollectionList p:hover{                                    
             font-size:10px;
             
         }
-        #productTypeBrandList>li>ul p{font-size : 10px;}
-        #productTypeBrandList>li>ul p:hover{font-size: 13px;}
-        #productTypeBrandList>li>ul{
+        #productTypeBrandCollectionList>li>ul p{font-size : 10px;}
+        #productTypeBrandCollectionList>li>ul p:hover{font-size: 13px;}
+        #productTypeBrandCollectionList>li>ul{
             list-style-type: none; /*불릿 삭제*/
             padding : 0px; /*padding 삭제*/            
             display: none;
             
         }
         
-        #productTypeBrandList>li>p:hover+ul{
+        #productTypeBrandCollectionList>li>p:hover+ul{
             
             display: block;
         }
-        #productTypeBrandList>li>ul:hover{
+        #productTypeBrandCollectionList>li>ul:hover{
 
             display: block;
         }
@@ -121,19 +121,20 @@
 	<jsp:include page="../common/menubar.jsp" />
 	<div id ="usedBoardArea">
         <div id = "productTypeForm">
-            <ul id = "productTypeBrandList">
+            <ul id = "productTypeBrandCollectionList">
                 <li>
                     <p>CATEGORY</p>
-                    <ul>
+                    <ul id ="categoryList">
                         <li><p>의류</p></li>
                         <li><p>신발</p></li>
                         <li><p>악세서리</p></li>
+                        <li><p>기타</p></li>
                     </ul>
                 </li>
                 
                 <li>                
                     <p>BRAND</p>
-                    <ul>
+                    <ul id = "brandList">
                         <li><p>NIKE</p></li>
                         <li><p>JORDAN</p></li>
                         <li><p>ADIDAS</p></li>
@@ -147,7 +148,7 @@
             
         </div>
         
-        <div id="pagingArea">
+        <div id="pagingArea" align="center">
                           
         </div>
     </div>
@@ -166,37 +167,46 @@
         	
         	location.href = "detail.used?boardNo="+bno; 
         })
+        $(document).on("click","#categoryList > li", function(){
+            productTypeName = $(this).text();
+            ajaxLoadToUsedBoardPaging();
+        })
+        $(document).on("click","#brandList > li", function(){
+            collectionName = $(this).text();
+            ajaxLoadToUsedBoardPaging();
+        })
         
-        
-        function ajaxLoadToUsedBoardPaging(){
+        function ajaxLoadToUsedBoardPaging(page){
+            if(page){
+                cpage = page;
+            }        
         	$("#pagingArea").empty();         
         	var result ="";
         	$.ajax({
         			url : "aJaxLoadtoUsedBoardPaging.used",
         			data : {cpage : cpage,productTypeName : productTypeName, brandName : brandName, collectionName : collectionName},
         			success : function(pi){
-        				console.dir(pi);
-        				console.log(pi.listCount);
+        			
         				if(pi.currentPage == 1){
-        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxloadToList(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
+        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
         				}
         				else{
-        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxloadToList(' + (pi.currentPage - 1) + ')" >&lt;</button>'
+        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
         				}
         				
         				
         				for(var i = pi.startPage; i <= pi.endPage; i++){
-                            console.log(i);
+                           
                             if(i != pi.currentPage){
-                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxloadToList(' + i + ')">'+ i +'</button>';
+                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + i + ')">'+ i +'</button>';
                             }else{
                                 result +=  '<button class="btn btn-outline-secondary" disabled>' + i + '</button>'
                             }
                         }
         				if(pi.currentPage < pi.maxPage){
-                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxloadToList(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
+                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
                         }
-        				console.log(result);
+        			
         				$("#pagingArea").append(result);
         				ajaxLoadToUsedBoardPage(pi);
         			}

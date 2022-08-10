@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.limit.member.model.service.MemberService;
 import com.kh.limit.member.model.vo.Member;
 
@@ -92,6 +93,13 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "topList.pr", produces="application/json; charset=UTF-8")
+	public String ajaxTopBoardList() {
+		return new Gson().toJson(memberService.selectTopBoardList());
+	}
+	
 	
 	
 }

@@ -26,9 +26,20 @@
      .resellList{
      		width : 900px;
      		margin : auto;
+     		margin-top : 0px;
      		height : 100%;
      }
-     
+     .thumbnail{
+     		width : 225px;
+     		margin : auto;
+     		display : inline-block;
+     }
+     .thumbnail > img{
+     		width : 200px;
+     		height : 200px;
+     		margin : auto;
+     		display : inline-block;
+     }
 </style>
 </head>
 <body>
@@ -44,14 +55,26 @@
         <jsp:include page="resellBoardFilter.jsp" />
         
 		    <div class="resellList" style="border : 1px solid red;">
-		    
-		    	리스트
+		    	
+		    	<c:forEach var="b" items="${list}">
+		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
+					<img class="resellThumbnail" src="${b.titleImg}">
+					<div class="productInfo" align="left">
+						<p class="brand">${b.brandName}</p>
+						<p class="name">${b.productName}</p>
+						<p class="translatedName">${b.productContent}</p>
+						<p class="price">${b.resellPrice}</p>
+					</div>
+					<div class="interest" align="left">
+						<span>♥ ${b.likes}</span>
+					</div>
+						    	
+		    	</div>
+		    	</c:forEach>
 		    	
 	    	</div>
 		  </div>
-		</div>
         
-        </div>
 	
 	<jsp:include page="../common/footer.jsp" />
 	

@@ -48,6 +48,10 @@ public class UsedBoardDao {
 		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectBoardDetailImges", boardNo);
 	}
 
+	public int deleteUsedBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("usedBoardMapper.deleteUsedBoard", boardNo);
+	}
+
 
 
 }
