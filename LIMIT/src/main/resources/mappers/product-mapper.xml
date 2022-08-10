@@ -13,7 +13,7 @@
 	<resultMap type="product" id="productSet">
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="PRODUCT_NAME" property="productName" />
-		<result column="PRODCUT_CONTENT" property="productContent" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
 		<result column="LIKES" property="likes" />
 		<result column="COUNT" property="count" />
 		<result column="STATUS" property="status" />
@@ -46,6 +46,28 @@
 	JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
 	JOIN RESELL_INFO USING(PRODUCT_NO)
 	WHERE P.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 1
+	</select>
+	
+	<update id="increaseCount">
+	UPDATE PRODUCT
+	SET COUNT = COUNT + 1
+	WHERE PRODUCT_NO = #{productNo}
+	AND STATUS = 'Y'
+	</update>
+	
+	<select id="selectResellProduct" resultMap="productSet">
+	SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT, LIKES, COUNT, P.STATUS, CREATE_DATE, MODIFY_DATE, PRODUCT_WRITER, TRADE_COUNT, PRODUCT_TYPE_NAME, BRAND_NAME, RELEASE_DATE, MODEL_NO, COLLECTION_NAME, RELEASE_PRICE, RESELL_PRICE
+	FROM PRODUCT P
+	JOIN RESELL_INFO USING(PRODUCT_NO)
+	WHERE PRODUCT_NO = #{productNo} AND P.STATUS ='Y'
+	</select>
+	
+	<select id="selectAttachmentList" resultMap="attachmentSet">
+	SELECT FILE_NO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH
+	FROM ATTACHMENT
+	WHERE REF_NO = #{productNo} 
+	AND FILE_LEVEL = 2
+	AND TYPE_NO = 1
 	</select>
 
 </mapper>

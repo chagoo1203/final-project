@@ -29,16 +29,25 @@
      		margin-top : 0px;
      		height : 100%;
      }
+     .resellList div{
+     
+     
+     }
      .thumbnail{
      		width : 225px;
      		margin : auto;
-     		display : inline-block;
+     		float : left;
+     		box-sizing : border-box;
      }
      .thumbnail > img{
      		width : 200px;
      		height : 200px;
      		margin : auto;
      		display : inline-block;
+     }
+     .productInfo{
+     	margin-left : 15px;
+     
      }
 </style>
 </head>
@@ -50,30 +59,36 @@
 	
 		<div id="shopMenu">Shop</div>
 		
-        <div align="right" style="border : 1px solid red;">option</div>
+        <div align="right">option</div>
         
         <jsp:include page="resellBoardFilter.jsp" />
         
-		    <div class="resellList" style="border : 1px solid red;">
+		    <div class="resellList" >
 		    	
 		    	<c:forEach var="b" items="${list}">
-		    	<div class="thumbnail" style="border : 1px solid red;" align="center">
+		    	<div class="thumbnail" align="center">
 					<img class="resellThumbnail" src="${b.titleImg}">
 					<div class="productInfo" align="left">
+						<input type="hidden" name="productNo" class="pno" value="${b.productNo}">
 						<p class="brand">${b.brandName}</p>
 						<p class="name">${b.productName}</p>
 						<p class="translatedName">${b.productContent}</p>
 						<p class="price">${b.resellPrice}</p>
-					</div>
-					<div class="interest" align="left">
-						<span>♥ ${b.likes}</span>
-					</div>
-						    	
+						<P>♥ ${b.likes}</P>
+					</div>    	
 		    	</div>
 		    	</c:forEach>
 		    	
 	    	</div>
 		  </div>
+		  
+		  <script>
+            	$(function(){
+					$('.resellList>div').click(function(){
+						location.href = 'resellDetail.resell?pno=' + $(this).children().children('.pno').val();			
+					})
+            	})
+            </script>
         
 	
 	<jsp:include page="../common/footer.jsp" />
