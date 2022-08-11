@@ -52,6 +52,31 @@ public class UsedBoardDao {
 		return sqlSession.update("usedBoardMapper.deleteUsedBoard", boardNo);
 	}
 
+	public ArrayList<Attachment> selectAttachments(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectAttachments", boardNo);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment attachment) {
+		return sqlSession.update("usedBoardMapper.updateAttachment", attachment);
+	}
+
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.delete("usedBoardMapper.deleteAttachment", fileNo);
+	}
+
+	public int updateUsedBoard(SqlSessionTemplate sqlSession, UsedBoard board) {
+		return sqlSession.update("usedBoardMapper.updateUsedBoard", board);
+		
+	}
+
+	public int insertUpdateAttachment(SqlSessionTemplate sqlSession, Attachment img) {
+		return sqlSession.insert("usedBoardMapper.insertUpdateImgUsedBoard", img);
+	}
+
+	public int tumbnailImgeUpdate(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.update("usedBoardMapper.tumbnailImgeUpdate", fileNo);
+	}
+
 
 
 }

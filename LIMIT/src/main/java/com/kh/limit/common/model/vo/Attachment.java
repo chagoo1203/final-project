@@ -26,6 +26,15 @@ public class Attachment {
 		this.changeName = changeName;
 		this.filePath = filePath;
 		this.fileLevel = fileLevel;
+	}
+
+	public Attachment(int fileNo, String originName, String changeName) {
+		super();
+		this.fileNo = fileNo;
+		this.originName = originName;
+		this.changeName = changeName;
+
 	}	 
+    
     
 }
