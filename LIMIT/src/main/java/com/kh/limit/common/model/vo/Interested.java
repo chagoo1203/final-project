@@ -10,5 +10,11 @@ import lombok.Setter;
 public class Interested {
 	private String userId; 
 	private int productNo; 
-	private int usedNo; 
+	private int usedNo;
+	public Interested(String userId, int usedNo) {
+		super();
+		this.userId = userId;
+		this.usedNo = usedNo;
+	} 
+	
 }
