@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.usedboard.model.dao.UsedBoardDao;
 import com.kh.limit.usedboard.model.vo.UsedBoard;
@@ -93,6 +94,18 @@ public class UsedBoardService {
 
 	public int tumbnailImgeUpdate(int fileNo) {
 		return usedBoardDao.tumbnailImgeUpdate(sqlSession, fileNo);
+	}
+
+	public Interested selectInterested(Interested interested) {
+		return usedBoardDao.selectInterested(sqlSession, interested);
+	}
+
+	public int insertInterested(Interested interested) {
+		return usedBoardDao.insertInterested(sqlSession, interested);
+	}
+
+	public int deleteInterested(Interested interested) {
+		return usedBoardDao.deleteInterested(sqlSession, interested);
 	}
 
 
