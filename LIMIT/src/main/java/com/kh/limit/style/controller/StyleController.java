@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.product.model.vo.Product;
 import com.kh.limit.style.model.service.StyleService;
 import com.kh.limit.style.model.vo.Like;
 import com.kh.limit.style.model.vo.Reply;
@@ -62,7 +63,7 @@ public class StyleController {
 	@RequestMapping("insertStyle.bo")
 	public String insertStyle(HttpSession session, MultipartFile[] styleImg, Style style, Model model ) {
 		
-						
+					
 		ArrayList<Attachment> list = saveFile(styleImg,session);
 		System.out.println(styleImg.toString());
 		int result = styleService.insertStyle(style);
@@ -133,6 +134,22 @@ public class StyleController {
 		if(result > 0){
 			
 			Style s = styleService.selectStyle(sno);
+			
+			String productNo = s.getStyleTag();
+			
+			// 1,2,3
+			
+			for(int i = 0; i < productNo.length(); i++) {
+				
+				String[] productNoList = productNo.split(",");
+				
+				ArrayList<Product> plist = styleService.selectProductList(productNoList);
+			
+			}
+			
+			
+			
+			
 			ArrayList<Attachment> attlist = styleService.selectAtt(sno);
 			
 			model.addAttribute("s", s);
