@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.product.model.dao.ProductDao;
 import com.kh.limit.product.model.vo.Product;
@@ -28,7 +29,19 @@ public class ProductService {
 	}
 	
 	public ArrayList<Product> selectResellList(){
-		return productDao.selectResellList();
+		return productDao.selectResellList(sqlSession);
+	}
+
+	public int increaseCount(int productNo) {
+		return productDao.increaseCount(sqlSession, productNo);
+	}
+
+	public Product selectResellProduct(int pno) {
+		return productDao.selectResellProduct(sqlSession, pno);
+	}
+
+	public ArrayList<Attachment> selectAttachmentList(int productNo) {
+		return productDao.selectAttachmentList(sqlSession, productNo);
 	}
 
 }

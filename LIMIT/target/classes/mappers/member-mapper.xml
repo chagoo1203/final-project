@@ -16,6 +16,18 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
+		<resultMap id="productResultSet" type="product">
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="BRAND_NAME" property="brandName" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="LIKES" property="likes" />
+		<result column="COUNT" property="count" />
+		<result column="STATUS" property="status" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="TITLEIMG" property="titleImg" />
+	
+	</resultMap>
 	
 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
 		SELECT
@@ -79,6 +91,17 @@
 				)
 
 	</insert>
+	
+	<select id="selectTopBoardList" resultMap="productResultSet">
+
+ 	 	SELECT PRODUCT_NO, PRODUCT_NAME, COUNT, FILE_PATH||CHANGE_NAME TITLEIMG, LIKES, RELEASE_PRICE, PRODUCT_TYPE_NAME, BRAND_NAME
+		  FROM PRODUCT P
+		  JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
+		 WHERE P.STATUS = 'Y'
+		   AND FILE_LEVEL = 1
+		   AND TYPE_NO = 1
+		 ORDER BY RELEASE_DATE DESC
+	</select>
   
   
 </mapper>
