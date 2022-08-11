@@ -7,25 +7,55 @@
 <meta charset="UTF-8">
 <title>메인 페이지</title>
 <style>
-.content {
-            background-color:white;
-            width: 1500px;
-            margin:auto;
-        }
- .innerOuter {
-            border:1px solid lightgray;
-            width:80%;
-            margin:auto;
-            padding:5% 5%;
-            background-color:white;
-        }
-  #list_detail {
-  		border : 1px solid lightgray;
-  		width : 320px;
-  		height : 400px;
-  		display : inline-box;
-  		margin : 0 0 ;
+  .content {
+        background-color:white;
+        width: 1500px;
+        margin:auto;
   }
+  .innerOuter {
+        border:1px solid lightgray;
+        width:80%;
+        margin:auto;
+        padding:5% 5%;
+        background-color:white;
+  }
+  .list_detail {
+  		width : 260px;
+  		height : 400px;
+  		float : left;
+  		margin : auto;
+  		border-radius : 6px;
+  		
+  }
+  .list_detail:hover {
+  		cursor:pointer;
+	  	backgroud : silver;
+	  	border-radius : 6px;	
+  }
+  .product_list{
+	  	width : 100%;
+	  	height : 820px;
+  }
+  .list_detail  > p{
+  	    margin : 0px;
+  }
+  .likesCountWrap{
+  	    display : inline-block;
+  }
+  #thumbnail{
+  		width : 250px;
+  		border-radius : 6px;
+  		
+  }
+  .text > input{
+  		width : 500px;
+		margin : auto;
+		display : inline;
+  }
+  .text > select{
+  		width : 100px;
+  }
+  
 </style>
 </head>
 <body>
@@ -34,9 +64,25 @@
 		<br><br>
 		<div class="innerOuter">
 			<h4>최신 상품</h4>
+			<br clear="both"><br>
+
+            <form id="searchForm" action="" method="get" align="center">
+
+                <div class="text">
+                	 <select class="custom-select" name="condition" style="margin-bottom:4px">
+                        <option value="writer">작성자</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                    </select>
+                    <input type="text" class="form-control" name="keyword" >
+                	<button type="submit" class="searchBtn btn btn-secondary" style="display:inline; margin-bottom:4px;">검색</button>
+                </div>
+            </form>
+            
 			<br>
-			<a href="list.pr" style="float:right; color:lightgrey;">>>더보기</a>
+			<a href="resellList.resell" style="float:right; color:lightgrey;">>>더보기</a>
 			<br>
+			<br clear="both">
 			<div class="product_list list_first">
 				<div id="product_item"></div>
 			</div>
@@ -56,14 +102,14 @@
 				success : function(data){
 					let value=''
 					for(let i in data){
-						value += '<div id="list_detail">'
+						value += '<div class="list_detail">'
 							   + '<input type="hidden" name="productName" value="' + data[i].productNo + '">'
-							   + '<img src="' + data[i].titleImg + '">'
+							   + '<img id="thumbnail" src="' + data[i].titleImg + '">'
 							   + '<p>' + data[i].brandName + '</p>'
 							   + '<p>' + data[i].productName + '</p>'
 							   + '<p>' + data[i].releasePrice + '</p>'
-							   + '<p>' + data[i].likes + '</p>'
-							   + '<p>' + data[i].count + '</p>'
+							   + '<p class = "likesCountWrap">' + data[i].likes + '</p>'
+							   + '<p class = "likesCountWrap">' + data[i].count + '</p>'
 							   + '</div>'
 					}
 					$('#product_item').html(value);
@@ -75,6 +121,8 @@
 		}
 		
 		</script>
-	</div>	<jsp:include page="../common/footer.jsp" />
+	</div>	
+	<br clear="both">
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

@@ -77,7 +77,7 @@
                     <label for="address"> * 주소 : </label>
                     <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
                     <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
-                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!
+                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
                     <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
                     
                     
