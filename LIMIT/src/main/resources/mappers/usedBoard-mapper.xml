@@ -26,6 +26,9 @@
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="FILE_PATH" property="filePath"/>
 	</resultMap>
+	<resultMap type="interested" id="selectInterestedSet">
+		<result column="USED_NO" property="usedNo"/>
+	</resultMap>
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
 		FROM "CATEGORY"
@@ -195,4 +198,15 @@
 		WHERE 
 			FILE_NO = #{fileNo}
 	</insert>
+	<select id="selectInterested" parameterType="interested" resultMap="selectInterestedSet">
+		SELECT USED_NO
+		FROM INTERESTED
+		WHERE USER_ID = #{userId} AND USED_NO = #{usedNo}
+	</select>
+	<insert id="insertInterested" parameterType="interested">
+		INSERT INTO INTERESTED (USER_ID, USED_NO)  VALUES(#{userId}, #{usedNo})
+	</insert>
+	<delete id="deleteInterested" parameterType="interested">
+		DELETE FROM INTERESTED WHERE USER_ID = #{userId} AND USED_NO =  #{usedNo}
+	</delete>
 </mapper>

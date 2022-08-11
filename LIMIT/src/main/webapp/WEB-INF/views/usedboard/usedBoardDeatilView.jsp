@@ -314,7 +314,7 @@
 
                 <div id = "mainContentBtnWrap">
                     <div class = "btnWrap">
-                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off">
+                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off">
                         <label class="btn btn-outline-secondary btn-lg" for="btn-check-2-outlined" style="width: 100%; height : 100%; padding-top: 15px;">관심 상품</label><br>
 
                     </div>
@@ -358,6 +358,59 @@
           </div>
         </div>
     </div>
+    <script>
+    $(function(){    	
+        if("${loginUser.userId}" == ""){
+        	$("#btn-check-2-outlined").prop("disabled", true);        	
+        }else{
+        	aJaxLoadToInterested();
+        }
+    })
+    $(document).ready(function(){
+    	$("#btn-check-2-outlined").change(function(){
+    		if($("#btn-check-2-outlined").is(":checked")){    			
+    			aJaxInsertToInterested();
+    		}else{
+    			aJaxDeleteToInterested();
+    		}
+    	})
+    })
+    function aJaxLoadToInterested(){
+        $.ajax({
+            url : "aJaxLoadToInterested.used",
+            data : {userId : "${loginUser.userId}", usedNo : "${usedBoard.boardNo}"},
+            success : function(msg){            	
+	           	if(msg == 'Y'){
+	           		$("#btn-check-2-outlined").prop("checked", true);
+	           	}
+            },error : function(){
+            	alert("통신실패");
+            }
+        })
+    }
+    function aJaxInsertToInterested(){
+        $.ajax({
+            url : "aJaxInsertToInterested.used",
+            data : {userId : "${loginUser.userId}", usedNo : "${usedBoard.boardNo}"},
+            success : function(){
+            	alert("관심상품에 등록되었습니다.");
+            },error : function(){
+            	alert("실패 ㅋ");
+            }
+        })
+    }
+    function aJaxDeleteToInterested(){
+        $.ajax({
+            url : "aJaxDeleteToInterested.used",
+            data : {userId : "${loginUser.userId}", usedNo : "${usedBoard.boardNo}"},
+            success : function(){
+            	alert("관심상품 제거");
+            },error : function(){
+            	alert("실패 ㅋ");
+            }
+        })
+    }
+    </script>
     <br style="clear : both;"/>
     <jsp:include page="../common/footer.jsp" />
 </body>

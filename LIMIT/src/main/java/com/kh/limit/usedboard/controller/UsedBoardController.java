@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.common.template.Pagination;
@@ -76,8 +77,24 @@ public class UsedBoardController {
 		return new Gson().toJson(boardService.selectBoard(subv));
 	}
 	
-	
-	
+	@ResponseBody
+	@RequestMapping("aJaxLoadToInterested.used")
+	public String aJaxLoadToInterested(String userId, int usedNo) {
+		if(boardService.selectInterested(new Interested(userId, usedNo)) == null) return "N";
+		return "Y";
+	}
+	@ResponseBody
+	@RequestMapping("aJaxInsertToInterested.used")
+	public String aJaxInsertToInterested(String userId, int usedNo) {
+		if(boardService.insertInterested(new Interested(userId, usedNo)) > 0) return "Y";
+		return "N";
+	}
+	@ResponseBody
+	@RequestMapping("aJaxDeleteToInterested.used")
+	public String aJaxDeleteToInterested(String userId, int usedNo) {
+		if(boardService.deleteInterested(new Interested(userId, usedNo)) > 0) return "Y";
+		return "N";
+	}
 	@ResponseBody
 	@RequestMapping("aJaxLoadtoUsedBoardPaging.used")	
 	public PageInfo aJaxLoadtoUsedBoardPaging(SelectUsedBoardVo subv, int cpage) {				
@@ -88,7 +105,7 @@ public class UsedBoardController {
 	
 	@RequestMapping("detail.used")
 	public ModelAndView detailUsedBord(int boardNo, ModelAndView mv) {
-		
+			
 		mv.addObject("usedBoard", boardService.selectBoardDetail(boardNo));
 		mv.addObject("usedImgList",boardService.selectBoardDetailImges(boardNo));
 		ArrayList<Attachment> list = boardService.selectBoardDetailImges(boardNo);
