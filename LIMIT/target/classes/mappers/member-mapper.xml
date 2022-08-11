@@ -34,6 +34,7 @@
 		<result column="COLLECTION_NAME" property="collectionName" />
 		<result column="TITLEIMG" property="titleImg" />
 		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="RESELL_PRICE" property="resellPrice" />
 	
 	</resultMap>
 	
@@ -127,9 +128,10 @@
 	</select>
 	
 	<select id="selectSearchList" resultMap="productResultSet" parameterType="hashmap">
-		SELECT PRODUCT_NO, PRODUCT_NAME, FILE_PATH||CHANGE_NAME TITLEIMG, BRAND_NAME, PRODUCT_CONTENT, RELEASE_PRICE
+		SELECT PRODUCT_NO, PRODUCT_NAME, FILE_PATH||CHANGE_NAME TITLEIMG, BRAND_NAME, PRODUCT_CONTENT, RESELL_PRICE
 		FROM PRODUCT P
 		JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
+	    JOIN RESELL_INFO USING(PRODUCT_NO)
 		WHERE P.STATUS = 'Y'
 		<choose>
 			<when test="condition == 'brandName'">
