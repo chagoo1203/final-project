@@ -57,8 +57,6 @@
             width : 150px; 
             height : 150px;
         }
-
-
     </style>
 </head>
 <body>
@@ -73,7 +71,7 @@
             <div id ="textWrap" style="width : 152px; height : 152px; float: left;"><p style="font-weight: bold;">상품 이미지</p><p style="color : red">*</p><p style="color : gray;" id="photoCount">(0/10)</p></div>
             <div id = "imgWrap" style=" width: 1000px; float:left; margin-top: 20px;">
                 <img src="resources/enrollFormImges/pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
-                <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this, 0);">
+                <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this);">
 
             </div>
         </div>
@@ -163,29 +161,20 @@
     </div>
     <script>
         var usedImgCount = 0;
-        $(document).on("click","#insertImgForm",function(){            
-            var el = "#usedImgInput" + usedImgCount;                                                   
+        $(document).on("click","#insertImgForm",function(){
+            
+            var el = "#usedImgInput" + usedImgCount;                           
+            console.log(el);
+            $(document).ready();
             $(el).click();  
+
         })
         
-        $(document).on("click", ".usedImges", function(){
-            $(this).prev().click();
-
-        })
-        $(document).on("click",".deleteBtn", function(){
-            
-            if(!$(this).next().next().length) usedImgCount--;
-            
-            $(this).prev().remove();
-            $(this).next().remove();
-            $(this).remove();
-        })
-        function loadImg(inputFile, num){
+        
+        function loadImg(inputFile){
             
             if(inputFile.files.length == 1){ // 파일이 있냐
-                
-                var el = "#usedImg" + num;
-
+                var el = "#usedImg" + usedImgCount;
                 var reader = new FileReader();
                 // FileReader객체로부터 파일을 읽어들이는 메소드를 호출
                 //인자값으로 어느 파일을 읽을건지 전달해줌
@@ -193,33 +182,22 @@
                 //해당 파일을 읽어들이는 순간 그 파일만의 고유한 url 이 부여된다.
                 //->해당 url을 src속성으로 부여할것(attr)                        
                 //파일 읽기가 완료되었을때 실행할 함수
-                if(num >= usedImgCount){
-                    reader.onload = function(e){
-                        // e의 target -> e.target -> 이벤트를 발생한 요소
-                        //e의 target.result에 각 파일의 url 이 담김.                    
-                        console.log(el);
-                        imgEl = '<img class = "usedImges" src="" alt="" id="usedImg'+ usedImgCount + '"/><button class="deleteBtn btn btn-dark" style = "margin-left : -42px; margin-top : 123px;">-</button>'
-                        inputEl = '<input hidden type="file" name="usedImg" id="usedImgInput'+ (usedImgCount+1) +'" onchange="loadImg(this,'+ (usedImgCount+1) +');">';                    
-
-                        $("#imgWrap").append(imgEl);
-                        $("#imgWrap").append(inputEl);
-                        $(el).attr("src", e.target.result);   
-                        $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
-                        usedImgCount++;                    
-                    };
-                }else{//수정 
-                    console.log("수정 조건");
-                    reader.onload = function(e){
-                        $(el).attr("src", e.target.result);                    
-                    }
-                }
-            }else{                     
-                if(num > usedImgCount){   
+                reader.onload = function(e){
+                    // e의 target -> e.target -> 이벤트를 발생한 요소
+                    //e의 target.result에 각 파일의 url 이 담김.
+                    //각 영역에 맞춰 이미지 미리보기
+                    console.log(el);
+                    imgEl = '<img src="" alt="" id="usedImg'+ usedImgCount + '"/>'
+                    inputEl = '<input hidden type="file" name="usedImg" id="usedImgInput'+ (usedImgCount+1) +'" onchange="loadImg(this);">';                    
+                    $("#imgWrap").append(imgEl);
+                    $("#imgWrap").append(inputEl);
+                    $(el).attr("src", e.target.result);   
+                    $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
+                    usedImgCount++;
+                    
+                };
+            }else{                        
                     $(el).attr("src", null);                               
-                }else{
-                    $(el).prev().remove();
-                    $(el).remove();
-                }
             }
             
             

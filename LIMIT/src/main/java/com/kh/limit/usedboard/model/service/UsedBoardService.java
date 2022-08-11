@@ -45,14 +45,7 @@ public class UsedBoardService {
 		}
 		return result;
 	}
-	public int insertUsedBoardImges(ArrayList<Attachment> imgList, int boardNo) {
-		int result = 1;
-		for(Attachment img : imgList) {
-			img.setRefNo(boardNo);
-			result *= usedBoardDao.insertUpdateAttachment(sqlSession, img);
-		}
-		return result;
-	}
+
 	
 
 	public int selectListCount(SelectUsedBoardVo subv) {
@@ -74,27 +67,6 @@ public class UsedBoardService {
 	public int deleteUsedBoard(int boardNo) {
 		return usedBoardDao.deleteUsedBoard(sqlSession, boardNo);
 	}
-
-	public ArrayList<Attachment> selectAttachments(int boardNo) {
-		return usedBoardDao.selectAttachments(sqlSession, boardNo);
-	}
-
-	public int updateAttachment(Attachment attachment) {
-		return usedBoardDao.updateAttachment(sqlSession, attachment);
-	}
-
-	public int deleteAttachment(int fileNo) {
-		return usedBoardDao.deleteAttachment(sqlSession, fileNo);		
-	}
-
-	public int updateUsedBoard(UsedBoard board) {
-		return usedBoardDao.updateUsedBoard(sqlSession, board);
-	}
-
-	public int tumbnailImgeUpdate(int fileNo) {
-		return usedBoardDao.tumbnailImgeUpdate(sqlSession, fileNo);
-	}
-
 
 	
 

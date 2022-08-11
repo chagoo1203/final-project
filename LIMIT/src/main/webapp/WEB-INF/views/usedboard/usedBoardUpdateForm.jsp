@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +43,7 @@
         optgroup {
             font-size: 5px;
         }
-        #categoryDropBoxWrap,#collectionDropBoxWrap{
+        #categoryDropBoxWrap,#categoryDropBoxWrap{
             margin-top : 85px; width: 45%;  float : left;
         }
         #collectionNameWrap, #brandBoxNameWrap, #categoryBoxNameWrap{
@@ -58,15 +57,13 @@
             width : 150px; 
             height : 150px;
         }
-
-
     </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	<div id = "enrollFromWrap">
-        <form method="post" action = "update.used" enctype="multipart/form-data">
-        <input type ="text" hidden value ="${usedBoard.boardNo }" name ="boardNo">
+        <form method="post" action = "insert.used" enctype="multipart/form-data">
+        
         <input type ="text" hidden value ="${loginUser.userId }" name ="boardWriter">
         <p style="font-weight: bold; font-size: 24px; margin : 0px; margin-bottom: 5px;">필수 입력</p>
         
@@ -74,16 +71,8 @@
             <div id ="textWrap" style="width : 152px; height : 152px; float: left;"><p style="font-weight: bold;">상품 이미지</p><p style="color : red">*</p><p style="color : gray;" id="photoCount">(0/10)</p></div>
             <div id = "imgWrap" style=" width: 1000px; float:left; margin-top: 20px;">
                 <img src="resources/enrollFormImges/pngtree-vector-camera-icon-png-image_1576543.jpg" alt="" id="insertImgForm"/>   
-                <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this, 0);">
-                
-                <c:set var ="i" value = "0"/>
-				<c:forEach var = "img" items = "${usedImgList}">								
-					<img class = "usedImges" src="${img.filePath }${img.changeName }" alt="" id="usedImg${i}"/>
-					<input type="hidden" name = "fileNo" value = "${img.fileNo }"/>					
-					<button class="deleteBtn btn btn-dark" style = "margin-left : -42px; margin-top : 123px;">-</button>
-                 	<input hidden type="file" name="usedImg" id="usedImgInput${i+1}" onchange="loadImg(this,${i+1});">
-                 	<c:set var="i" value = "${i + 1 }"/>                 	
-				</c:forEach>
+                <input hidden type="file" name="usedImg" id="usedImgInput0"  onchange="loadImg(this);">
+
             </div>
         </div>
 
@@ -108,7 +97,7 @@
                     <p class = "categoryLogo" >BRAND</p>
                 </div>
                 <div id="categoryDropBoxWrap">                	
-                   	<select class="selectpicker" name ="brandName" id ="brandSelect">                    	
+                   	<select class="selectpicker" name ="brandName">                    	
                         <optgroup label="BRAND">
 	                        <c:forEach var ="brand" items = "${brandList}">
 	                        	
@@ -125,8 +114,8 @@
                 <div id="collectionNameWrap" >
                     <p class = "categoryLogo" >COLLECTION</p>
                 </div>
-                <div id="collectionDropBoxWrap">
-                    <select class="selectpicker" name="collectionName" id = "collectionSelect">                     	       
+                <div id="categoryDropBoxWrap">
+                    <select class="selectpicker" name="collectionName">                     	       
                     	<c:forEach var = "collection" items = "${collectionList}">                    		
 	                        <option value ="${collection.commonName }">${collection.commonName }</option>	                        
                         </c:forEach>
@@ -140,7 +129,7 @@
             <div id = "titleWrap" style="width : 100%; overflow : auto; ">
                 <div style="width: 100px;  font-weight: bold; float : left;" >PRODUCT TITLE</div>
                 <div id="titleInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">
-                    <input class="form-control" type="text" placeholder="INSERT TITLE" name = "boardTitle" value ="${usedBoard.boardTitle }">
+                    <input class="form-control" type="text" placeholder="INSERT TITLE" name = "boardTitle">
                 </div>
             </div>
  
@@ -149,7 +138,7 @@
 
                 <div class = "form-group" id="contentInputWrap" style=" float: left; width : 1000px; height: 400px; margin-top : 40px">
                     
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="16" style="resize : none;" name ="boardContent">${usedBoard.boardContent }</textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="16" style="resize : none;" name ="boardContent"></textarea>
                 </div>
 
             </div>
@@ -160,7 +149,7 @@
               <div style="width: 100px;font-weight: bold; float : left;" >PRODUCT PRICE</div>
 
               <div id="priceInputWrap" style=" float: left; width : 1000px; height: 50px; margin-top : 40px">                  
-                  <input class="form-control" type="number" placeholder="INSERT PRICE" name = "usedPrice" value = "${usedBoard.usedPrice }">
+                  <input class="form-control" type="number" placeholder="INSERT PRICE" name = "usedPrice">
               </div>
             </div>
         </div>
@@ -171,40 +160,21 @@
         </form>
     </div>
     <script>
-    	var usedImgCount = ${fn:length(usedImgList)};
-	    $(function(){
-			$("input[name = productTypeName]:radio[value='${usedBoard.productTypeName}']").prop('checked',true);
-			$("#brandSelect").val("${usedBoard.brandName}");
-			$("#collectionSelect").val("${usedBoard.collectionName}");	
-			$("#photoCount").text('(' + (usedImgCount) + '/10)')
-		})
-        
-        $(document).on("click","#insertImgForm",function(){            
-            var el = "#usedImgInput" + usedImgCount;                                                   
-            $(el).click();  
-        })
-        
-        $(document).on("click", ".usedImges", function(){
-            $(this).prev().click();
-
-        })
-        $(document).on("click",".deleteBtn", function(){
+        var usedImgCount = 0;
+        $(document).on("click","#insertImgForm",function(){
             
-            if(!$(this).next().next().length) usedImgCount--;
+            var el = "#usedImgInput" + usedImgCount;                           
+            console.log(el);
+            $(document).ready();
+            $(el).click();  
 
-            if($(this).prev().val() > 0){//hidden element가 있다면
-                $(this).prev().remove();                    
-            }                        
-            $(this).prev().remove();
-            $(this).next().remove();
-            $(this).remove();
         })
-        function loadImg(inputFile, num){
+        
+        
+        function loadImg(inputFile){
             
             if(inputFile.files.length == 1){ // 파일이 있냐
-                
-                var el = "#usedImg" + num;
-
+                var el = "#usedImg" + usedImgCount;
                 var reader = new FileReader();
                 // FileReader객체로부터 파일을 읽어들이는 메소드를 호출
                 //인자값으로 어느 파일을 읽을건지 전달해줌
@@ -212,32 +182,22 @@
                 //해당 파일을 읽어들이는 순간 그 파일만의 고유한 url 이 부여된다.
                 //->해당 url을 src속성으로 부여할것(attr)                        
                 //파일 읽기가 완료되었을때 실행할 함수
-                if(num >= usedImgCount){
-                    reader.onload = function(e){
-                        // e의 target -> e.target -> 이벤트를 발생한 요소
-                        //e의 target.result에 각 파일의 url 이 담김.                                            
-                        imgEl = '<img class = "usedImges" src="" alt="" id="usedImg'+ usedImgCount + '"/><button class="deleteBtn btn btn-dark" style = "margin-left : -42px; margin-top : 123px;">-</button>'
-                        inputEl = '<input hidden type="file" name="usedImg" id="usedImgInput'+ (usedImgCount+1) +'" onchange="loadImg(this,'+ (usedImgCount+1) +');">';                    
-
-                        $("#imgWrap").append(imgEl);
-                        $("#imgWrap").append(inputEl);
-                        $(el).attr("src", e.target.result);   
-                        $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
-                        usedImgCount++;                    
-                    };
-                }else{//수정 
-                    console.log("수정 조건");
-                    reader.onload = function(e){
-                        $(el).attr("src", e.target.result);                    
-                    }
-                }
-            }else{                     
-                if(num > usedImgCount){   
+                reader.onload = function(e){
+                    // e의 target -> e.target -> 이벤트를 발생한 요소
+                    //e의 target.result에 각 파일의 url 이 담김.
+                    //각 영역에 맞춰 이미지 미리보기
+                    console.log(el);
+                    imgEl = '<img src="" alt="" id="usedImg'+ usedImgCount + '"/>'
+                    inputEl = '<input hidden type="file" name="usedImg" id="usedImgInput'+ (usedImgCount+1) +'" onchange="loadImg(this);">';                    
+                    $("#imgWrap").append(imgEl);
+                    $("#imgWrap").append(inputEl);
+                    $(el).attr("src", e.target.result);   
+                    $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
+                    usedImgCount++;
+                    
+                };
+            }else{                        
                     $(el).attr("src", null);                               
-                }else{
-                    $(el).prev().remove();
-                    $(el).remove();
-                }
             }
             
             

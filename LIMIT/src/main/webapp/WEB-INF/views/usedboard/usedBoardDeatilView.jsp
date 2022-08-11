@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
@@ -14,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        * {box-sizing:border-box}
         #detailFormWrap{
         	
             width: 1200px;
@@ -78,7 +76,83 @@
             width : 320px;
             
         }
-        
+
+        .slider{
+            width: 315px;
+            height: 100%;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .slider input[type=radio]{
+            display: none;
+        }
+
+        ul.imgs{
+            padding: 0;
+            margin: 0;
+        }
+        ul.imgs li{
+            position: absolute;
+            left: 640px;
+            transition-delay: 1s;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #imgholder > li > img{
+            width: 320px;
+            height: 302px;
+        }
+        .bullets{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 20px;
+            z-index: 2;
+        }
+        .bullets label{
+            display: inline-block;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.55);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .slider input[type=radio]:nth-child(1):checked~.bullets>label:nth-child(1){
+            background-color: #fff;
+        }
+        .slider input[type=radio]:nth-child(2):checked~.bullets>label:nth-child(2){
+            background-color: #fff;
+        }
+        .slider input[type=radio]:nth-child(3):checked~.bullets>label:nth-child(3){
+            background-color: #fff;
+        }
+        .slider input[type=radio]:nth-child(4):checked~.bullets>label:nth-child(4){
+            background-color: #fff;
+        }
+
+        .slider input[type=radio]:nth-child(1):checked~ul.imgs>li:nth-child(1){
+            left: 0;
+            transition: 0.5s;
+            z-index:1;
+        }
+        .slider input[type=radio]:nth-child(2):checked~ul.imgs>li:nth-child(2){
+            left: 0;
+            transition: 0.5s;
+            z-index:1;
+        }
+        .slider input[type=radio]:nth-child(3):checked~ul.imgs>li:nth-child(3){
+            left: 0;
+            transition: 0.5s;
+            z-index:1;
+        }
+        .slider input[type=radio]:nth-child(4):checked~ul.imgs>li:nth-child(4){
+            left: 0;
+            transition: 0.5s;
+            z-index:1;
+        }
         #mainContentTextWrap{
             margin-left: 70px;
             margin-top: 100px;
@@ -126,92 +200,6 @@
             margin-top: 30px;
             float: left;
         }
-
-        /* Slideshow container */
-        .slideshow-container {
-        max-width: 1000px;
-        position: relative;
-        margin: auto;
-        }
-
-        /* Hide the images by default */
-        .mySlides {
-        display: none;
-        }
-
-        /* Next & previous buttons */
-        .prev, .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        width: auto;
-        margin-top: -22px;
-        padding: 16px;
-        color: white;
-        font-weight: bold;
-        font-size: 18px;
-        transition: 0.6s ease;
-        border-radius: 0 3px 3px 0;
-        user-select: none;
-        }
-
-        /* Position the "next button" to the right */
-        .next {
-        right: 0;
-        border-radius: 3px 0 0 3px;
-        }
-
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover, .next:hover {
-        background-color: rgba(0,0,0,0.8);
-        }
-
-        /* Caption text */
-        .text {
-        color: #f2f2f2;
-        font-size: 15px;
-        padding: 8px 12px;
-        position: absolute;
-        bottom: 8px;
-        width: 100%;
-        text-align: center;
-        }
-
-        /* Number text (1/3 etc) */
-        .numbertext {
-        color: #f2f2f2;
-        font-size: 12px;
-        padding: 8px 12px;
-        position: absolute;
-        top: 0;
-        }
-
-        /* The dots/bullets/indicators */
-        .dot {
-        cursor: pointer;
-        height: 15px;
-        width: 15px;
-        margin: 0 2px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        transition: background-color 0.6s ease;
-        }
-
-        .active, .dot:hover {
-        background-color: #717171;
-        }
-
-        /* Fading animation */
-        .faded {
-        animation-name: faded;
-        animation-duration: 1.5s;
-        }
-
-        @keyframes faded {
-        from {opacity: .4}
-        to {opacity: 1}
-        }
        </style>
 </head>
 <body>
@@ -250,65 +238,39 @@
         <div id="detailMainContentWrap">
             <div id="mainContentWrap">
                 <div id="imgSliderWrap">
-                    <div class="slideshow-container" style="width: 100%; height : 100%">                   	                    
+                    <div class="slider">                    	                    
                         <c:set var = "i" value = "1"/>
-                        <c:forEach var = "img" items = "${usedImgList}">                        	                        	
-                            <div class="mySlides faded" style="width: 100%; height : 100%">
-                                <div class="numbertext">${i} / ${fn:length(usedImgList)}</div>
-                                <img src="${img.filePath }${img.changeName }" style="width:100%; height : 100%">                                
-                              </div>
+                        <c:forEach var = "img" items = "${usedImgList}">                        	
+                        	<c:choose>
+                        		<c:when test="${i eq 1}">
+                        			<input type="radio" name="slide" id="slide${i}" checked>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<input type="radio" name="slide" id="slide${i}">
+                        		</c:otherwise>
+                        	</c:choose>                        	                 
                         	<c:set var = "i" value = "${i + 1}"/>       	
                         </c:forEach>
-                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                        <a class="next" onclick="plusSlides(1)">&#10095;</a>                        
-                    </div>
-                    <br>      
-                    <!-- The dots/circles -->
-                    <div style="text-align:center">
-                        <c:set var = "i" value = "1"/>
-                        <c:forEach var = "img" items = "${usedImgList}">
-                            <span class="dot" onclick="currentSlide(${i})"></span>                            
-                            <c:set var = "i" value = "${i + 1}"/>       	
-                        </c:forEach>
+                        <ul id="imgholder" class="imgs">
+                        	<c:forEach var = "img" items = "${ usedImgList}">                        		
+                        		<li><img src="${img.filePath }${img.changeName }"></li>
+                        	</c:forEach>                                                       
+                        </ul>
+                        <div class="bullets">
+	                        <c:forEach var ="j" begin ="1" end ="${i-1}">
+	                        	<label for="slide${j }">&nbsp;</label>
+	                        </c:forEach>
+                        </div>
                     </div>
                 </div>
-                <script>
-                    let slideIndex = 1;
-                    showSlides(slideIndex);
-            
-                    // Next/previous controls
-                    function plusSlides(n) {
-                    showSlides(slideIndex += n);
-                    }
-            
-                    // Thumbnail image controls
-                    function currentSlide(n) {
-                    showSlides(slideIndex = n);
-                    }
-            
-                    function showSlides(n) {
-                    let i;
-                    let slides = document.getElementsByClassName("mySlides");
-                    let dots = document.getElementsByClassName("dot");
-                    if (n > slides.length) {slideIndex = 1}
-                    if (n < 1) {slideIndex = slides.length}
-                    for (i = 0; i < slides.length; i++) {
-                        slides[i].style.display = "none";
-                    }
-                    for (i = 0; i < dots.length; i++) {
-                        dots[i].className = dots[i].className.replace(" active", "");
-                    }
-                    slides[slideIndex-1].style.display = "block";
-                    dots[slideIndex-1].className += " active";
-                    }
-                </script>
+
                 <div id="mainContentTextWrap">
                     <div id="mainContentTitleWrap">
-                        <p>${usedBoard.boardTitle}</p>
+                        <p>ㄹㅇ 개급처</p>
                     </div>
                     
                     <div id="mainContentPriceWrap">
-                        <p>${usedBoard.usedPrice}</p>
+                        <p>50,000</p>
                     </div>
                 </div>
 
@@ -334,7 +296,7 @@
         
         <c:if test="${loginUser.userId eq usedBoard.boardWriter}">
             <div id="updateDeleteWrap" align="center">
-                <button type="button" class="btn btn-outline-dark" onclick="location.href='updateForm.used?boardNo=${usedBoard.boardNo}'">수정</button>
+                <button type="button" class="btn btn-outline-dark" onclick="location.href='update.used?boardNo=${usedBoard.boardNo}'">수정</button>
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     삭제
                 </button>
