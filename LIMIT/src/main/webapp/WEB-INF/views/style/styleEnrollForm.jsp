@@ -167,10 +167,64 @@
                 
                 
 
-                <div id="product_tag_area">
+                <div id="product_search_area">
                     <p>상품태그 N개</p>
-                    <input type="text" name="styleTag" id="" placeholder="상품검색"> <button>검색</button>
+                    <input type="text" name="styleTag" id="productSerachBar" placeholder="상품검색"> <button>검색</button>
                 </div>
+                <div id="product_list">
+                	
+                </div>
+                
+                	<script>
+		$(function(){
+				
+			const $searchBar = $('#productSerachBar')
+		
+			
+			// keyup(); : 키보드타이핑할시
+			$searchBar.keyup(function(){
+				//console.log($idInput.val());	
+						
+				// 최소 다섯글자 이상 입력했을 때만 ajax요청해서 중복 체크
+				if($idInput.val().length >= 1){
+					$.ajax({
+						url :'search.pd',
+						data : {keyword:$searchBar.val()},
+						success : function(result){
+							//console.log(result);
+							if(list == null){ // 사용 불가
+								$('#product_list').css('color', 'orangered').text('조회된 상품이 없습니다.');
+							}
+							else{ // 사용 가능
+								
+								var result = "";
+							
+								for(i = 0; i < list.length; i++ ){
+									
+								}
+								
+
+							}
+							
+							
+						}, error : function(){
+							console.log("아이디 중복체크용 ajax통신 실패");
+						}
+					
+					})
+				}
+				else{
+					$('#enrollForm :submit').attr('disabled', true);
+					$("#checkResult").hide();
+				}
+				
+			});
+			
+			
+			
+		
+		})
+	</script>
                 
                 <br><br><br><br><br><br><br><br>
                 

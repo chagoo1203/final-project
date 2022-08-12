@@ -23,6 +23,11 @@
 		<result column="RELEASE_DATE" property="releaseDate" />
 		<result column="RESELL_PRICE" property="resellPrice" />
 		<result column="TITLEIMG" property="titleImg" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="MODEL_NO" property="modelNo" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="PRODUCT_WRITER" property="productWriter" />
 	</resultMap>
 	
 	<resultMap type="attachment" id="attachmentSet">
@@ -56,10 +61,13 @@
 	</update>
 	
 	<select id="selectResellProduct" resultMap="productSet">
-	SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT, LIKES, COUNT, P.STATUS, CREATE_DATE, MODIFY_DATE, PRODUCT_WRITER, TRADE_COUNT, PRODUCT_TYPE_NAME, BRAND_NAME, RELEASE_DATE, MODEL_NO, COLLECTION_NAME, RELEASE_PRICE, RESELL_PRICE
-	FROM PRODUCT P
-	JOIN RESELL_INFO USING(PRODUCT_NO)
-	WHERE PRODUCT_NO = #{productNo} AND P.STATUS ='Y'
+	SELECT *
+	FROM (SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT, LIKES, COUNT, P.STATUS, CREATE_DATE, MODIFY_DATE, PRODUCT_WRITER, TRADE_COUNT, PRODUCT_TYPE_NAME, BRAND_NAME, TO_CHAR(RELEASE_DATE, 'YYYY-MM-DD') AS "RELEASE_DATE", MODEL_NO, COLLECTION_NAME, RELEASE_PRICE, RESELL_PRICE
+		  FROM PRODUCT P
+		  JOIN RESELL_INFO USING(PRODUCT_NO)
+		  WHERE PRODUCT_NO = #{productNo} AND P.STATUS ='Y'
+	      ORDER BY RESELL_PRICE ASC)
+	WHERE ROWNUM = 1
 	</select>
 	
 	<select id="selectAttachmentList" resultMap="attachmentSet">

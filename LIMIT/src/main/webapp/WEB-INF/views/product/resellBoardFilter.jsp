@@ -23,7 +23,7 @@
 
 	<div class="container-fluid">
 		  <div class="row">
-		    <div class="resellFilter" style="border : 1px solid red;">
+		    <div class="resellFilter">
 		    
                 <ul>
                	     카테고리 <br><br>
