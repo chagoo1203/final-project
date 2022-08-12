@@ -44,4 +44,8 @@ public class ProductService {
 		return productDao.selectAttachmentList(sqlSession, productNo);
 	}
 
+	public ArrayList<Product> selectDetailProduct(int productNo) {
+		return productDao.selectDetailProduct(sqlSession, productNo);
+	}
+
 }
