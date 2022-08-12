@@ -163,8 +163,11 @@
 
                 <textarea name="styleContent" id="" cols="70" rows="10" style="resize: none; margin-left:75px ;"
                 placeholder="해시태그또는 내용을 입력해주세요" required></textarea>
-                <br><br><br><br>
+              
                 
+                <div id="selectProduct-area">
+                	
+                </div>
                 
 
                 <div id="product_search_area">
@@ -174,6 +177,9 @@
                 <div id="product_list">
                 	
                 </div>
+               
+                
+                
                 
                 	<script>
 		$(function(){
@@ -186,29 +192,41 @@
 				//console.log($idInput.val());	
 						
 				// 최소 다섯글자 이상 입력했을 때만 ajax요청해서 중복 체크
-				if($idInput.val().length >= 1){
+				if($searchBar.val().length >= 2){
 					$.ajax({
 						url :'search.pd',
-						data : {keyword:$searchBar.val()},
-						success : function(result){
+						data : {keyWord:$searchBar.val()},
+						success : function(list){
 							//console.log(result);
-							if(list == null){ // 사용 불가
+								console.log(list)
+								
+							if(list.length == 0){ // 사용 불가
+								console.log("냐오");
 								$('#product_list').css('color', 'orangered').text('조회된 상품이 없습니다.');
 							}
 							else{ // 사용 가능
 								
-								var result = "";
-							
-								for(i = 0; i < list.length; i++ ){
-									
-								}
 								
+								
+								
+								let value = "";
+							
+								for(let i in list){
+									value += "<div class='product'>" +
+											 "<div>"+ list[i].productNo  + "</div>" +
+											 "<div>"+ list[i].productName  + "</div>" +
+											 "</div>"		 
+													  
+											
+								}
+								console.log(value)
+								$("#product_list").html(value);
 
 							}
 							
 							
 						}, error : function(){
-							console.log("아이디 중복체크용 ajax통신 실패");
+							console.log("ajax통신 실패");
 						}
 					
 					})
@@ -221,49 +239,38 @@
 			});
 			
 			
+				$(document).on("click", ".product", function(){
+					let pno	= $(this).children().eq(0).text();
+					
+					let productName	= $(this).children().eq(1).text();
+					
+					
+					var result = "<input type='hidden' name='productNo' value='" + pno + "'>"
+					var result1 = "<div class='productTag'>" +  productName + "</div>"
+					
+					$("#selectProduct-area").append(result);
+					$("#selectProduct-area").append(result1);
+				})
+				
+				
+				
+				
+				
+					$(document).on("click", ".productTag", function(){
+					
+					$(this).prev().remove();
+					$(this).remove();
+				
+				})
+				
 			
 		
 		})
 	</script>
+				
+               
                 
-                <br><br><br><br><br><br><br><br>
-                
-                <div id="product_list_area">
-                    <!-- 
-                    <ul class="produt_list">
-                        <li class="product_items">
-                            <a href="">
-                                <div class="product">
-                                    <picture>
-                                        <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjZfMTUz/MDAxNjI3MjYzNjE1Mzgw.BSpjIuYP9gjkLxRg5GdHOPeIzqLX4M2YKcySSYOaIhUg.HGv-zJfu6o8YCtSajmbV2_CGQLISs68WaYx-88HueOEg.JPEG/p_3039e3527f9c4a1d82d0ccce125b12a2.jpg?type=s_webp" alt="">
-                                    </picture>
-                                </div>
-                                <div class="product_info">
-                                    <p class="product_name">IAB Studio Pigment T-Shirt Oatmel</p>
-                                    <div class="amount">
-                                        113,000 원
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <div class="product">
-                                    <picture>
-                                        <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjZfMTUz/MDAxNjI3MjYzNjE1Mzgw.BSpjIuYP9gjkLxRg5GdHOPeIzqLX4M2YKcySSYOaIhUg.HGv-zJfu6o8YCtSajmbV2_CGQLISs68WaYx-88HueOEg.JPEG/p_3039e3527f9c4a1d82d0ccce125b12a2.jpg?type=s_webp" alt="">
-                                    </picture>
-                                </div>
-                                <div class="product_info">
-                                    <p class="product_name">IAB Studio Pigment T-Shirt Oatmeal</p>
-                                    <div class="amount">
-                                        113,000 원
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                     -->
+                     
                 <div class="submit">
                     <button type="submit" style="margin-left: 250px;">작성</button>
                     <button type="reset">되돌리기</button>
@@ -272,6 +279,8 @@
             </div>
             
         </form>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <br clear="both">
 	<jsp:include page="../common/footer.jsp" />
     </div>
 	

@@ -100,8 +100,8 @@ public class StyleService {
 	}
 
 
-	public ArrayList<Product> selectProductList(String[] productNoList) {
-		return styleDao.selectProdictList(sqlSession, productNoList);
+	public Product selectProductList(String l) {
+		return styleDao.selectProdictList(sqlSession, l);
 	}
 
 
