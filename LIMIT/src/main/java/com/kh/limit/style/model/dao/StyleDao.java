@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.product.model.vo.Product;
 import com.kh.limit.style.model.vo.Like;
 import com.kh.limit.style.model.vo.Reply;
 import com.kh.limit.style.model.vo.Style;
@@ -78,6 +79,14 @@ public class StyleDao {
 
 	public int updateStyle(SqlSessionTemplate sqlSession, Style s) {
 		return sqlSession.update("styleMapper.updateStyle", s);
+	}
+
+	public Product selectProdictList(SqlSessionTemplate sqlSession, String l) {
+		return sqlSession.selectOne("styleMapper.selectProductList", l);
+	}
+
+	public ArrayList<Product> searchProductList(SqlSessionTemplate sqlSession, String keyWord) {
+		return (ArrayList)sqlSession.selectList("styleMapper.searchProductList", keyWord);
 	}
 
 	

@@ -152,9 +152,29 @@
   		WHERE STYLE_NO = #{styleNo}
   	</update>
   	
+  	<resultMap type="product" id="productSet">
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
+	</resultMap>
   	
   	
+  	<select id="searchProductList" resultMap="productSet">
+      SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT
+      FROM PRODUCT 
+      WHERE STATUS = 'Y'
+      AND PRODUCT_NAME LIKE '%' || #{keyWord} || '%'
+      OR PRODUCT_CONTENT LIKE '%' || #{keyWord} || '%'
+  	</select>
   	
+  	
+  	<select id="selectProductList" resultMap="productSet" >
+  		
+  		     SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT
+            FROM PRODUCT 
+            WHERE STATUS = 'Y'
+            AND PRODUCT_NO = #{l}
+  	</select>
   	
   	
   	

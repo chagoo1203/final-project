@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.product.model.vo.Product;
 import com.kh.limit.style.model.dao.StyleDao;
 import com.kh.limit.style.model.vo.Like;
 import com.kh.limit.style.model.vo.Reply;
@@ -96,6 +97,16 @@ public class StyleService {
 
 	public int updateStyle(Style s) {
 		return styleDao.updateStyle(sqlSession, s);
+	}
+
+
+	public Product selectProductList(String l) {
+		return styleDao.selectProdictList(sqlSession, l);
+	}
+
+
+	public ArrayList<Product> searchProductList(String keyWord) {
+		return styleDao.searchProductList(sqlSession, keyWord);
 	}
 
 

@@ -253,7 +253,7 @@
                     <div class="slideshow-container" style="width: 100%; height : 100%">                   	                    
                         <c:set var = "i" value = "1"/>
                         <c:forEach var = "img" items = "${usedImgList}">                        	                        	
-                            <div class="mySlides faded" style="width: 100%; height : 100%">
+                              <div class="mySlides faded" style="width: 100%; height : 100%">
                                 <div class="numbertext">${i} / ${fn:length(usedImgList)}</div>
                                 <img src="${img.filePath }${img.changeName }" style="width:100%; height : 100%">                                
                               </div>

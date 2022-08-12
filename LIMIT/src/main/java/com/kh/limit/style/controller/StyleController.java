@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.product.model.vo.Product;
 import com.kh.limit.style.model.service.StyleService;
 import com.kh.limit.style.model.vo.Like;
 import com.kh.limit.style.model.vo.Reply;
@@ -60,9 +61,27 @@ public class StyleController {
 	
 	
 	@RequestMapping("insertStyle.bo")
-	public String insertStyle(HttpSession session, MultipartFile[] styleImg, Style style, Model model ) {
+	public String insertStyle(HttpSession session, MultipartFile[] styleImg, Style style, int[] productNo,  Model model ) {
 		
-						
+		
+		String styleTag ="";
+		if(productNo != null) {
+			for(int i = 0; i < productNo.length; i++) {
+	
+				if(i+1 == productNo.length) {
+					styleTag += productNo[i];
+				}else {
+					styleTag += productNo[i] + ",";
+				}
+				
+			}
+		
+		}
+		System.out.println(styleTag);
+		
+		style.setStyleTag(styleTag);
+		
+		
 		ArrayList<Attachment> list = saveFile(styleImg,session);
 		System.out.println(styleImg.toString());
 		int result = styleService.insertStyle(style);
@@ -133,8 +152,35 @@ public class StyleController {
 		if(result > 0){
 			
 			Style s = styleService.selectStyle(sno);
+			
+			
+			ArrayList<Product> plist = new ArrayList();
+
+			
+			
+			String productNo = s.getStyleTag();
+			
+			System.out.println(productNo);
+			
+			if(productNo != null) {
+				
+			String[] list = productNo.split(","); //5,6,7,8 
+			
+				for(String l : list) {
+					
+					System.out.println(l);
+					
+					Product p = styleService.selectProductList(l);
+					
+					plist.add(p);
+				}
+			
+			}
+			
+			
 			ArrayList<Attachment> attlist = styleService.selectAtt(sno);
 			
+			model.addAttribute("plist", plist);
 			model.addAttribute("s", s);
 			model.addAttribute("attlist", attlist);
 			
@@ -258,7 +304,39 @@ public class StyleController {
 		
 	}
 	
-
+	@ResponseBody
+	@RequestMapping(value="search.pd", produces="application/json; charset=UTF-8")
+	public String searchProductList(String keyWord) {
+	
+		ArrayList<Product> list = styleService.searchProductList(keyWord);
+		
+		System.out.println(list.toString());
+		
+		return new Gson().toJson(list); // "[{}, {}, {}]";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
