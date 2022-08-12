@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,14 +33,15 @@ public class AdminController {
 	@RequestMapping("list.qna")
 	public ModelAndView qnaSelectList(@RequestParam(value="page", defaultValue="1") int currentPage,
 									  @RequestParam(value="type", defaultValue="Q") String type, ModelAndView mv) {
-	
-		System.out.println(type);
 		
-		//PageInfo pi = Pagination.getPageInfo(adminService.selectListCount(), currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(adminService.selectNoticeCount(type), currentPage, 5, 5);
 		
-		mv.addObject("list", adminService.selectNoticeList(type))
+		System.out.println(pi.toString());
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.selectNoticeList(type, pi))
 		  .setViewName("admin/adminNotice/adminQnaListView");
-		
+
 		return mv;
 	}
 	
@@ -53,7 +55,6 @@ public class AdminController {
 	@RequestMapping("insert.qna")
 	public ModelAndView insertQna(Notice n, ModelAndView mv, HttpSession session) {
 		
-		//System.out.println(n);
 		int result = adminService.insertQna(n);
 		
 		if(result > 0) {	// 성공 => qna 등록 성공 => qna 리스트 페이지로 이동
@@ -66,5 +67,63 @@ public class AdminController {
 		return mv;
 	}
 	
+	// Q&A 글 상세 보기
+	@RequestMapping("detail.qna")
+	public ModelAndView selectQna(int qno, ModelAndView mv) {
+		
+		Notice n = adminService.selectNotice(qno);
+		
+		if(n != null) {
+			mv.addObject("n", n).setViewName("admin/adminNotice/adminQnaDetailView");
+		} else {
+			mv.addObject("errorMsg", "Q&A 글 조회 실패").setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// Q&A 글 삭제
+	@RequestMapping("delete.qna")
+	public String deleteQna(int qno, Model model, HttpSession session) {
+		
+		int result = adminService.deleteNotice(qno);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "Q&A 글삭제 완료");
+			return "redirect:list.qna";
+		} else {
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// Q&A 글 수정
+	@RequestMapping("update.qna")
+	public String updateQna(Notice n, Model model, HttpSession session) {
+		
+		System.out.println(n);
+		
+		int result = adminService.updateNotice(n);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "Q&A 글수정 완료");
+			return "redirect: detail.qna?qno="+n.getNoticeNo();
+		} else {
+			model.addAttribute("errorMsg", "Q&A 글 수정 실패");
+			return "common/errorPage";
+		}
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -53,7 +53,7 @@
         			<c:forEach var="n" items="${list}">
 		                <tr>
 		                  <input type="hidden" name="noticeNo" value="${n.noticeNo}">
-		                  <td>${n.notiecTitle}</td>
+		                  <td>${n.noticeTitle}</td>
 		                </tr>
         			</c:forEach>
               </tbody>
@@ -69,7 +69,7 @@
          			// 클릭될때마다 url 요청 
          			var qno = $(this).children().eq(0).val();
          			
-         			location.href = "detail.qa?qno="+ qno;
+         			location.href = "detail.cqa?qno="+ qno;
          		})
          	});
          </script>
@@ -79,11 +79,30 @@
         <br><br><br>
         <div class="container">                  
             <ul class="pagination justify-content-center pagination-sm">
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">1</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">2</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">3</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            <!-- previous 페이지 버튼 -->
+            <c:choose>
+           		<c:when test="${pi.currentPage eq 1}">
+               		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
+               	</c:when>
+               	<c:otherwise>
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="customer.ct?qpage=${pi.currentPage - 1}">Previous</a></li>                    	
+               	</c:otherwise>
+            </c:choose>
+            
+            <!-- 숫자가 나오는 페이지 버튼 -->
+            <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+            	<li class="page-item"><a class="page-link bg-secondary text-white" href="customer.ct?qpage=${p}">${p}</a></li>
+            </c:forEach>
+            
+            <!-- next 페이지 버튼 -->
+            <c:choose>
+            	<c:when test="${pi.currentPage eq pi.maxPage}">
+              <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            	</c:when>
+            	<c:otherwise>
+              <li class="page-item"><a class="page-link bg-secondary text-white" href="customer.ct?qpage=${pi.currentPage + 1}">Next</a></li>
+            	</c:otherwise>
+            </c:choose>
             </ul>
         </div>
          

@@ -6,13 +6,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.limit.admin.model.vo.Notice;
 import com.kh.limit.common.model.vo.PageInfo;
 
 @Repository
 public class CustomerDao {
 
-	public int selectListCount(SqlSessionTemplate sqlSession, String type) {
-		return sqlSession.selectOne("noticeMapper.selectListCount", type);
+	public int selectNoticeCount(SqlSessionTemplate sqlSession, String type) {
+		return sqlSession.selectOne("noticeMapper.selectNoticeCount", type);
 	}
 
 	public Object selectList(SqlSessionTemplate sqlSession, PageInfo pi, String type) {
@@ -23,6 +24,14 @@ public class CustomerDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("noticeMapper.selectList", type, rowBounds);
+	}
+
+	public int increaseCount(SqlSessionTemplate sqlSession, int noticeNo) {
+		return sqlSession.update("noticeMapper.increaseCount", noticeNo);
+	}
+
+	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+		return sqlSession.selectOne("noticeMapper.selectNotice", noticeNo);
 	}
 
 }

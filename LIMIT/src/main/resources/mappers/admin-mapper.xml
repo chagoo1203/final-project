@@ -2,53 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminMapper">
 
-	<resultMap type="notice" id="noticeResultSet">
-		<result column="NOTICE_NO" property="noticeNo" />
-		<result column="NOTICE_TITLE" property="noticeTitle" />
-		<result column="NOTICE_CONTENT" property="noticeContent" />
-		<result column="NOTICE_COUNT" property="noticeCount" />
-		<result column="CREATE_DATE" property="createDate" />
-	</resultMap>
 
-	<insert id="insertQna" parameterType="notice">
-		INSERT
-		  INTO
-		  		NOTICE
-		  		(
-		  		NOTICE_NO,
-		  		NOTICE_TITLE,
-		  		NOTICE_CONTENT,
-		  		NOTICE_TYPE
-		  		)
-		VALUES
-		 		(
-		 		SEQ_NNO.NEXTVAL,
-		 		#{noticeTitle},
-		 		#{noticeContent},
-		 		#{noticeType}
-		 		)
-	</insert>
-	
-	<select id="selectNoticeList" parameterType="string" resultMap="noticeResultSet">
-		SELECT 
-        		NOTICE_NO,
-			    NOTICE_TITLE,
-			    NOTICE_COUNT,
-			    CREATE_DATE
-  		  FROM
-        		NOTICE
- 		 WHERE
-        		STATUS = 'Y'
-        	<choose>
-  		 		<when test="type == Q">
-  		 			AND NOTICE_TYPE = 'Q'
-  		 		</when>
-  		 		<otherwise>
-  		   		   AND NOTICE_TYPE = 'N'	
-  		 		</otherwise>
-  		 	</choose>
- 		 ORDER 
- 		    BY  NOTICE_NO ASC
-	</select>
  
 </mapper>
