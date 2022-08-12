@@ -28,7 +28,7 @@
             border-bottom: 2px solid gray;
             height: 25%;
         }
-        #header2{
+        .header2{
             height: 75%;
         }
         #header1 > a{
