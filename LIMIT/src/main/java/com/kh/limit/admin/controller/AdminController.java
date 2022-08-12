@@ -1,5 +1,7 @@
 package com.kh.limit.admin.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,13 @@ public class AdminController {
 	
 	// admin Q&A 리스트 
 	@RequestMapping("list.qna")
-	public ModelAndView qnaSelectList(@RequestParam(value="page", defaultValue="1") int currentPage,
-									  @RequestParam(value="type", defaultValue="Q") String type, ModelAndView mv) {
+	public ModelAndView qnaSelectList(@RequestParam(value="page", defaultValue="1") 
+									  int currentPage, ModelAndView mv) {
 		
-		PageInfo pi = Pagination.getPageInfo(adminService.selectNoticeCount(type), currentPage, 5, 5);
-		
-		System.out.println(pi.toString());
+		PageInfo pi = Pagination.getPageInfo(adminService.selectQnaCount(), currentPage, 5, 5);
 		
 		mv.addObject("pi", pi)
-		  .addObject("list", adminService.selectNoticeList(type, pi))
+		  .addObject("list", adminService.selectQnaList(pi))
 		  .setViewName("admin/adminNotice/adminQnaListView");
 
 		return mv;
@@ -47,7 +47,7 @@ public class AdminController {
 	
 	//Q&A 글작성 하는 곳으로 연결시키는 메소드
 	@RequestMapping("enrollForm.qna")
-	public String enrollForm() {
+	public String qnaEnrollForm() {
 		return "admin/adminNotice/qnaEnrollForm";
 	}
 	
@@ -113,10 +113,27 @@ public class AdminController {
 		}
 	}
 
+	// admin 공지사항 리스트 
+		@RequestMapping("list.no")
+		public ModelAndView noticeSelectList(@RequestParam(value="page", defaultValue="1") 
+											 int currentPage, ModelAndView mv) {
+			
+			PageInfo pi = Pagination.getPageInfo(adminService.selectNoticeCount(), currentPage, 5, 5);
+			
+			mv.addObject("pi", pi)
+			.addObject("list", adminService.selectNoticeList(pi))
+			.setViewName("admin/adminNotice/adminNoticeListView");
+
+			return mv;
+		}
 	
+	// 공지사항 글작성 하는 곳으로 연결시키는 메소드
+	@RequestMapping("enrollForm.no")
+	public String noticeEnrollForm() {
+		return "admin/adminNotice/noticeEnrollForm";
+	}
 	
-	
-	
+		
 	
 	
 	

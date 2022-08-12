@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.dao.AdminDao;
 import com.kh.limit.admin.model.vo.Notice;
@@ -23,12 +24,12 @@ public class AdminService {
 		return adminDao.insertQna(sqlSession, n);
 	}
 
-	public ArrayList<Notice> selectNoticeList(String type, PageInfo pi) {
-		return adminDao.selectNoticeList(sqlSession, type, pi);
+	public ArrayList<Notice> selectNoticeList(PageInfo pi) {
+		return adminDao.selectNoticeList(sqlSession, pi);
 	}
 
-	public int selectNoticeCount(String type) {
-		return adminDao.selectNotcieCount(sqlSession, type);
+	public int selectNoticeCount() {
+		return adminDao.selectNotcieCount(sqlSession);
 	}
 
 	public Notice selectNotice(int noticeNo) {
@@ -41,6 +42,14 @@ public class AdminService {
 
 	public int updateNotice(Notice n) {
 		return adminDao.updateNotice(sqlSession, n);
+	}
+
+	public int selectQnaCount() {
+		return adminDao.selectQnaCount(sqlSession);
+	}
+
+	public ArrayList<Notice> selectQnaList(PageInfo pi) {
+		return adminDao.selectQnaList(sqlSession, pi);
 	}
 
 	

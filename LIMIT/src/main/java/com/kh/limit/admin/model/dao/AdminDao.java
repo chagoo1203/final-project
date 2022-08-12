@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.vo.Notice;
 import com.kh.limit.common.model.vo.PageInfo;
@@ -16,7 +17,7 @@ public class AdminDao {
 		return sqlSession.insert("noticeMapper.insertQna", n);
 	}
 
-	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, String type, PageInfo pi) {
+	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -24,11 +25,11 @@ public class AdminDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 			
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", type);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
 	}
 
-	public int selectNotcieCount(SqlSessionTemplate sqlSession, String type) {
-		return sqlSession.selectOne("noticeMapper.selectNoticeCount", type);
+	public int selectNotcieCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectNoticeCount");
 	}
 
 	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
@@ -41,6 +42,20 @@ public class AdminDao {
 
 	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
 		return sqlSession.update("noticeMapper.updateNotice", n);
+	}
+
+	public int selectQnaCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectQnaCount");
+	}
+
+	public ArrayList<Notice> selectQnaList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+			
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectQnaList", null, rowBounds);
 	}
 
 
