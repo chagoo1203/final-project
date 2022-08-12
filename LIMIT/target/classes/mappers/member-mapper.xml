@@ -145,6 +145,7 @@
 			</otherwise>
 		</choose>
 			LIKE '%' || #{keyword} || '%'
+				AND TYPE_NO = 1
 	</select>
 	
   
