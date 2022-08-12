@@ -5,9 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자페이지</title>
 </head>
 <body>
+
+	<jsp:include page="../../common/menubar.jsp" />
+	<jsp:include page="../adminMenu.jsp" />
+	
+	
+	<br><br><br><br><br><br><br><br clear="both">
+	<jsp:include page="../../common/footer.jsp" />
 
 </body>
 </html>
