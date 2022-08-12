@@ -85,7 +85,7 @@
                         <option value="collectionName">컬렉션명</option>
                         <option value="productName">상품명</option>
                     </select>
-                    <input type="text" class="form-control" name="keyword">
+                    <input type="text" class="form-control" name="keyword" >
                 	<button type="submit" id="searchButton" class="searchBtn btn btn-secondary">검색</button>
                 </div>
 			</form>
@@ -134,6 +134,7 @@
 			}
 			
 		</script>
+
 	</div>	
 	<br clear="both">
 	<jsp:include page="../common/footer.jsp" />

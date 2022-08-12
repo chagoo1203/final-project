@@ -135,13 +135,14 @@
 		    		<span>원</span>
 		    	</div>
 		    	<div class="productButton">
-		    		<button type="button" class="btn btn-outline-success">구매</button>
-		    		<button type="button" class="btn btn-outline-danger">판매</button>
+		    		<button type="button" class="btn btn-outline-success buy">구매</button>
 		    		<input type="hidden" class="pno" name="productNo" value="${p.productNo}">
+		    		<button type="button" class="btn btn-outline-danger sell">판매</button>
 		    	</div>
 		    	<div class="interestProduct">
 		    		<button type="button" class="btn btn-outline-warning">관심 상품 ${p.likes}</button>
 		    	</div>
+		    	<hr>
 		    	<h3 class="infoName">상품 정보</h3>
 		    	<div class="detailInfo">
 		    		<div>
@@ -178,8 +179,8 @@
 	
 	<script>
            	$(function(){
-				$('.productButton >btn btn-outline-success').click(function(){
-					location.href = 'resellbuy.resell?pno=' + $(this).children('.pno').val();			
+				$('.productButton >.buy').click(function(){
+					location.href = 'resellBuy.resell?pno=' + $(this).next().val();			
 				})
            	})
     </script>

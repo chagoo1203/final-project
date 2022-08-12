@@ -33,5 +33,7 @@ public class Product {
 	private String resellPrice;
 	
 	private String titleImg;
+	private int resellNo;
+	private String productSize;
 
 }
