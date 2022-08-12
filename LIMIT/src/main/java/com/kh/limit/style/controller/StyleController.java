@@ -275,7 +275,38 @@ public class StyleController {
 		
 	}
 	
-
+	@ResponseBody
+	@RequestMapping("search.pd")
+	public String searchProductList(String keyWord) {
+	
+		ArrayList<Product> list = styleService.searchProductList(keyWord);
+		
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

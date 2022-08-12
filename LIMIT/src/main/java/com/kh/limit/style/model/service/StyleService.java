@@ -105,6 +105,11 @@ public class StyleService {
 	}
 
 
+	public ArrayList<Product> searchProductList(String keyWord) {
+		return styleDao.searchProductList(sqlSession, keyWord);
+	}
+
+
 	
 	
 	

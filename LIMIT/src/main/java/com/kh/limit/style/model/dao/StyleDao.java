@@ -85,6 +85,10 @@ public class StyleDao {
 		return (ArrayList)sqlSession.selectList("styleMapper.selectProductList", productNoList);
 	}
 
+	public ArrayList<Product> searchProductList(SqlSessionTemplate sqlSession, String keyWord) {
+		return (ArrayList)sqlSession.selectList("styleMapper.searchProductList", keyWord);
+	}
+
 	
 
 
