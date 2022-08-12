@@ -49,9 +49,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping("resellBuy.resell")
-	public ModelAndView selectDetailProduct(ModelAndView mv, int productNo) {
+	public ModelAndView selectDetailProduct(ModelAndView mv, int pno) {
 		
-		System.out.println(productNo);
+		Product p = productService.selectResellProduct(pno);
+		ArrayList<Product> list = productService.selectDetailProduct(pno);
+		
+		mv.addObject("list", list)
+		  .addObject("p", p)
+		  .setViewName("product/resellProductBuy");
 		
 		return mv;
 		

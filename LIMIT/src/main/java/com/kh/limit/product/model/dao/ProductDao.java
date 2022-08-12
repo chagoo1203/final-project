@@ -40,6 +40,11 @@ public class ProductDao {
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int productNo) {
 		return (ArrayList)sqlSession.selectList("productMapper.selectAttachmentList", productNo);
 	}
+
+
+	public ArrayList<Product> selectDetailProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.selectDetailProduct", productNo);
+	}
 	
 	
 
