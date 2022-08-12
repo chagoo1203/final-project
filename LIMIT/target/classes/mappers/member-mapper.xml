@@ -18,14 +18,23 @@
 	</resultMap>
 		<resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
-		<result column="BRAND_NAME" property="brandName" />
 		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
 		<result column="LIKES" property="likes" />
 		<result column="COUNT" property="count" />
 		<result column="STATUS" property="status" />
-		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="PRODUCT_WRITER" property="productWriter" />
+		<result column="TRADE_COUNT" property="tradeCount" />
 		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="BRAND_NAME" property="brandName" />
+		<result column="RELEASE_DATE" property="releaseDate" />
+		<result column="MODEL_NO" property="modelNo" />
+		<result column="COLLECTION_NAME" property="collectionName" />
 		<result column="TITLEIMG" property="titleImg" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="RESELL_PRICE" property="resellPrice" />
 	
 	</resultMap>
 	
@@ -102,6 +111,42 @@
 		   AND TYPE_NO = 1
 		 ORDER BY RELEASE_DATE DESC
 	</select>
+		<select id="selectSearchCount" resultType="_int" parameterType="hashmap">
+		SELECT COUNT(*)
+		FROM PRODUCT
+		WHERE STATUS = 'Y'
+		<if test="condition == 'brandName'">
+			AND BRAND_NAME
+		</if>
+		<if test="condition == 'collectionName'">
+			AND COLLECTION_NAME
+		</if>
+		<if test="condition == 'productName'">
+			AND PRODUCT_NAME
+		</if>
+			LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectSearchList" resultMap="productResultSet" parameterType="hashmap">
+		SELECT PRODUCT_NO, PRODUCT_NAME, FILE_PATH||CHANGE_NAME TITLEIMG, BRAND_NAME, PRODUCT_CONTENT, RESELL_PRICE
+		FROM PRODUCT P
+		JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
+	    JOIN RESELL_INFO USING(PRODUCT_NO)
+		WHERE P.STATUS = 'Y'
+		<choose>
+			<when test="condition == 'brandName'">
+				AND BRAND_NAME
+			</when>
+			<when test="condition == 'collectionName'">
+				AND COLLECTION_NAME
+			</when>
+			<otherwise>
+				AND PRODUCT_NAME
+			</otherwise>
+		</choose>
+			LIKE '%' || #{keyword} || '%'
+	</select>
+	
   
   
 </mapper>
