@@ -1,11 +1,13 @@
 package com.kh.limit.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.member.model.dao.MemberDao;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
@@ -37,5 +39,14 @@ public class MemberService {
 	public ArrayList<Product> selectTopBoardList() {
 		
 		return memberDao.selectTopBoardList(sqlSession);
+	}
+	
+	public int searchInput(HashMap<String, String> map){
+		return memberDao.searchInput(sqlSession, map);
+	}
+	
+	public ArrayList<Product> selectSearchList(HashMap<String, String> map, PageInfo pi) {
+		
+		return memberDao.selectSearchList(sqlSession, map, pi);
 	}
 }

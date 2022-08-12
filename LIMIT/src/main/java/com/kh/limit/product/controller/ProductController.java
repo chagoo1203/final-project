@@ -39,10 +39,19 @@ public class ProductController {
 			ArrayList<Attachment> list = productService.selectAttachmentList(pno);
 			mv.addObject("p", p)
 			  .addObject("list", list)
-			  .setViewName("product/resellDetailView");
+			  .setViewName("product/resellBoardDetailView");
 		} else {
 			mv.addObject("errorMsg", "비상~ 비상~").setViewName("common/errorPage");
 		}
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("resellBuy.resell")
+	public ModelAndView selectDetailProduct(ModelAndView mv, int productNo) {
+		
+		System.out.println(productNo);
 		
 		return mv;
 		
