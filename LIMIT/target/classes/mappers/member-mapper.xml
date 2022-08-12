@@ -141,7 +141,7 @@
 				AND COLLECTION_NAME
 			</when>
 			<otherwise>
-				AND PRODUCT_NAME
+				AND PRODUCT_NAME || PRODUCT_CONTENT
 			</otherwise>
 		</choose>
 			LIKE '%' || #{keyword} || '%'

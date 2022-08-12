@@ -19,6 +19,8 @@
            height:20%;
            border-top:1px solid lightgray;
            border-bottom:1px solid lightgray;
+           text-align:center;
+           
        }
        #footer-2 {width:100%; height:80%;}
        #footer-1, #footer-2 {padding-left:50px;}
@@ -33,6 +35,7 @@
            margin:0;
            padding:10px;
            font-size:13px;
+           text-align : center;
        }
        #p2 {text-align:center;}
 </style>
