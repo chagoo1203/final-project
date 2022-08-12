@@ -14,6 +14,7 @@
 		<result column ="BOARD_NO" property = "boardNo"/>
 		<result column ="BOARD_TITLE" property = "boardTitle"/>
 		<result column = "BOARD_CONTENT" property = "boardContent"/>
+		<result column = "BOARD_WRITER" property = "boardWriter"/>
 		<result column = "PRODUCT_TYPE_NAME" property = "productTypeName"/>
 		<result column = "BRAND_NAME" property = "brandName"/>
 		<result column = "COLLECTION_NAME" property = "collectionName"/>
@@ -21,8 +22,12 @@
 		<result column ="TITLEIMG" property = "titleImg"/>
 	</resultMap>
 	<resultMap type="attachment" id="attachmentSet">		
+		<result column ="FILE_NO" property="fileNo"/>
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="FILE_PATH" property="filePath"/>
+	</resultMap>
+	<resultMap type="interested" id="selectInterestedSet">
+		<result column="USED_NO" property="usedNo"/>
 	</resultMap>
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
@@ -76,7 +81,24 @@
 		SEQ_BNO.CURRVAL,
 		2)
 	</insert>
-	
+	<insert id="insertUpdateImgUsedBoard">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,
+		ORIGIN_NAME,
+		CHANGE_NAME,
+		FILE_PATH,
+		FILE_LEVEL,
+		REF_NO,
+		TYPE_NO)
+		VALUES
+		(SEQ_FNO.NEXTVAL,
+		#{originName},
+		#{changeName},
+		#{filePath},
+		#{fileLevel},
+		#{refNo},
+		2)
+	</insert>
 	<select id ="selectListCount" parameterType="selectUsedBoardVo" resultType ="_int">
 		SELECT COUNT(*) COUNT
 		FROM(
@@ -120,15 +142,71 @@
 	</select>
 	
 	<select id="selectBoardDetail" resultMap ="selectListSet" parameterType="_int">
-		SELECT BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, PRODUCT_TYPE_NAME, BRAND_NAME, COLLECTION_NAME, BOARD_WRITER, USED_PRICE
 		FROM USEDBOARD
 		WHERE BOARD_NO = #{boardNo}
+		AND STATUS = 'Y'
 	</select>
 	<select id="selectBoardDetailImges" resultMap ="attachmentSet" parameterType = "_int">
-		SELECT CHANGE_NAME, FILE_PATH
+		SELECT FILE_NO, CHANGE_NAME, FILE_PATH
+		FROM ATTACHMENT
+		WHERE REF_NO = #{boardNo}
+		AND TYPE_NO = 2	
+		ORDER BY FILE_NO ASC
+	</select>
+	<update id ="deleteUsedBoard" parameterType="_int">
+		UPDATE USEDBOARD
+		SET STATUS = 'N'
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="selectAttachments" resultMap ="attachmentSet" parameterType = "_int">
+		SELECT FILE_NO, CHANGE_NAME, FILE_PATH
 		FROM ATTACHMENT
 		WHERE REF_NO = #{boardNo}
 		AND TYPE_NO = 2
-		ORDER BY FILE_LEVEL ASC
+		ORDER BY FILE_NO ASC
 	</select>
+	<update id="updateAttachment" parameterType="attachment">
+		UPDATE ATTACHMENT
+		SET 
+			ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName},			
+			UPLOAD_DATE = SYSDATE
+		WHERE FILE_NO  = #{fileNo}
+	</update>
+	<delete id="deleteAttachment">
+		DELETE FROM ATTACHMENT
+		WHERE FILE_NO = #{fileNo}
+	</delete>
+	<update id="updateUsedBoard" parameterType ="usedBoard">
+		UPDATE USEDBOARD
+		SET 
+		    BOARD_TITLE = #{boardTitle},
+		    BOARD_CONTENT = #{boardContent},
+		    PRODUCT_TYPE_NAME = #{productTypeName},
+		    BRAND_NAME = #{brandName},
+		    COLLECTION_NAME = #{collectionName},
+		    USED_PRICE = #{usedPrice},
+		    MODIFY_DATE = SYSDATE
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	<insert id="tumbnailImgeUpdate" parameterType="_int">
+		UPDATE ATTACHMENT
+		SET 
+			FILE_LEVEL = 1
+		WHERE 
+			FILE_NO = #{fileNo}
+	</insert>
+	<select id="selectInterested" parameterType="interested" resultMap="selectInterestedSet">
+		SELECT USED_NO
+		FROM INTERESTED
+		WHERE USER_ID = #{userId} AND USED_NO = #{usedNo}
+	</select>
+	<insert id="insertInterested" parameterType="interested">
+		INSERT INTO INTERESTED (USER_ID, USED_NO)  VALUES(#{userId}, #{usedNo})
+	</insert>
+	<delete id="deleteInterested" parameterType="interested">
+		DELETE FROM INTERESTED WHERE USER_ID = #{userId} AND USED_NO =  #{usedNo}
+	</delete>
 </mapper>

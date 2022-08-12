@@ -23,7 +23,7 @@
             background-color: lightgray;
             margin: 0 auto;
         }
-        .header1{
+        #header1{
             text-align: right;
             border-bottom: 2px solid gray;
             height: 25%;
@@ -31,7 +31,7 @@
         .header2{
             height: 75%;
         }
-        .header1 > a{
+        #header1 > a{
             text-decoration: none;
             color : rgb(59, 59, 59);
             font-weight: 600;
@@ -59,6 +59,15 @@
             margin-top: 10px;            
             float: right;            
         }
+        #alogo{
+        	text-decoration : none;
+        	color : black;
+        }
+
+        #header2 a:hover{
+
+			background : pink;        	
+        }
     </style>
 </head>
 <body>
@@ -81,27 +90,31 @@
 		    	<c:choose>
 		    	<c:when test="${loginUser.userId eq 'admin' }">
 	                <!-- 로그인 후 -->
-	                <a href="customer.ct">고객센터</a>
-	                <a href="admin.ad">관리자페이지</a>
-	                <a href="logout.me">로그아웃</a>
+	                <div id="header1">
+		                <a href="customer.ct">고객센터</a>
+		                <a href="admin.ad">관리자페이지</a>
+		                <a href="logout.me">로그아웃</a>
+	                </div>
                 </c:when>
                 <c:otherwise>
 		                <!-- 로그인 후 -->
-		                <a href="customer.ct">고객센터</a>
-		                <a href="myPage.me">마이페이지</a>
-		                <a href="logout.me">로그아웃</a>
+		                <div id="header1">
+			                <a href="customer.ct">고객센터</a>
+			                <a href="myPage.me">마이페이지</a>
+			                <a href="logout.me">로그아웃</a>
+		                 </div>
 	            </c:otherwise>
 	            </c:choose>
             </c:otherwise>            
 		</c:choose>
         <div id="header2">
             <div id = "logo" align = "left">
-                LIM:IT
+                <a href="${pageContext.request.contextPath}" id="alogo">LIM:IT</a>
             </div>
             <div id ="boardTag" align = "right">
             	<a href="style.bo"> STYLE </a>
                 <a href="resellList.resell"> SHOP </a>
-                <a href="enrollForm.used"> USEDSHOP </a>
+                <a href="list.used"> USEDSHOP </a>
             </div>
         </div>
     </div>    

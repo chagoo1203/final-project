@@ -23,7 +23,7 @@
 
 	<div class="container-fluid">
 		  <div class="row">
-		    <div class="resellFilter" style="border : 1px solid red;">
+		    <div class="resellFilter">
 		    
                 <ul>
                	     카테고리 <br><br>
@@ -47,8 +47,8 @@
                 	<span>
                 		<c:forEach var="b" items="${brand}">
 	                		<div>
-		                        <input type="checkbox" name="${b.brandName}" id="${b.brandName}">
-		                        <label for="${b.brandName}">${b.brandName}</label>
+		                        <input type="checkbox" name="${b.commonName}" id="${b.commonName}">
+		                        <label for="${b.commonName}">${b.commonName}</label>
 	                        </div>
                         </c:forEach>
                 	</span>
@@ -58,8 +58,8 @@
                 	<span>
                 		<c:forEach var="c" items="${collection}">
 	                		<div>
-		                        <input type="checkbox" name="${c.collectionName}" id="${c.collectionName}">
-		                        <label for="${c.collectionName}">${c.collectionName}</label>
+		                        <input type="checkbox" name="${c.commonName}" id="${c.commonName}">
+		                        <label for="${c.commonName}">${c.commonName}</label>
 	                        </div>
                         </c:forEach>
                 	</span>

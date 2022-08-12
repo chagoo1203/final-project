@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.usedboard.model.vo.UsedBoard;
 @Repository
@@ -46,6 +47,47 @@ public class UsedBoardDao {
 
 	public ArrayList<Attachment> selectBoardDetailImges(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectBoardDetailImges", boardNo);
+	}
+
+	public int deleteUsedBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("usedBoardMapper.deleteUsedBoard", boardNo);
+	}
+
+	public ArrayList<Attachment> selectAttachments(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("usedBoardMapper.selectAttachments", boardNo);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment attachment) {
+		return sqlSession.update("usedBoardMapper.updateAttachment", attachment);
+	}
+
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.delete("usedBoardMapper.deleteAttachment", fileNo);
+	}
+
+	public int updateUsedBoard(SqlSessionTemplate sqlSession, UsedBoard board) {
+		return sqlSession.update("usedBoardMapper.updateUsedBoard", board);
+		
+	}
+
+	public int insertUpdateAttachment(SqlSessionTemplate sqlSession, Attachment img) {
+		return sqlSession.insert("usedBoardMapper.insertUpdateImgUsedBoard", img);
+	}
+
+	public int tumbnailImgeUpdate(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.update("usedBoardMapper.tumbnailImgeUpdate", fileNo);
+	}
+
+	public Interested selectInterested(SqlSessionTemplate sqlSession, Interested interested) {
+		return sqlSession.selectOne("usedBoardMapper.selectInterested", interested);
+	}
+	
+	public int insertInterested(SqlSessionTemplate sqlSession, Interested interested) {
+		return sqlSession.insert("usedBoardMapper.insertInterested", interested);		
+	}
+	
+	public int deleteInterested(SqlSessionTemplate sqlSession, Interested interested) {
+		return sqlSession.insert("usedBoardMapper.deleteInterested", interested);
 	}
 
 

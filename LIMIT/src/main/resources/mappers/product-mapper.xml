@@ -2,15 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="productMapper">
 
-	<select id="selectBrand" resultType="brand">
-	SELECT BRAND_NAME brandName
+	<resultMap type="commonName" id="brandSet">
+		<result column="BRAND_NAME" property="commonName"/>
+	</resultMap>
+	
+	<resultMap type="commonName" id="collectionSet">
+		<result column="COLLECTION_NAME" property="commonName" />
+	</resultMap>
+	
+	<resultMap type="product" id="productSet">
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
+		<result column="LIKES" property="likes" />
+		<result column="COUNT" property="count" />
+		<result column="STATUS" property="status" />
+		<result column="TRADE_COUNT" property="tradeCount" />
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="BRAND_NAME" property="brandName" />
+		<result column="RELEASE_DATE" property="releaseDate" />
+		<result column="RESELL_PRICE" property="resellPrice" />
+		<result column="TITLEIMG" property="titleImg" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="MODEL_NO" property="modelNo" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="PRODUCT_WRITER" property="productWriter" />
+	</resultMap>
+	
+	<resultMap type="attachment" id="attachmentSet">
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="FILE_PATH" property="filePath" />
+	</resultMap>
+
+	<select id="selectBrand" resultMap="brandSet">
+	SELECT BRAND_NAME
 	FROM BRAND ORDER BY BRAND_NAME ASC
 	</select>
 	
-	<select id="selectCollection" resultType="collectionInfo">
-	SELECT COLLECTION_NAME collectionName
+	<select id="selectCollection" resultMap="collectionSet">
+	SELECT COLLECTION_NAME
 	FROM COLLECTION ORDER BY COLLECTION_NAME ASC
 	</select>
 	
+	<select id="selectResellList" resultMap="productSet">
+	SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT, LIKES, COUNT, P.STATUS, TRADE_COUNT, PRODUCT_TYPE_NAME, BRAND_NAME, RELEASE_DATE, RESELL_PRICE, FILE_PATH||CHANGE_NAME TITLEIMG
+	FROM PRODUCT P
+	JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
+	JOIN RESELL_INFO USING(PRODUCT_NO)
+	WHERE P.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 1
+	</select>
+	
+	<update id="increaseCount">
+	UPDATE PRODUCT
+	SET COUNT = COUNT + 1
+	WHERE PRODUCT_NO = #{productNo}
+	AND STATUS = 'Y'
+	</update>
+	
+	<select id="selectResellProduct" resultMap="productSet">
+	SELECT *
+	FROM (SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT, LIKES, COUNT, P.STATUS, CREATE_DATE, MODIFY_DATE, PRODUCT_WRITER, TRADE_COUNT, PRODUCT_TYPE_NAME, BRAND_NAME, TO_CHAR(RELEASE_DATE, 'YYYY-MM-DD') AS "RELEASE_DATE", MODEL_NO, COLLECTION_NAME, RELEASE_PRICE, RESELL_PRICE
+		  FROM PRODUCT P
+		  JOIN RESELL_INFO USING(PRODUCT_NO)
+		  WHERE PRODUCT_NO = #{productNo} AND P.STATUS ='Y'
+	      ORDER BY RESELL_PRICE ASC)
+	WHERE ROWNUM = 1
+	</select>
+	
+	<select id="selectAttachmentList" resultMap="attachmentSet">
+	SELECT FILE_NO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH
+	FROM ATTACHMENT
+	WHERE REF_NO = #{productNo} 
+	AND FILE_LEVEL = 2
+	AND TYPE_NO = 1
+	</select>
 
 </mapper>
