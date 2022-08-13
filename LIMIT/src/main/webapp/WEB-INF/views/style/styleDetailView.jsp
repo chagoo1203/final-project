@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +41,105 @@
         li{
             list-style: none;
           }
+          
+          
+			          * {box-sizing: border-box}
+			body {font-family: Verdana, sans-serif; margin:0}
+			.mySlides {display: none}
+			img {vertical-align: middle;
+				
+				 
+				}
+			
+			/* Slideshow container */
+			.slideshow-container {
+			  max-width: 1000px;
+			  position: relative;
+			  margin: auto;
+			}
+			
+			/* Next & previous buttons */
+			.prev, .next {
+			  cursor: pointer;
+			  position: absolute;
+			  top: 50%;
+			  width: auto;
+			  padding: 16px;
+			  margin-top: -22px;
+			  color: white;
+			  font-weight: bold;
+			  font-size: 18px;
+			  transition: 0.6s ease;
+			  border-radius: 0 3px 3px 0;
+			  user-select: none;
+			}
+			
+			/* Position the "next button" to the right */
+			.next {
+			  right: 0;
+			  border-radius: 3px 0 0 3px;
+			}
+			
+			/* On hover, add a black background color with a little bit see-through */
+			.prev:hover, .next:hover {
+			  background-color: rgba(0,0,0,0.8);
+			}
+			
+			/* Caption text */
+			.text {
+			  color: #f2f2f2;
+			  font-size: 15px;
+			  padding: 8px 12px;
+			  position: absolute;
+			  bottom: 8px;
+			  width: 100%;
+			  text-align: center;
+			}
+			
+			/* Number text (1/3 etc) */
+			.numbertext {
+			  color: #f2f2f2;
+			  font-size: 12px;
+			  padding: 8px 12px;
+			  position: absolute;
+			  top: 0;
+			}
+			
+			/* The dots/bullets/indicators */
+			.dot {
+			  cursor: pointer;
+			  height: 15px;
+			  width: 15px;
+			  margin: 0 2px;
+			  background-color: #bbb;
+			  border-radius: 50%;
+			  display: inline-block;
+			  transition: background-color 0.6s ease;
+			}
+			
+			.active, .dot:hover {
+			  background-color: #717171;
+			}
+			
+			/* Fading animation */
+			.faded {
+			  animation-name: faded;
+			  animation-duration: 1.5s;
+			}
+			
+			@keyframes fade {
+			  from {opacity: .4} 
+			  to {opacity: 1}
+			}
+			
+			/* On smaller screens, decrease text size */
+			@media only screen and (max-width: 300px) {
+			  .prev, .next,.text {font-size: 11px}
+			}
+			          
+          
+          
+          
     </style>
 </head>
 <body>
@@ -52,32 +153,87 @@
         			<a href="updateForm.st?sno=${ s.styleNo }">수정</a>
         		</c:if>
         </div>
-        <div id="pictures">
-   
+        <div id="pictures" style="width:750px; height:600px">
+   				<div class="slideshow-container" style="width:100%; height:100%">
 
-	            <c:forEach var="att" items="${ attlist }">
-					<img src="${ att.filePath }" style="width:400px">       
-	            </c:forEach>
+						<c:forEach var="att" items="${ attlist }">
+						 	<c:set var = "i" value = "1"/>
+								<div class="mySlides faded" style="width:100%; height:100%" >
+								 	<div class="numbertext">${i} /  ${fn:length(attlist)}</div>
+									<img src="${ att.filePath }" style="width:100%; height:100%">      				
+								</div>
+							<c:set var = "i" value = "${i + 1}"/>  
+				        </c:forEach>
+				       
+						
+					
+						
+						<a class="prev" onclick="plusSlides(-1)">❮</a>
+						<a class="next" onclick="plusSlides(1)">❯</a>
+						
+						</div>
+						<br>
+						
+						<div style="text-align:center">
+							<c:set var = "i" value = "1"/>
+								<c:forEach var="d" items="${attlist }">
+									<span class="dot" onclick="currentSlide(${i})"></span> 
+									<c:set var = "i" value = "${i + 1}"/>  
+								</c:forEach>
+						</div>
+						
+						<script>
+						let slideIndex = 1;
+						showSlides(slideIndex);
+						
+						function plusSlides(n) {
+						  showSlides(slideIndex += n);
+						}
+						
+						function currentSlide(n) {
+						  showSlides(slideIndex = n);
+						}
+						
+						function showSlides(n) {
+						  let i;
+						  let slides = document.getElementsByClassName("mySlides");
+						  let dots = document.getElementsByClassName("dot");
+						  if (n > slides.length) {slideIndex = 1}    
+						  if (n < 1) {slideIndex = slides.length}
+						  for (i = 0; i < slides.length; i++) {
+						    slides[i].style.display = "none";  
+						  }
+						  for (i = 0; i < dots.length; i++) {
+						    dots[i].className = dots[i].className.replace(" active", "");
+						  }
+						  slides[slideIndex-1].style.display = "block";  
+						  dots[slideIndex-1].className += " active";
+						}
+						</script>
+			
+	          
 
         </div>
+        
+        <br><br><br><br><br>
         <div id="hash_tag">
+          	<hr>
             <p style="font-size: 19px;">${ s.styleContent }</p>
         </div>
+         <br style="clear : both;"/>
+           <br><br><br><br><br>
+      	<hr>
         <div id="product_tag">
+        	<p>태그 상품  ${ plist.size() }개</p>
             <ul>
-                <li>
-                    <a href="">
-                        <p class="product_name">Nike Air Force 1 '07 Low White </p>    
-                        <p class="price_box">132000원</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <p class="product_name">Jordan 1 Retro Low OG Black and Dark Powder Blue </p>    
-                        <p class="price_box">132000원</p>
-                    </a>
-                </li>
-            </ul>
+            	<c:forEach var="p" items="${ plist }">
+	                <li>
+	                    <a href="">
+	                        <p class="product_name">${ p.productName }</p>    
+	                        <p class="price_box"></p>
+	                    </a>
+	                </li>
+	            </c:forEach>
         </div>
         <div id="likes">
         	<table>

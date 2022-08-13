@@ -18,11 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.Attachment;
+import com.kh.limit.common.model.vo.Chat;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.common.template.Pagination;
+import static com.kh.limit.common.template.TextChat.*;
 import com.kh.limit.usedboard.model.service.UsedBoardService;
 import com.kh.limit.usedboard.model.vo.UsedBoard;
 
@@ -150,6 +152,57 @@ public class UsedBoardController {
 		mv.setViewName("redirect:list.used");
 		return mv;
 	}
+	@RequestMapping("aJaxNewChatFile.used") // MyChat이 아닌 연락하기 클릭 후 입장전 메모장을 생성해주는 메소드 메모장이 있어도 상관없음
+	@ResponseBody
+	public String aJaxNewChatFile(String userId, String boardWriter, ModelAndView mv) {			
+		chatFileInsert(userId + boardWriter, null);						
+		return "";
+	}	
+	
+	@RequestMapping(value = "aJaxloadToChatList.used", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String aJaxloadToChatList(String userId) {
+		//제목에 userId를 포함한 모든 메모장의 List를 반환하는 메소드 이 메소드는 chatList 입장시 사용한다.
+		String files[] = searchChat(userId);
+		if(files == null) return "N";
+		ArrayList<String>lastList = chatLastLine(files);
+		
+		String[] users = filesToUsers(files, userId);
+		String lastTexts[] = new String[lastList.size()];
+		int index = 0;
+		for(String s : lastList) {
+			lastTexts[index] = s;
+			index++;			
+		}
+		
+		String[][] list = {users, lastTexts};
+		
+		
+		return new Gson().toJson(list); 
+	}
+	
+	@RequestMapping(value = "aJaxLoadToTextList.used", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String aJaxLoadToTextList(String userId, String toUser) {
+		//대화방 클릭시 모든 대화를 불러오는 메소드  
+		System.out.println(searchChat(userId,toUser));
+		return new Gson().toJson(readChat(searchChat(userId,toUser)));
+	}
+	
+	@RequestMapping(value = "aJaxChatInsert.used", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public void aJaxChatInsert(String userId, String toUser, String text) {
+		//전송 클릭시 사용할 메소드
+		//전송한사람, 오늘 날짜, 내용 기입 
+		System.out.println(searchChat(userId, toUser));
+		chatFileInsert(searchChat(userId, toUser), new Gson().toJson(new Chat(text, "sysdate", userId)));
+		
+	}
+	@RequestMapping("chatListForm.used")
+	public String chatListForm() {
+		return "usedboard/usedBoardChat";
+	}
+	
 	public ArrayList<Attachment> saveFile(MultipartFile[] usedImg, HttpSession session) { //실제 넘어온 파일을 이름을 변경해서 서버에 업로드
 		//여러파일을 입력받고싶을때 mulitpartFile을 배열로 받는다 
 		String originName;
