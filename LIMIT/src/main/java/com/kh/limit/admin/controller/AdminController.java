@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.service.AdminService;
 import com.kh.limit.admin.model.vo.Notice;
+import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.product.model.vo.Product;
 
 @Controller
 public class AdminController {
@@ -135,6 +137,33 @@ public class AdminController {
 	
 		
 	
+	
+	
+	
+	// 리셀 상품 등록할수 있는 화면에 연결하는 메소드
+	@RequestMapping("productEnrollForm.rs")
+	public ModelAndView productEnrollForm(ModelAndView mv) {
+		
+		ArrayList<CommonName> categoryList = adminService.selectCategory();
+		ArrayList<CommonName> brandList = adminService.selectBrand();
+		ArrayList<CommonName> collectionList = adminService.selectCollection();
+		
+		mv.addObject("categoryList",categoryList)
+		  .addObject("brandList",brandList)
+		  .addObject("collectionList",collectionList)
+		  .setViewName("admin/adminProduct/adminProductEnrollForm");
+		
+		return mv;
+	}
+	
+	// 리셀 상품 등록 메소드
+	@RequestMapping("insertProduct.rs")
+	public ModelAndView insertProduct(Product product, ModelAndView mv){
+		
+		System.out.println(product);
+		
+		return null;
+	}
 	
 	
 	

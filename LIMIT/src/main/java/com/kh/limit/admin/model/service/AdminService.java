@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.dao.AdminDao;
 import com.kh.limit.admin.model.vo.Notice;
+import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 
 @Service
@@ -50,6 +51,18 @@ public class AdminService {
 
 	public ArrayList<Notice> selectQnaList(PageInfo pi) {
 		return adminDao.selectQnaList(sqlSession, pi);
+	}
+
+	public ArrayList<CommonName> selectCategory() {
+		return adminDao.selectCategory(sqlSession);
+	}
+
+	public ArrayList<CommonName> selectBrand() {
+		return adminDao.selectBrand(sqlSession);
+	}
+
+	public ArrayList<CommonName> selectCollection() {
+		return adminDao.selectCollection(sqlSession);
 	}
 
 	

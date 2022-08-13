@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminMapper">
 
+	<resultMap type="commonName" id="categorySet">
+		<result column="PRODUCT_TYPE_NAME" property="commonName"/>
+	</resultMap>
+	<resultMap type="commonName" id="brandSet">
+		<result column="BRAND_NAME" property="commonName"/>
+	</resultMap>
+	<resultMap type="commonName" id="collectionSet">
+		<result column="COLLECTION_NAME" property="commonName"/>
+	</resultMap>
+
+	<select id = "selectCategory" resultMap = "categorySet">
+		SELECT *
+		FROM "CATEGORY"
+	</select>
+	
+	<select id = "selectBrand" resultMap = "brandSet">
+		SELECT *
+		FROM BRAND
+	</select>
+	
+	<select id = "selectCollection" resultMap = "collectionSet">
+		SELECT *
+		FROM COLLECTION
+	</select>
 
  
 </mapper>

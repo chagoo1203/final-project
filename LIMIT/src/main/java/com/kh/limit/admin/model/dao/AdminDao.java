@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.vo.Notice;
+import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 
 @Repository
@@ -56,6 +57,18 @@ public class AdminDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 			
 		return (ArrayList)sqlSession.selectList("noticeMapper.selectQnaList", null, rowBounds);
+	}
+
+	public ArrayList<CommonName> selectCategory(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectCategory");
+	}
+
+	public ArrayList<CommonName> selectBrand(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectBrand");
+	}
+
+	public ArrayList<CommonName> selectCollection(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectCollection");
 	}
 
 
