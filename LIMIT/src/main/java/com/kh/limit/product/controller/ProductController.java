@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.common.model.vo.Attachment;
+import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.product.model.service.ProductService;
 import com.kh.limit.product.model.vo.Product;
 
@@ -59,6 +61,28 @@ public class ProductController {
 		  .setViewName("product/resellProductBuy");
 		
 		return mv;
+		
+	}
+	
+	@RequestMapping("insertInterest.resell")
+	public String insertInterestProduct(Interested i, Model model) {
+		
+		int count = productService.selectInterestProduct(i); 
+		
+		int result = 0;
+		
+		if(count > 0) {
+			result = productService.deleteInterestProduct(i) * productService.reduceInterestProduct(i);
+		} else {
+			result = productService.insertInterestProduct(i) * productService.updateInterestProduct(i);
+		}
+		
+		if(result > 0) {
+			return "redirect:/resellDetail.resell?pno=" + i.getProductNo();
+		} else {
+			model.addAttribute("errorMsg", "비상~");
+			return "common/errorPage";
+		}
 		
 	}
 

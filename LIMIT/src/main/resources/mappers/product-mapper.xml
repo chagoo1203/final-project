@@ -96,5 +96,40 @@
 	AND (A.RESELL_PRICE = B.RESELL_PRICE)
 	ORDER BY PRODUCT_SIZE ASC
 	</select>
+	
+	<select id="selectInterestProduct" parameterType="interested" resultType="_int">
+	SELECT COUNT(*)
+	FROM INTERESTED
+	WHERE USER_ID = #{userId}
+	AND PRODUCT_NO = #{productNo}
+	</select>
+	
+	<insert id="insertInterestProduct" parameterType="interested">
+	INSERT
+	  INTO INTERESTED
+	  	   (
+	  	   USER_ID,
+	  	   PRODUCT_NO
+	  	   )
+	VALUES 
+		   (
+		   #{userId},
+		   #{productNo}
+		   )
+	</insert>
+	
+	<update id="updateInterestProduct" parameterType="interested">
+	UPDATE PRODUCT SET LIKES = LIKES + 1 WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+	<delete id="deleteInterestProduct" parameterType="interested">
+	DELETE FROM INTERESTED
+	WHERE USER_ID = #{userId}
+	AND PRODUCT_NO = #{productNo}
+	</delete>
+	
+	<update id="reduceInterestProduct" parameterType="interested">
+	UPDATE PRODUCT SET LIKES = LIKES - 1 WHERE PRODUCT_NO = #{productNo}
+	</update>
 
 </mapper>

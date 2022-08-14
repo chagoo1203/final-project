@@ -74,7 +74,7 @@
 		height : 70px;
 		display : inline-block;
 	}
-	.interestProduct > button{
+	.interestProduct  button{
 		width : 548px;
 		margin-top : 10px;
 	}
@@ -139,9 +139,15 @@
 		    		<input type="hidden" class="pno" name="productNo" value="${p.productNo}">
 		    		<button type="button" class="btn btn-outline-danger sell">판매</button>
 		    	</div>
+		    	<c:if test="${loginUser.userId != null}">
 		    	<div class="interestProduct">
-		    		<button type="button" class="btn btn-outline-warning">관심 상품 ${p.likes}</button>
+		    		<form id="insertInterest" method="get" action="">
+		    			<input type="hidden" class="userId" name="userId" value="${loginUser.userId}">
+		    			<input type="hidden" class="pno" name="productNo" value="${p.productNo}">
+			    		<button type="submit" class="btn btn-outline-warning interest");">관심 상품 ${p.likes}</button>
+		    		</form>
 		    	</div>
+		    	</c:if>
 		    	<hr>
 		    	<h3 class="infoName">상품 정보</h3>
 		    	<div class="detailInfo">
@@ -183,6 +189,15 @@
 					location.href = 'resellBuy.resell?pno=' + $(this).next().val();			
 				})
            	})
+           	
+           	$(function(){
+           		$('#insertInterest').click(function(){
+           			
+           				$('#insertInterest').attr('action', 'insertInterest.resell');
+           			
+           		})
+           	})
+           	
     </script>
 	
 	<jsp:include page="../common/footer.jsp" />
