@@ -115,6 +115,7 @@
 									console.log(result);
 									$('#checkResult').show();
 									$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
+									ok1 = "N";
 								}else{ //사용가능
 									console.log(result);
 									var regExpId = /^[a-z]+[a-z0-9]{5,19}$/g;
@@ -122,6 +123,7 @@
 									if(!regExpId.test($idInput.val())){ //정규식에 맞지 않는 경우
 										$('#checkResult').show();
 										$('#checkResult').css('color', 'orangered').text('형식을 맞춰주세요');
+										ok1 = "N";
 									}else{
 										$('#checkResult').show();
 										$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디입니다');
@@ -135,6 +137,7 @@
 						});					
 					}else{
 					    $('#checkResult').hide();
+					    ok1 = "N";
 				    }	
 					//console.log(ok1);
 					return ok1;
@@ -151,6 +154,7 @@
 					if(!regExpPwd.test($pwdInput.val())){			
 						$('#inputPw').show();
 						$('#inputPw').css('color', 'orangered').text('형식을 맞춰주세요');
+						ok2 = "N";
 					}else{
 						$('#inputPw').show();
 						$('#inputPw').css('color', 'yellowgreen').text('사용가능한 비밀번호입니다');
@@ -158,6 +162,7 @@
 					}
 				}else{
 					$('#inputPw').hide();
+					ok2 = "N";
 				}
 			return ok2;
 		}
@@ -172,6 +177,7 @@
 		 			if($pwdInput.val() != $rePwd.val()){
 		 				$('#checkPw').show();
 						$('#checkPw').css('color', 'orangered').text('비밀번호가 일치하지 않습니다');
+						ok3 = "N";
 		 			}else{
 		 				$('#checkPw').show();
 						$('#checkPw').css('color', 'yellowgreen').text('비밀번호가 일치합니다');
@@ -180,6 +186,7 @@
 		 		}else{
 		 			$('#checkPw').show();
 		 			$('#checkPw').css('color', 'black').text('위 비밀번호와 같이 입력해주세요');
+		 			ok3 = "N";
 		 		}
 	 		return ok3;
 		}
@@ -193,9 +200,11 @@
 				if(!regExpName.test($userName.val())){
 					if($userName.val() == ""){
 						$('#namecheck').hide();
+						ok4 = "N";
 					}else{
 						$('#namecheck').show();
 						$('#namecheck').css('color', 'orangered').text('한글 외에 다른 것을 입력하셨습니다.');
+						ok4 = "N";
 					}
 				}else{
 					$('#namecheck').show();
@@ -218,6 +227,7 @@
 					}else{
 						$('#birthcheck').show();
 						$('#birthcheck').css('color', 'orangered').text('형식이 잘못되었습니다');
+						ok5 = "N";
 					}
 				}else{
 					$('#birthcheck').show();
@@ -237,9 +247,11 @@
 					//console.log($phone)
 					if($phone.val() == ""){
 						$('#phonecheck').hide();
+						ok6 = "N";
 					}else{
 						$('#phonecheck').show();
 						$('#phonecheck').css('color', 'orangered').text('형식이 잘못되었습니다');
+						ok6 = "N";
 					}
 				}else{
 					$('#phonecheck').show();
@@ -266,12 +278,14 @@
 								if(result1 == 'NNNNN'){
 									$('#nickCheck').show();
 									$('#nickCheck').css('color', 'orangered').text('이미 중복된 닉네임이 존재합니다');
+									ok7 = "N";
 								}else{ //사용가능
 									var regExpNick = /^[가-힣]{2,8}$/
 									
 									if(!regExpNick.test($nickName.val())){ //정규식에 맞지 않는 경우
 										$('#nickCheck').show();
 										$('#nickCheck').css('color', 'orangered').text('한글만 입력해주세요');
+										ok7 = "N";
 									}else{
 										$('#nickCheck').show();
 										$('#nickCheck').css('color', 'yellowgreen').text('사용가능한 닉네임입니다');
@@ -281,11 +295,13 @@
 							},
 							error : function(){
 								console.log("닉네임 중복쳌 실패");
+								ok7 = "N";
 							}
 						});
 					}else{
 						$('#nickCheck').show();
 						$('#nickCheck').css('color', 'orangered').text('2이상 8이하여야 합니다');
+						ok7 = "N";
 					}
 			return ok7;
 		}
@@ -299,9 +315,11 @@
 					if(!regExpGender.test($genderCheck.val())){
 						if($genderCheck.val() == ""){
 							$('#genderCheck').hide();
+							ok8 = "N";
 						}else{
 							$('#genderCheck').show();
 							$('#genderCheck').css('color', 'orangered').text('대문자 F 또는 M 만 입력 해주세요');
+							ok8 = "N";
 						}
 					}else{
 						$('#genderCheck').show();
