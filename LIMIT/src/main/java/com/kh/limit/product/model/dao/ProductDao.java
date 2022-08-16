@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.Interested;
+import com.kh.limit.common.model.vo.ResellInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.vo.Product;
 
 
@@ -45,6 +48,41 @@ public class ProductDao {
 	public ArrayList<Product> selectDetailProduct(SqlSessionTemplate sqlSession, int productNo) {
 		return (ArrayList)sqlSession.selectList("productMapper.selectDetailProduct", productNo);
 	}
+
+	public int selectInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
+		return sqlSession.selectOne("productMapper.selectInterestProduct", i);
+	}
+
+	public int insertInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
+		return sqlSession.insert("productMapper.insertInterestProduct", i);
+	}
+
+	public int deleteInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
+		return sqlSession.delete("productMapper.deleteInterestProduct", i);
+	}
+
+
+	public int updateInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
+		return sqlSession.update("productMapper.updateInterestProduct", i);
+	}
+
+
+	public int reduceInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
+		return sqlSession.update("productMapper.reduceInterestProduct", i);
+	}
+
+
+	public int insertSellProduct(SqlSessionTemplate sqlSession, ResellInfo ri) {
+		return sqlSession.insert("productMapper.insertSellProduct", ri);
+	}
+
+
+	public ArrayList<Trade> priceGraph(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraph", productNo);
+	}
+
+
+	
 	
 	
 
