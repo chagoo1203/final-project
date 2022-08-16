@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.Interested;
+import com.kh.limit.common.model.vo.ResellInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.vo.Product;
 
 
@@ -67,6 +69,16 @@ public class ProductDao {
 
 	public int reduceInterestProduct(SqlSessionTemplate sqlSession, Interested i) {
 		return sqlSession.update("productMapper.reduceInterestProduct", i);
+	}
+
+
+	public int insertSellProduct(SqlSessionTemplate sqlSession, ResellInfo ri) {
+		return sqlSession.insert("productMapper.insertSellProduct", ri);
+	}
+
+
+	public ArrayList<Trade> priceGraph(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraph", productNo);
 	}
 
 

@@ -32,6 +32,11 @@
 		<result column="PRODUCT_SIZE" property="productSize" />
 	</resultMap>
 	
+	<resultMap type="trade" id="tradeSet">
+		<result column="PAYMENT" property="payment" />
+		<result column="PURCHASE_DATE" property="purchaseDate" />
+	</resultMap>
+	
 	<resultMap type="attachment" id="attachmentSet">
 		<result column="CHANGE_NAME" property="changeName" />
 		<result column="FILE_PATH" property="filePath" />
@@ -131,5 +136,20 @@
 	<update id="reduceInterestProduct" parameterType="interested">
 	UPDATE PRODUCT SET LIKES = LIKES - 1 WHERE PRODUCT_NO = #{productNo}
 	</update>
+	
+	<insert id="insertSellProduct" parameterType="resellInfo">
+	INSERT INTO RESELL_INFO(RESELL_NO, PRODUCT_NO, SELLER, PRODUCT_SIZE, PRODUCT_AMOUNT, RESELL_UPLOAD_DATE, RESELL_PRICE)
+	VALUES(SEQ_RSNO.NEXTVAL, #{productNo}, #{seller}, #{productSize}, 1, SYSDATE, #{resellPrice})
+	</insert>
+	
+	<select id="priceGraph" resultMap="tradeSet">
+	SELECT PAYMENT, PURCHASE_DATE
+	FROM TRADE
+	WHERE PRODUCT_NO = #{productNo}
+	AND PURCHASE_DATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
+	AND STATUS = 'Y'
+	AND DELIVERY = 'E'
+	ORDER BY PURCHASE_DATE ASC
+	</select>
 
 </mapper>

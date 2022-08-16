@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
 	#resellWrap{
            width : 1200px;
@@ -137,7 +138,9 @@
 		    	<div class="productButton">
 		    		<button type="button" class="btn btn-outline-success buy">구매</button>
 		    		<input type="hidden" class="pno" name="productNo" value="${p.productNo}">
+		    		<c:if test="${loginUser.userId != null}">
 		    		<button type="button" class="btn btn-outline-danger sell">판매</button>
+		    		</c:if>
 		    	</div>
 		    	<c:if test="${loginUser.userId != null}">
 		    	<div class="interestProduct">
@@ -165,7 +168,8 @@
 		    		</div>
 		    	</div>
 		    	<div class="priceGraph">
-		    		어쩌면 시세그래프가 들어갈 자리
+		    		시세 그래프
+		    		<canvas id="line-chart" width="550" height="350"></canvas>
 		    	</div>
 		    </div>
 		  </div>
@@ -191,12 +195,68 @@
            	})
            	
            	$(function(){
+           		$('.productButton >.sell').click(function(){
+           			location.href = 'resellSell.resell?pno=' + $(this).prev().val();
+           		})
+           	})
+           	
+           	$(function(){
            		$('#insertInterest').click(function(){
            			
            				$('#insertInterest').attr('action', 'insertInterest.resell');
            			
            		})
            	})
+           	
+           	$(document).ready(function(){
+           		getGraph();
+           	});
+           	
+           	function getGraph(){
+           		let timeList = [];
+           		let priceList = [];
+           		
+           		$.ajax({
+           			url:"priceGraph.resell",
+           			type:"get",
+           			data : {productNo : $('.pno').val()},
+           			dataType : "json",
+           			success:function(data){
+           				console.log(data);
+           				for(let i = 0; i < data.length; i++){
+           					timeList.push(data[i].purchaseDate);
+           					priceList.push(data[i].payment);
+           				}
+           				console.log(timeList);
+           				console.log(priceList);
+           				new Chart(document.getElementById("line-chart"),{
+           					type : 'line',
+           					data : {
+           						labels : "시세 그래프",
+           						datasets : [{
+           							data : priceList,
+           							label : "가격",
+           							borderColor : "#000000",
+           							fill : false
+           						}]
+           					},
+           					options : {
+           						title : {
+           							display : true,
+           							text : "과연?"
+           						}
+           					}
+           					
+           				});
+           				
+           			},
+           			error:function(){
+           				console.log("ㄲㅂ");
+           			}
+           			
+           		})
+           		
+           	}
            	
     </script>
 	

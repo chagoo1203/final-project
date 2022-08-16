@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.Interested;
+import com.kh.limit.common.model.vo.ResellInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.dao.ProductDao;
 import com.kh.limit.product.model.vo.Product;
 
@@ -67,6 +69,14 @@ public class ProductService {
 
 	public int reduceInterestProduct(Interested i) {
 		return productDao.reduceInterestProduct(sqlSession, i);
+	}
+
+	public int insertSellProduct(ResellInfo ri) {
+		return productDao.insertSellProduct(sqlSession, ri);
+	}
+
+	public ArrayList<Trade> priceGraph(int productNo) {
+		return productDao.priceGraph(sqlSession, productNo);
 	}
 
 }
