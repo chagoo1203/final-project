@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
+import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.product.model.dao.ProductDao;
 import com.kh.limit.product.model.vo.Product;
 
@@ -42,6 +43,30 @@ public class ProductService {
 
 	public ArrayList<Attachment> selectAttachmentList(int productNo) {
 		return productDao.selectAttachmentList(sqlSession, productNo);
+	}
+
+	public ArrayList<Product> selectDetailProduct(int productNo) {
+		return productDao.selectDetailProduct(sqlSession, productNo);
+	}
+
+	public int insertInterestProduct(Interested i) {
+		return productDao.insertInterestProduct(sqlSession, i);
+	}
+
+	public int selectInterestProduct(Interested i) {
+		return productDao.selectInterestProduct(sqlSession, i);
+	}
+
+	public int deleteInterestProduct(Interested i) {
+		return productDao.deleteInterestProduct(sqlSession, i);
+	}
+
+	public int updateInterestProduct(Interested i) {
+		return productDao.updateInterestProduct(sqlSession, i);
+	}
+
+	public int reduceInterestProduct(Interested i) {
+		return productDao.reduceInterestProduct(sqlSession, i);
 	}
 
 }
