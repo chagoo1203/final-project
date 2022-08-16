@@ -10,21 +10,21 @@
 		<result column="CREATE_DATE" property="createDate" />
 	</resultMap>
 
-	<select id="selectNoticeCount" parameterType="string" resultType="_int">
+	<select id="selectNoticeCount" resultType="_int">
 		SELECT COUNT(*)
   		  FROM NOTICE
   		 WHERE STATUS = 'Y'
-  		 	<choose>
-  		 		<when test="type == Q">
-		  		   AND NOTICE_TYPE = 'Q'
-  		 		</when>
-  		 		<otherwise>
-  		   		   AND NOTICE_TYPE = 'N'	
-  		 		</otherwise>
-  		 	</choose>
+		   AND NOTICE_TYPE = 'N'	
 	</select> 
 	
-	<select id="selectList" parameterType="string" resultMap="noticeResultSet">
+	<select id="selectQnaCount" resultType="_int">
+		SELECT COUNT(*)
+  		  FROM NOTICE
+  		 WHERE STATUS = 'Y'
+  		   AND NOTICE_TYPE = 'Q'
+	</select>
+	
+	<select id="selectQnaList" resultMap="noticeResultSet">
 		SELECT 
         		NOTICE_NO,
         		NOTICE_TITLE
@@ -32,14 +32,8 @@
         		NOTICE
  		 WHERE
         		STATUS = 'Y'
-        	<choose>
-  		 		<when test="type == Q">
-  		 			AND NOTICE_TYPE = 'Q'
-  		 		</when>
-  		 		<otherwise>
-  		   		   AND NOTICE_TYPE = 'N'	
-  		 		</otherwise>
-  		 	</choose>
+      
+  		 		AND NOTICE_TYPE = 'Q'
  		 ORDER 
  		    BY  CREATE_DATE DESC
 	</select>
@@ -58,7 +52,7 @@
    		    	STATUS = 'Y'
 	</select>
 	
-	<insert id="insertQna" parameterType="notice">
+	<insert id="insertNotice" parameterType="notice">
 		INSERT
 		  INTO
 		  		NOTICE
@@ -77,7 +71,7 @@
 		 		)
 	</insert>
 	
-	<select id="selectNoticeList" parameterType="string" resultMap="noticeResultSet">
+	<select id="selectNoticeList" resultMap="noticeResultSet">
 		SELECT 
         		NOTICE_NO,
 			    NOTICE_TITLE,
@@ -87,14 +81,7 @@
         		NOTICE
  		 WHERE
         		STATUS = 'Y'
-        	<choose>
-  		 		<when test="type == Q">
-  		 			AND NOTICE_TYPE = 'Q'
-  		 		</when>
-  		 		<otherwise>
-  		   		   AND NOTICE_TYPE = 'N'	
-  		 		</otherwise>
-  		 	</choose>
+  		   AND  NOTICE_TYPE = 'N'
  		 ORDER 
  		    BY  NOTICE_NO ASC
 	</select>
@@ -130,6 +117,7 @@
    		   AND 
    		   		STATUS = 'Y'
 	</update>
+	
 	
 	
 	

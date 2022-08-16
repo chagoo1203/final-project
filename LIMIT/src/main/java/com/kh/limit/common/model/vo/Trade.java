@@ -13,7 +13,7 @@ public class Trade {
 	private String recevierPhone; 
 	private String recevierAddress; 
 	private String orderComment; 
-	private String paymemnt; 
+	private String payment; 
 	private String purchaseDate; 
 	private String status; 
 	private String delivery; 

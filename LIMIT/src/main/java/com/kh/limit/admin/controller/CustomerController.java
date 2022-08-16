@@ -19,13 +19,13 @@ public class CustomerController {
 	
 	// 고객센터 Q&A 리스트 
 	@RequestMapping("customer.ct")
-	public ModelAndView qnaSelectList(@RequestParam(value="qpage", defaultValue="1") int currentPage,
-									  @RequestParam(value="type", defaultValue="Q") String type, ModelAndView mv) {
+	public ModelAndView qnaSelectList(@RequestParam(value="qpage", defaultValue="1") 
+									  int currentPage, ModelAndView mv) {
 		
-		PageInfo pi = Pagination.getPageInfo(customerService.selectNoticeCount(type), currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(customerService.selectQnaCount(), currentPage, 5, 10);
 		
 		mv.addObject("pi", pi)
-		  .addObject("list", customerService.selectList(pi,type))
+		  .addObject("list", customerService.selectQnaList(pi))
 		  .setViewName("notice/qnaListView");
 		
 		return mv;
@@ -47,24 +47,36 @@ public class CustomerController {
 		return mv;
 	}
 		
-
-	
-		
-		
-		
-		
-		
-	
 	// 고객센터 공지사항 리스트
 	@RequestMapping("notice.ct")
-	public ModelAndView noticeSelectList(@RequestParam(value="npage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView noticeSelectList(@RequestParam(value="npage", defaultValue="1") 
+										 int currentPage, ModelAndView mv) {
 		
-		String type = "N";
-		
-		mv.setViewName("notice/noticeListView");
+		PageInfo pi = Pagination.getPageInfo(customerService.selectNoticeCount(), currentPage, 5, 10);
+														
+		mv.addObject("pi", pi)
+		  .addObject("list", customerService.selectNoticeList(pi))
+		  .setViewName("notice/noticeListView");
 		
 		return mv;
 	}
 	
+	// 고객센터 Q&A 글 상세 보기
+		@RequestMapping("detail.cno")
+		public ModelAndView selectNotice(int nno, ModelAndView mv) {
+			
+			// 해당 Q&A의 조회수 증가용 서비스를 호출 결과 받기 (update)
+			int result = customerService.increaseCount(nno);
+			
+			if(result > 0 ) {	//조회수 증가 성공
+				Notice n = customerService.selectNotice(nno);
+				mv.addObject("n", n).setViewName("notice/noticeDetailView");
+			} else {
+				mv.addObject("errorMsg", "Q&A 게시글 조회 실패").setViewName("common/errorPage");
+			}
+			return mv;
+		}
+	
+
 	
 }

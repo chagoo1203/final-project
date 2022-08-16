@@ -48,7 +48,7 @@
         <hr>
         <br>
         <div class="container">
-        	<table class="table" id="noticeList">
+        	<table class="table" id="qnaList">
         		<tbody>
         			<c:forEach var="n" items="${list}">
 		                <tr>
@@ -65,7 +65,7 @@
         <!-- Q&A 리스트 클릭시 Q&A 상세 페이지로 이동할수 있는 스크립트 -->
         <script>
          	$(function(){
-         		$("#noticeList>tbody>tr").click(function(){
+         		$("#qnaList>tbody>tr").click(function(){
          			// 클릭될때마다 url 요청 
          			var qno = $(this).children().eq(0).val();
          			

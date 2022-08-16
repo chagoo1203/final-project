@@ -60,7 +60,6 @@
 	<div id="resellWrap">
 	
 		<div id="shopMenu">구매하기</div>
-	
 			<div class="productInfo">
 				<p class="name">${p.productName}</p>
 				<p class="content">${p.productContent}</p>
@@ -75,8 +74,6 @@
 					</div>
 				</c:forEach>
 			</div>
-	
-	
 	</div>
 	
 	<jsp:include page="../common/footer.jsp" />

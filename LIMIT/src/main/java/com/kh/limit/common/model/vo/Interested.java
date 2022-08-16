@@ -15,6 +15,6 @@ public class Interested {
 		super();
 		this.userId = userId;
 		this.usedNo = usedNo;
-	} 
+	}
 	
 }

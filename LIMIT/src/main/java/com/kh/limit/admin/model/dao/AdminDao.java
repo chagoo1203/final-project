@@ -1,22 +1,28 @@
 package com.kh.limit.admin.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.vo.Notice;
+import com.kh.limit.common.model.vo.Attachment;
+import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.product.model.vo.Product;
 
 @Repository
 public class AdminDao {
 
 	public int insertQna(SqlSessionTemplate sqlSession, Notice n) {
-		return sqlSession.insert("noticeMapper.insertQna", n);
+		return sqlSession.insert("noticeMapper.insertNotice", n);
 	}
 
-	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, String type, PageInfo pi) {
+	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -24,11 +30,11 @@ public class AdminDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 			
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", type);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
 	}
 
-	public int selectNotcieCount(SqlSessionTemplate sqlSession, String type) {
-		return sqlSession.selectOne("noticeMapper.selectNoticeCount", type);
+	public int selectNotcieCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectNoticeCount");
 	}
 
 	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
@@ -41,6 +47,85 @@ public class AdminDao {
 
 	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
 		return sqlSession.update("noticeMapper.updateNotice", n);
+	}
+
+	public int selectQnaCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectQnaCount");
+	}
+
+	public ArrayList<Notice> selectQnaList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+			
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectQnaList", null, rowBounds);
+	}
+
+	public ArrayList<CommonName> selectCategory(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectCategory");
+	}
+
+	public ArrayList<CommonName> selectBrand(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectBrand");
+	}
+
+	public ArrayList<CommonName> selectCollection(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectCollection");
+	}
+
+	public int insertProduct(SqlSessionTemplate sqlSession, Product product) {
+		return sqlSession.insert("adminMapper.insertProduct", product);
+	}
+
+	public Product selectProduct(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectProduct");
+	}
+
+	public int insertResellImges(SqlSessionTemplate sqlSession, Attachment img) {
+		return sqlSession.insert("adminMapper.insertResellImges", img);
+	}
+
+	public int insertNotice(SqlSessionTemplate sqlSession, Notice n) {
+		return sqlSession.insert("noticeMapper.insertNotice", n);
+	}
+
+	public int insertSize(SqlSessionTemplate sqlSession, ArrayList<ProductResell> list) {
+		
+		for(ProductResell ps : list) {
+			System.out.println(ps);
+		}
+		
+		return sqlSession.insert("adminMapper.insertSize", list);
+	}
+
+	public ArrayList<Product> selectProductList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.selectProductList", null, rowBounds);
+	}
+
+	public int selectProdCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectProdCount");
+	}
+
+	public int searchProdCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("adminMapper.searchProdCount", map);
+	}
+
+	public ArrayList<Product> searchProdList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.searchProdList", map, rowBounds);
 	}
 
 
