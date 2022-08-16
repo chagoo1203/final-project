@@ -24,5 +24,16 @@ public class Member {
 	private String modifyDate;
 	private String status;
 	private String nickName;
+	public Member(String userId, String userName, String email, String gender, String birthDate, String phone,
+			String nickName) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.email = email;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.phone = phone;
+		this.nickName = nickName;
+	}
 	
 }
