@@ -187,7 +187,30 @@
    </select>
 
 	
-	
-	
- 
+	<select id ="selectShoosePayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '신발'
+	</select>
+	<select id ="selectOtherPayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '기타'
+	</select>
+	<select id ="selectClothingPayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '의류'
+	</select>
+ 	
+ 	<select id = "selectSumPayment" resultType="string" parameterType="hashmap">
+ 		SELECT SUM(PAYMENT)
+		FROM TRADE
+		WHERE STATUS = 'Y' AND 
+		PURCHASE_DATE BETWEEN TO_DATE(#{minDate}, 'YYYY-MM-DD') 
+		                  AND TO_DATE(#{maxDate}, 'YYYY-MM-DD')
+ 	</select>
 </mapper>

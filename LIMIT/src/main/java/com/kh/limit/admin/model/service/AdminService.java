@@ -110,6 +110,23 @@ public class AdminService {
 		return adminDao.searchProdList(sqlSession, map, pi);
 	}
 
+	public String selectClothingPayment() {
+		return adminDao.selectClothingPayment(sqlSession);
+	}
+
+	public String selectShoosePayment() {
+		return adminDao.selectShoosePayment(sqlSession);
+	}
+
+	public String selectOtherPayment() {
+		return adminDao.selectOtherPayment(sqlSession);
+	}
+	
+
+	public String selectSumPayment(HashMap<String, String> dates) {
+		return adminDao.selectSumPayment(sqlSession, dates);
+	}
+
 	
 	
 	
