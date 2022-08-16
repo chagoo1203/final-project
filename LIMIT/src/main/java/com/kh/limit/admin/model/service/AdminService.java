@@ -1,6 +1,7 @@
 package com.kh.limit.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.limit.admin.model.dao.AdminDao;
 import com.kh.limit.admin.model.vo.Notice;
+import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.product.model.vo.Product;
 
 @Service
 public class AdminService {
@@ -63,6 +67,47 @@ public class AdminService {
 
 	public ArrayList<CommonName> selectCollection() {
 		return adminDao.selectCollection(sqlSession);
+	}
+
+	public int insertProduct(Product product) {
+		return adminDao.insertProduct(sqlSession, product);
+	}
+
+	public Product selectProduct() {
+		return adminDao.selectProduct(sqlSession);
+	}
+
+	public int insertResellImges(ArrayList<Attachment> imgList) {
+		int result = 1;
+		
+		for(Attachment img : imgList) {
+			result *= adminDao.insertResellImges(sqlSession, img);
+		}
+		return result;
+	}
+
+	public int insertNotice(Notice n) {
+		return adminDao.insertNotice(sqlSession, n);
+	}
+
+	public int insertSize(ArrayList<ProductResell> list) {
+		return adminDao.insertSize(sqlSession, list);
+	}
+
+	public ArrayList<Product> selectProductList(PageInfo pi) {
+		return adminDao.selectProductList(sqlSession, pi);
+	}
+
+	public int selectProdCount() {
+		return adminDao.selectProdCount(sqlSession);
+	}
+
+	public int searchProdCount(HashMap<String, String> map) {
+		return adminDao.searchProdCount(sqlSession, map);
+	}
+
+	public ArrayList<Product> searchProdList(HashMap<String, String> map, PageInfo pi) {
+		return adminDao.searchProdList(sqlSession, map, pi);
 	}
 
 	

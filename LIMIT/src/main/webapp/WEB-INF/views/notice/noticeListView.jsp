@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>고객센터</title>
 </head>
 <style>
 .outer{
@@ -47,30 +48,59 @@
         <hr>
         <br>
         <div class="container">           
-            <table class="table">
+            <table class="table" id="noticeList">
               <tbody>
-                <tr>
-                  <td>[공지] 이용약관 안내</td>
-                </tr>
-                <tr>
-                  <td>[공지] 이용약관 안내</td>
-                </tr>
-                <tr>
-                  <td>[공지] 이용약관 안내</td>
-                </tr>
+                <c:forEach var="n" items="${list}">
+	                <tr>
+	                  <input type="hidden" name="noticeNo" value="${n.noticeNo}">
+	                  <td>${n.noticeTitle}</td>
+	                </tr>
+       			</c:forEach>
               </tbody>
             </table>
           </div>
         <br>
+        
+        <script>
+         	$(function(){
+         		$("#noticeList>tbody>tr").click(function(){
+         			// 클릭될때마다 url 요청 
+         			var nno = $(this).children().eq(0).val();
+         			
+         			location.href = "detail.cno?nno="+ nno;
+         		})
+         	});
+         </script>
 
+        <br><br><br>
+        <!-- 페이징 처리 하는 곳 / 아직 못 만듬 -->
         <br><br><br>
         <div class="container">                  
             <ul class="pagination justify-content-center pagination-sm">
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">1</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">2</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">3</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            <!-- previous 페이지 버튼 -->
+            <c:choose>
+           		<c:when test="${pi.currentPage eq 1}">
+               		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
+               	</c:when>
+               	<c:otherwise>
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${pi.currentPage - 1}">Previous</a></li>                    	
+               	</c:otherwise>
+            </c:choose>
+            
+            <!-- 숫자가 나오는 페이지 버튼 -->
+            <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+            	<li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${p}">${p}</a></li>
+            </c:forEach>
+            
+            <!-- next 페이지 버튼 -->
+            <c:choose>
+            	<c:when test="${pi.currentPage eq pi.maxPage}">
+              <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            	</c:when>
+            	<c:otherwise>
+              <li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${pi.currentPage + 1}">Next</a></li>
+            	</c:otherwise>
+            </c:choose>
             </ul>
         </div>
          

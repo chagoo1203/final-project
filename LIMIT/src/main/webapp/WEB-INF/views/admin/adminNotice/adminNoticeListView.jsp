@@ -58,8 +58,8 @@ thead{
             <a class="btn btn-secondary" href="enrollForm.no">글작성</a>
         </div>
         <br>
-        <table class="table" align="center">
-            <thead class="thead-light">
+        <table class="table" align="center" id="noticeList">
+            <thead>
             <tr>
                 <th>글번호</th>
                 <th>글제목</th>
@@ -79,6 +79,17 @@ thead{
             </tbody>
         </table>
         <br>
+        
+        <script>
+         	$(function(){
+         		$("#noticeList>tbody>tr").click(function(){
+         			// 클릭될때마다 url 요청 
+         			var nno = $(this).children().eq(0).text();
+         			
+         			location.href = "detail.no?nno="+ nno;
+         		})
+         	});
+          </script>
 
         <br><br><br>
         <!-- 페이징 처리 -->

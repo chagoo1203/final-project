@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>관리자페이지</title>
 <style>
 .outer{
     width: 800px;
@@ -28,33 +28,35 @@
 	<jsp:include page="../../common/menubar.jsp" />
 	<jsp:include page="../adminMenu.jsp" />
 	
+	
 	<div class="outer">
-        <p class="title" align="center">공지사항 등록</p> 
+        <p class="title" align="center">공지사항 상세 페이지</p> 
         <hr>
         <br>
 
         <div class="innerOuter">
-            <form id="enrollForm" method="post" action="insert.no">
-                <input type="hidden" name="noticeType" value="N">
+            <form id="updateForm" method="post" action="update.no">
+            	<input type="hidden" name="noticeNo" value="${n.noticeNo}">
                 <table algin="center">
                     <tr>
-                        <td><input type="text" id="title" class="form-control" name="noticeTitle" placeholder="제목을 입력해 주세요" style="width: 630px;" required></td>
+                        <td><input type="text" id="title" class="form-control" name="noticeTitle" value="${n.noticeTitle}" required></td>
                     </tr>
                     <tr>
-                        <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="noticeContent" placeholder="내용을 입력해 주세요" required></textarea></td>
+                        <td><textarea id="content" class="form-control" style="width: 640px" rows="10" style="resize:none;" name="noticeContent" required>${n.noticeContent}</textarea></td>
                     </tr>
                 </table>
                 <br>
                 <div align="right">
-                    <button type="reset" class="btn btn-secondary">취소하기</button>
-                    <button type="submit" class="btn btn-dark">등록하기</button>
+                    <a href="delete.no?nno=${n.noticeNo}" class="btn btn-warning">삭제하기</a>
+                    <button type="reset" class="btn btn-secondary">이전으로</button>
+                    <button type="submit" class="btn btn-dark">수정하기</button>
                 </div>
             </form>
         </div>
-        
     </div>
-	
-	<br><br>
+    
+    
+    <br><br>
 	<jsp:include page="../../common/footer.jsp" />
 
 </body>

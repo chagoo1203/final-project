@@ -45,6 +45,9 @@
     float: right;
     margin-right: 10%;
 }
+thead{
+    background-color: rgb(220, 218, 218);
+}
 </style>
 </head>
 <body>
@@ -56,11 +59,11 @@
         <p class="title" align="center">상품 관리</p>     
         <hr>
         <br>
-        <form id="searchForm" action="" method="get" align="center">
+        <form id="searchForm" action="searchProd.rs" method="get" align="center">
             <div class="select">
                 <select class="custom-select" name="condition">
-                    <option value="writer">컬렉션 명</option>
-                    <option value="title">브랜드 명</option>
+                    <option value="collectionName">컬렉션 명</option>
+                    <option value="brandName">브랜드 명</option>
                 </select>
             </div>
             <div class="text">
@@ -69,8 +72,8 @@
             <button type="submit" class="searchBtn btn btn-secondary">검색</button>
         </form>
         
-        <table class="table" align="center">
-            <thead class="thead-light">
+        <table class="table" align="center" id="productList">
+            <thead>
             <tr>
                 <th>상품번호</th>
                 <th>컬렉션명</th>
@@ -78,53 +81,80 @@
                 <th>카테고리</th>
                 <th>거래량</th>
                 <th>등록일자</th>
+                <th>판매 상태</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>10</td>
-                <td>조던1 미드 SE</td>
-                <td>나이키</td>
-                <td>신발</td>
-                <td>15</td>
-                <td>2022-06-30</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>스마트워치</td>
-                <td>애플</td>
-                <td>기타</td>
-                <td>15</td>
-                <td>2022-06-30</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>옷</td>
-                <td>아디다스</td>
-                <td>의류</td>
-                <td>15</td>
-                <td>2022-06-30</td>
-            </tr>
+            	<c:forEach var="p" items="${list}">
+                	<tr>
+                		<td>${p.productNo}</td>
+                		<td>${p.collectionName}</td>
+                		<td>${p.brandName}</td>
+                		<td>${p.productTypeName}</td>
+                		<td>${p.tradeCount}</td>
+                		<td>${p.createDate}</td>
+                		<c:choose>
+                			<c:when test="${p.status eq 'Y'}">
+                				<td>진행</td>
+                			</c:when>
+                			<c:otherwise>
+                				<td>종료</td>
+                			</c:otherwise>
+                		</c:choose>
+                	</tr>
+                </c:forEach>
             </tbody>
         </table>
+        
+        <script>
+         	$(function(){
+         		$("#productList>tbody>tr").click(function(){
+         			// 클릭될때마다 url 요청 
+         			var pno = $(this).children().eq(0).text();
+         			
+         			location.href = "detail.rs?pno="+ pno;
+         		})
+         	});
+          </script>
 
 		<a class="btn btn-secondary" href="productEnrollForm.rs">상품등록</a>
 
-        <br><br><br><br>
+        <br><br><br>
+        <!-- 페이징 처리 -->
+        <br><br><br>
         <div class="container">                  
             <ul class="pagination justify-content-center pagination-sm">
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">1</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">2</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">3</a></li>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            <!-- previous 페이지 버튼 -->
+            <c:choose>
+           		<c:when test="${pi.currentPage eq 1}">
+               		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
+               	</c:when>
+               	<c:otherwise>
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage - 1}">Previous</a></li>                    	
+               	</c:otherwise>
+            </c:choose>
+            
+            <!-- 숫자가 나오는 페이지 버튼 -->
+            <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+            	<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${p}">${p}</a></li>
+            </c:forEach>
+            
+            <!-- next 페이지 버튼 -->
+            <c:choose>
+            	<c:when test="${pi.currentPage eq pi.maxPage}">
+              <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            	</c:when>
+            	<c:otherwise>
+              <li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage + 1}">Next</a></li>
+            	</c:otherwise>
+            </c:choose>
             </ul>
         </div>
          
     </div>
 	
 	
-	<br><br><br><br><br><br><br><br clear="both">
+	<br><br><br clear="both">
 	<jsp:include page="../../common/footer.jsp" />
 
 </body>

@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.limit.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.limit.usedboard.model.vo.UsedBoard" alias ="usedBoard"/>
 		<typeAlias type="com.kh.limit.common.model.vo.SelectUsedBoardVo" alias = "selectUsedBoardVo"/>
+		<typeAlias type="com.kh.limit.common.model.vo.ProductResell" alias = "productResell"/>
 		
 		
 		
