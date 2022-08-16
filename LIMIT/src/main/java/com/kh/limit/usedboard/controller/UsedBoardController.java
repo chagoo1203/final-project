@@ -154,9 +154,13 @@ public class UsedBoardController {
 	}
 	@RequestMapping("aJaxNewChatFile.used") // MyChat이 아닌 연락하기 클릭 후 입장전 메모장을 생성해주는 메소드 메모장이 있어도 상관없음
 	@ResponseBody
-	public String aJaxNewChatFile(String userId, String boardWriter, ModelAndView mv) {			
-		chatFileInsert(userId + boardWriter, null);						
-		return "";
+	public void aJaxNewChatFile(String userId, String toUser, ModelAndView mv) {
+		if(searchChat(userId, toUser) == null) {
+			System.out.println("test");
+			if(chatFileInsert(userId +"_" +toUser+".txt", null) == false) {
+				System.out.println("Error : " + userId + " " + toUser);
+			}
+		}								
 	}	
 	
 	@RequestMapping(value = "aJaxloadToChatList.used", produces="application/json; charset=UTF-8")
