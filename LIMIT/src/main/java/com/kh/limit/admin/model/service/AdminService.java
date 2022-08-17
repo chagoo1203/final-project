@@ -14,6 +14,7 @@ import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
 
 @Service
@@ -110,6 +111,87 @@ public class AdminService {
 		return adminDao.searchProdList(sqlSession, map, pi);
 	}
 
+	public Product selectProductDetail(int productNo) {
+		return adminDao.selectProductDetail(sqlSession, productNo);
+	}
+
+	public ArrayList<Attachment> selectAttachment(int productNo) {
+		return adminDao.selectAttachment(sqlSession, productNo);
+	}
+
+	public int updateProduct(Product product) {
+		return adminDao.updateProduct(sqlSession, product);
+	}
+
+	public int updateAttachment(Attachment attachment) {
+		return adminDao.updateAttachment(sqlSession, attachment);
+	}
+
+	public int deleteAttachment(int fileNo) {
+		return adminDao.deleteAttachment(sqlSession, fileNo);
+	}
+
+	public int insertUpdateImgs(ArrayList<Attachment> imgList, int productNo) {
+		int result = 1;
+		for(Attachment img : imgList) {
+			img.setRefNo(productNo);
+			result *= adminDao.insertUpdateImgs(sqlSession, img);
+		}
+		return result;
+	}
+
+	public int deleteProduct(int productNo) {
+		return adminDao.deleteProduct(sqlSession, productNo);
+	}
+
+	public int restoreProduct(int productNo) {
+		return adminDao.restoreProduct(sqlSession, productNo);
+	}
+
+	public int selectMemberCount() {
+		return adminDao.selectMemberCount(sqlSession);
+	}
+
+	public ArrayList<Member> selectMemberList(PageInfo pi) {
+		return adminDao.selectMemberList(sqlSession, pi);
+	}
+
+	public int searchMemberCount(HashMap<String, String> map) {
+		return adminDao.searchMemberCount(sqlSession, map);
+	}
+
+	public ArrayList<Member> searchMemberList(HashMap<String, String> map, PageInfo pi) {
+		return adminDao.searchMemberList(sqlSession, map, pi);
+	}
+
+	public Member selectMember(String userId) {
+		return adminDao.selectMember(sqlSession, userId);
+	}
+
+	public int deleteMember(String userId) {
+		return adminDao.deleteMember(sqlSession, userId);
+	}
+
+	public int restoreMember(String userId) {
+		return adminDao.restoreMember(sqlSession, userId);
+	}
+
+	public int deletedMemberCount() {
+		return adminDao.deletedMemberCount(sqlSession);
+	}
+
+	public ArrayList<Member> deletedMemberList(PageInfo pi) {
+		return adminDao.deletedMemberList(sqlSession, pi);
+	}
+
+	public int searchDeletedMemCount(HashMap<String, String> map) {
+		return adminDao.searchDeletedMemCount(sqlSession, map);
+	}
+
+	public ArrayList<Member> searchDeletedMemList(HashMap<String, String> map, PageInfo pi) {
+		return adminDao.searchDeletedMemList(sqlSession, map, pi);
+	}
+
 	public String selectClothingPayment() {
 		return adminDao.selectClothingPayment(sqlSession);
 	}
@@ -127,11 +209,4 @@ public class AdminService {
 		return adminDao.selectSumPayment(sqlSession, dates);
 	}
 
-	
-	
-	
-	
-	
-	
-	
 }
