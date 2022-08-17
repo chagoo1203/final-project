@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
 <style>
-
-
 .outer{
     width: 1000px;
     margin-left: 22%;

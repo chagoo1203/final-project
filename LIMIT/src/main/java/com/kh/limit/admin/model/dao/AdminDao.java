@@ -13,6 +13,7 @@ import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
 
 @Repository
@@ -128,6 +129,106 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.searchProdList", map, rowBounds);
 	}
 
+	public Product selectProductDetail(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("adminMapper.selectProductDetail", productNo);
+	}
+
+	public ArrayList<Attachment> selectAttachment(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectAttachment", productNo);
+	}
+
+	public int updateProduct(SqlSessionTemplate sqlSession, Product product) {
+		return sqlSession.update("adminMapper.updateProduct", product);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment attachment) {
+		return sqlSession.update("adminMapper.updateAttachment", attachment);
+	}
+
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.delete("adminMapper.deleteAttachment", fileNo);
+	}
+
+	public int insertUpdateImgs(SqlSessionTemplate sqlSession, Attachment img) {
+		return sqlSession.insert("adminMapper.insertUpdateImgs", img);
+	}
+
+	public int deleteProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.update("adminMapper.deleteProduct", productNo);
+	}
+
+	public int restoreProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.update("adminMapper.restoreProduct", productNo);
+	}
+
+	public int selectMemberCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectMemberCount");
+	}
+
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.selectMemberList", null, rowBounds);
+	}
+
+	public int searchMemberCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("adminMapper.searchMemberCount", map);
+	}
+
+	public ArrayList<Member> searchMemberList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.searchMemberList", map, rowBounds);
+	}
+
+	public Member selectMember(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("adminMapper.selectMember", userId);
+	}
+
+	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.update("adminMapper.deleteMember", userId);
+	}
+
+	public int restoreMember(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.update("adminMapper.restoreMember", userId);
+	}
+
+	public int deletedMemberCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.deletedMemberCount");
+	}
+
+	public ArrayList<Member> deletedMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.deletedMemberList", null, rowBounds);
+	}
+
+	public int searchDeletedMemCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("adminMapper.searchDeletedMemCount", map);
+	}
+
+	public ArrayList<Member> searchDeletedMemList(SqlSessionTemplate sqlSession, HashMap<String, String> map,
+			PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.searchDeletedMemList", map, rowBounds);
+	}
 
 
 }

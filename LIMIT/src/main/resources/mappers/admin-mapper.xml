@@ -30,6 +30,27 @@
 		<result column="MODIFY_DATE" property="modifyDate" />
 		<result column="RESELL_NO" property="resellNo" />
 	</resultMap>
+	
+	<resultMap type="attachment" id="attachmentSet">		
+		<result column ="FILE_NO" property="fileNo"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_PATH" property="filePath"/>
+	</resultMap>
+	
+	<resultMap type="member" id="memberResultSet">
+		<result column="USER_ID" property="userId" />
+		<result column="USER_PWD" property="userPwd" />
+		<result column="USER_NAME" property="userName" />
+		<result column="EMAIL" property="email" />
+		<result column="GENDER" property="gender" />
+		<result column="BIRTH_DATE" property="birthDate" />
+		<result column="PHONE" property="phone" />
+		<result column="ADDRESS" property="address" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="STATUS" property="status" />
+		<result column="NICKNAME" property="nickName" />
+	</resultMap>
 
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
@@ -93,6 +114,30 @@
 				#{filePath},
 				#{fileLevel},
 				SEQ_PNO.CURRVAL,
+				1
+				)
+	</insert>
+	
+	<insert id="insertUpdateImgs">
+		INSERT 
+		  INTO 	ATTACHMENT
+				(
+				FILE_NO,
+				ORIGIN_NAME,
+				CHANGE_NAME,
+				FILE_PATH,
+				FILE_LEVEL,
+				REF_NO,
+				TYPE_NO
+				)
+		VALUES
+				(
+				SEQ_FNO.NEXTVAL,
+				#{originName},
+				#{changeName},
+				#{filePath},
+				#{fileLevel},
+				#{refNo},
 				1
 				)
 	</insert>
@@ -184,10 +229,244 @@
       	 	LIKE '%' || #{keyword} || '%'
          ORDER 
  		    BY  PRODUCT_NO DESC
-   </select>
+    </select>
 
+	<select id="selectProductDetail" resultMap="productResultSet">
+		SELECT
+				PRODUCT_NO,
+				PRODUCT_NAME,
+		  		PRODUCT_CONTENT,
+		  		PRODUCT_TYPE_NAME,
+		  		BRAND_NAME,
+		  		TO_CHAR(RELEASE_DATE, 'YYYY-MM-DD') AS "RELEASE_DATE",
+		  		MODEL_NO,
+		  		COLLECTION_NAME,
+		  		RELEASE_PRICE,
+		  		STATUS
+		  FROM
+      			PRODUCT
+      	 WHERE
+      	 		PRODUCT_NO = #{productNo}
+	</select>
 	
+	<select id="selectAttachment" parameterType = "_int" resultMap="attachmentSet">
+		SELECT 
+				FILE_NO, 
+				CHANGE_NAME, 
+				FILE_PATH
+		  FROM 	
+		  		ATTACHMENT
+		 WHERE 
+		 		REF_NO = #{productNo}
+		   AND  TYPE_NO = 1	
+		 ORDER 
+		    BY  FILE_NO ASC
+	</select>
 	
+	<update id="updateProduct" parameterType="product">
+		UPDATE 
+				PRODUCT
+		   SET 
+		    	PRODUCT_NAME = #{productName},
+		    	PRODUCT_CONTENT = #{productContent},
+		    	PRODUCT_TYPE_NAME = #{productTypeName},
+		    	BRAND_NAME = #{brandName},
+		    	COLLECTION_NAME = #{collectionName},
+		    	RELEASE_DATE = #{releaseDate},
+		    	MODEL_NO = #{modelNo},
+		    	RELEASE_PRICE = #{releasePrice},
+		    	MODIFY_DATE = SYSDATE
+		 WHERE 
+		 		PRODUCT_NO = #{productNo}
+	</update>
+	
+	<update id="updateAttachment" parameterType="attachment">
+		UPDATE ATTACHMENT
+		SET 
+			ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName},			
+			UPLOAD_DATE = SYSDATE
+		WHERE FILE_NO  = #{fileNo}
+	</update>
+	
+	<delete id="deleteAttachment">
+		DELETE FROM ATTACHMENT
+		 WHERE FILE_NO = #{fileNo}
+	</delete>
+	
+	<update id="deleteProduct">
+		UPDATE PRODUCT
+		   SET STATUS = 'N'
+		 WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+	<update id="restoreProduct">
+		UPDATE PRODUCT
+		   SET STATUS = 'Y'
+		 WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+	<select id="selectMemberCount" resultType="_int">
+		SELECT COUNT(*)
+  		  FROM MEMBER
+	</select>
+	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_NAME,
+				TO_CHAR(BIRTH_DATE, 'YYYY-MM-DD') AS "BIRTH_DATE", 
+				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE",
+				STATUS,
+				NICKNAME
+		  FROM
+		  		MEMBER 
+		  ORDER 
+ 		     BY  MODIFY_DATE DESC
+	</select>
+	
+	<select id="searchMemberCount" parameterType="hashmap" resultType="_int">
+		SELECT	COUNT(*)
+   		  FROM  MEMBER
+   		  WHERE
+   		  <choose>
+   		  	<when test="condition == 'userId'">
+   		  	USER_ID
+   		  	</when>
+   		  	<when test="condition == 'userName'">
+   		  	USER_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	NICKNAME
+   		  	</otherwise>
+   		  </choose>
+   		  	LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="searchMemberList" parameterType="hashmap" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_NAME,
+				TO_CHAR(BIRTH_DATE, 'YYYY-MM-DD') AS "BIRTH_DATE", 
+				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE",
+				NICKNAME
+		  FROM
+		  		MEMBER 
+		 WHERE
+   		  <choose>
+   		  	<when test="condition == 'userId'">
+   		  	USER_ID
+   		  	</when>
+   		  	<when test="condition == 'userName'">
+   		  	USER_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	NICKNAME
+   		  	</otherwise>
+   		  </choose>
+   		  	LIKE '%' || #{keyword} || '%'
+		 ORDER 
+ 		    BY  ENROLL_DATE DESC 		
+	</select>
+	
+	<select id="selectMember" parameterType="string" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_PWD,
+				USER_NAME,
+				EMAIL,
+				GENDER,
+				TO_CHAR(BIRTH_DATE, 'YYYY-MM-DD') AS "BIRTH_DATE",
+				PHONE,  
+				ADDRESS,
+				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE",
+				TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') AS "MODIFY_DATE",
+				STATUS,
+				NICKNAME
+		  FROM
+		  		MEMBER 
+		 WHERE
+		 		USER_ID = #{userId}
+	</select>
+	
+	<update id="deleteMember">
+		UPDATE MEMBER
+		   SET STATUS = 'N',
+		       MODIFY_DATE = SYSDATE
+		 WHERE USER_ID = #{userId}
+	</update>
+	
+	<update id="restoreMember">
+		UPDATE MEMBER
+		   SET STATUS = 'Y'
+		 WHERE USER_ID = #{userId}
+	</update>
+	
+	<select id="deletedMemberCount" resultType="_int">
+		SELECT COUNT(*)
+  		  FROM MEMBER
+  		 WHERE STATUS = 'N'
+	</select>
+	
+	<select id="deletedMemberList" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_NAME,
+				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE", 
+				TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') AS "MODIFY_DATE",
+				NICKNAME
+		  FROM
+		  		MEMBER 
+		 WHERE  
+		 		STATUS = 'N'
+		 ORDER 
+ 		    BY  MODIFY_DATE DESC
+	</select>
+	
+	<select id="searchDeletedMemCount" parameterType="hashmap" resultType="_int">
+		SELECT	COUNT(*)
+   		  FROM  MEMBER
+   		 WHERE	STATUS = 'N'
+   		  <choose>
+   		  	<when test="condition == 'userId'">
+   		  	AND USER_ID
+   		  	</when>
+   		  	<when test="condition == 'userName'">
+   		  	AND USER_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	AND NICKNAME
+   		  	</otherwise>
+   		  </choose>
+   		  	LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="searchDeletedMemList" parameterType="hashmap" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_NAME,
+				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE", 
+				TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') AS "MODIFY_DATE",
+				NICKNAME
+		  FROM
+		  		MEMBER 
+		 WHERE  
+		 		STATUS = 'N'
+		  <choose>
+   		  	<when test="condition == 'userId'">
+   		  	AND USER_ID
+   		  	</when>
+   		  	<when test="condition == 'userName'">
+   		  	AND USER_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	AND NICKNAME
+   		  	</otherwise>
+   		  </choose>
+   		  	LIKE '%' || #{keyword} || '%'
+		 ORDER 
+ 		    BY  MODIFY_DATE DESC
+	</select>
 	
  
 </mapper>
