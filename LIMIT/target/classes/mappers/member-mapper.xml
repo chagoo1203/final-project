@@ -16,7 +16,8 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
-		<resultMap id="productResultSet" type="product">
+		
+	 <resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="PRODUCT_CONTENT" property="productContent" />
@@ -147,37 +148,12 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
-	<update id="updateMember" parameterType="member">
-	update
-	member
-	set
-	nickName = #{nickName},
-	email = #{email},
-	phone = #{phone},
-	address = #{address},
-	modify_date = sysdate
-	where
-	user_id = #{userId}
 	
 	
 	
 	
 	
-	
-	</update>
-	
- <!--  회원탈퇴  -->
- 
- <update id="deleteMember">
- 	update
- 	member
- 	set
- 	status = 'N'
- 	where
- 	user_id = #{userId}
- 
- 
- </update>
+
   
   
 </mapper>

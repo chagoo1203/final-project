@@ -194,60 +194,9 @@ public class MemberController {
 		
 		return "product/resellBoardList";
 	}
-	@RequestMapping("myPage.me")
-	public String myPage() {
-		
-		return "mypage/myPage";
-	}
-	// 정보수정
-	@RequestMapping("update.me")
-	public String updateMember(Member m, Model model, HttpSession session) {
-		
-		int result = memberService.updateMember(m);
-		
-		if(result > 0) {
-			session.setAttribute("loginUser", memberService.loginMember(m));
-			
-			session.setAttribute("alertMsg", "회원정보수정 성공");
-			return "redirect:myPage.me";
-			
-			
-		}else {
-			model.addAttribute("errorMsg","정보수정실패");
-			return "common/errorPage";
-		}
-	}
-	
-	// 회원탈퇴
-	@RequestMapping("delete.me")
-	public String deleteMember(String userId, String userPwd, HttpSession session) {
-		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();		
-		if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
-			
-			int result = memberService.deleteMember(userId);
-			if(result > 0) {
-					session.removeAttribute("loginUser");
-					session.setAttribute("alertMsg", "그동안  LIMIT를 사랑해주셔서 감사합니다.");
-					return "redirect:/";
-				
-			}else {
-				session.setAttribute("errorMsg", "실패했습니다." );
-				return "common/errorPage";
-				
-			}
-			
-		}else {
-			session.setAttribute("alertMsg", "비밀번호가 틀렸습니다");
-			return "redirect:myPage.me";
-		}
-	
-	
-	}
-	
-	
 
 	
-
+	
 	
 }
 
