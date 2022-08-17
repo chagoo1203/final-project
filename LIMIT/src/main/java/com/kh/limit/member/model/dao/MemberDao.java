@@ -43,4 +43,8 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchList", map, rowBounds);
 	}
+	
+	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updateMember", m);
+	}
 }

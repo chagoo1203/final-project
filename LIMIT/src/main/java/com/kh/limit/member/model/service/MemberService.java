@@ -49,4 +49,7 @@ public class MemberService {
 		
 		return memberDao.selectSearchList(sqlSession, map, pi);
 	}
+	public int updateMember(Member m) {
+		return memberDao.updateMember(sqlSession, m);
+	}
 }

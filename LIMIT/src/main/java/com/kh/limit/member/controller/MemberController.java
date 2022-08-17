@@ -194,8 +194,30 @@ public class MemberController {
 		
 		return "product/resellBoardList";
 	}
+	@RequestMapping("myPage.me")
+	public String myPage() {
+		
+		return "mypage/myPage";
+	}
+	@RequestMapping("update.me")
+	public String updateMember(Member m, Model model, HttpSession session) {
+		
+		int result = memberService.updateMember(m);
+		
+		if(result > 0) {
+			session.setAttribute("loginUser", memberService.loginMember(m));
+			
+			session.setAttribute("alertMsg", "회원정보수정 성공");
+			return "redirect:myPage.me";
+			
+			
+		}else {
+			model.addAttribute("errorMsg","정보수정실패");
+			return "common/errorPage";
+		}
+	}
+
 	
-	
-	
+
 	
 }
