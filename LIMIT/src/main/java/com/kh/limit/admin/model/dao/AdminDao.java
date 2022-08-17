@@ -230,5 +230,20 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.searchDeletedMemList", map, rowBounds);
 	}
 
+	public String selectClothingPayment(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectClothingPayment");
+	}
+
+	public String selectShoosePayment(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectShoosePayment");
+	}
+
+	public String selectOtherPayment(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectOtherPayment");
+	}
+
+	public String selectSumPayment(SqlSessionTemplate sqlSession, HashMap<String, String> dates) {
+		return sqlSession.selectOne("adminMapper.selectSumPayment",dates);
+	}
 
 }

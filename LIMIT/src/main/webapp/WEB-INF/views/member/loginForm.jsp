@@ -80,10 +80,14 @@ header{
 					<div class="enroll">
 						<a href="enrollForm.me" id="aEnroll">회원가입</a>
 					</div><br><br><br>
-					<input type="submit" id="loginSubmit" value="로그인">
+					<input type="submit" id="loginSubmit" value="로그인">					
 		        </div>    
-			</form>
+		        <br>
+		        <br>
+		        <div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223"  src="resources/enrollFormImges/btnG.png"/></a></div>		        
+			</form>			
 	</div>
+	<br><br>
 	<script>
      $(function() {
          

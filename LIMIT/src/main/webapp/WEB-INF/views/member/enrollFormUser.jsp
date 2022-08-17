@@ -31,65 +31,131 @@
             <br>
 
             <form action="insert.me" method="post" id="enrollForm" >
-                <div class="form-group">
-                	<div>*는 필수 사항입니다.</div><br>
-                    <label for="userId">* 아이디 : </label>
-                    <label for="userId">&nbsp;&nbsp;영문자로 시작하는 영문자 또는 숫자 6~20자를 입력해주세요  </label>
-                    <input type="text" class="form-control" id="userId" name="userId"  maxlength="20" onkeyup="idCheck();" required> <br>
-					<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
-					
-                    <label for="userPwd">* 비밀번호 : </label>
-                    <label for="userPwd">&nbsp;&nbsp;8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합해주세요 </label>
-                    <input type="password" class="form-control" id="userPwd" name="userPwd"  maxlength="16" onkeyup="pwdInput();" required> <br>
-                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
-                    <br>
-					
-                    <label for="checkPwd">* 비밀번호 확인 : </label>
-                    <input type="password" class="form-control" id="checkPwd" maxlength="16" onkeyup="rePwd();" required> <br>
-                    <div id="checkPw" style="font-size : 0.7em; display:none"></div>
-					<br>
-
-                    <label for="userName">* 이름 : </label>
-                    <input type="text" class="form-control" id="userName" name="userName"  maxlength="6" onkeyup="nameCheck();" required> <br>
-					<div id="namecheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-					
-                    <label for="email"> * 이메일 : </label>
-                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" required> <br>
-					<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-					
-                    <label for="birthDate">* 생일 : </label>
-                    <input type="text" class="form-control" id="birthDate" placeholder="YYYY-MM-DD 형식으로 입력해주세요"  maxlength="10" name="birthDate" onkeyup="birthCheck();" required> <br>
-                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-
-                    <label for="phone"> * 전화번호 : </label>
-                    <input type="text" class="form-control" id="phone" placeholder="01X-XXXX-XXXX 형식으로 입력해주세요"  maxlength="13" name="phone" onkeyup="phoneCheck();" required> <br>
-                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-                    
-                    <label for="nickName"> * 별명 : </label>
-                    <label for="userPwd">&nbsp;&nbsp;한글 2~8자 사이로 입력해주세요 </label>
-                    <input type="text" class="form-control" id="nickName" name="nickName"  maxlength="8" onkeyup="nickCheck();" required> <br>
-                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
-                    
-                    <label for="address"> * 주소 : </label>
-                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
-                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
-                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
-                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
-                    
-                    
-                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
-                    <input type="text" class="form-control" id="gender" maxlength="1" placeholder=" F / M " name="gender" onkeyup="genderCheck();" required> <br>
-                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
-                </div> 
-                <br>
-                <div class="btns" align="center">
-                    <button type="button" class="btn btn-primary" id="enrollbutton" onclick="enroll();">회원가입</button>
-                    <button type="reset" class="btn btn-danger">초기화</button>
-                </div>
+            	<c:choose>
+            		<c:when test="${empty loginNaver }">
+		                <div class="form-group">
+		                	<div>*는 필수 사항입니다.</div><br>
+		                    <label for="userId">* 아이디 : </label>
+		                    <label for="userId">&nbsp;&nbsp;영문자로 시작하는 영문자 또는 숫자 6~20자를 입력해주세요  </label>
+		                    <input type="text" class="form-control" id="userId" name="userId"  maxlength="20" onkeyup="idCheck();" required> <br>
+							<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
+							
+		                    <label for="userPwd">* 비밀번호 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합해주세요 </label>
+		                    <input type="password" class="form-control" id="userPwd" name="userPwd"  maxlength="16" onkeyup="pwdInput();" required> <br>
+		                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
+		                    <br>
+							
+		                    <label for="checkPwd">* 비밀번호 확인 : </label>
+		                    <input type="password" class="form-control" id="checkPwd" maxlength="16" onkeyup="rePwd();" required> <br>
+		                    <div id="checkPw" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="userName">* 이름 : </label>
+		                    <input type="text" class="form-control" id="userName" name="userName"  maxlength="6" onkeyup="nameCheck();" required> <br>
+							<div id="namecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="email"> * 이메일 : </label>
+		                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" required> <br>
+							<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="birthDate">* 생일 : </label>
+		                    <input type="text" class="form-control" id="birthDate" placeholder="YYYY-MM-DD 형식으로 입력해주세요"  maxlength="10" name="birthDate" onkeyup="birthCheck();" required> <br>
+		                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="phone"> * 전화번호 : </label>
+		                    <input type="text" class="form-control" id="phone" placeholder="01X-XXXX-XXXX 형식으로 입력해주세요"  maxlength="13" name="phone" onkeyup="phoneCheck();" required> <br>
+		                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		                    
+		                    <label for="nickName"> * 별명 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;한글 2~8자 사이로 입력해주세요 </label>
+		                    <input type="text" class="form-control" id="nickName" name="nickName"  maxlength="8" onkeyup="nickCheck();" required> <br>
+		                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    
+		                    <label for="address"> * 주소 : </label>
+		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+		                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
+		                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+		                    
+		                    
+		                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
+		                    <input type="text" class="form-control" id="gender" maxlength="1" placeholder=" F / M " name="gender" onkeyup="genderCheck();" required> <br>
+		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                </div> 
+		                <br>
+		                <div class="btns" align="center">
+		                    <button type="button" class="btn btn-primary" id="enrollbutton" onclick="enroll();">회원가입</button>
+		                    <button type="reset" class="btn btn-danger">초기화</button>
+		                </div>
+	                </c:when>
+	                <c:otherwise>	                
+	                	<div class="form-group">
+		                	<div>*는 필수 사항입니다.</div><br>
+		                    <label for="userId">* 아이디 : </label>
+		                    <label for="userId">&nbsp;&nbsp; NaverLogin 진행중 </label>
+		                    <input type="text" class="form-control" maxlength="20" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="userId" name="userId"  maxlength="20" value="${loginNaver.userId }"> <br>
+							<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
+							
+		                    <label for="userPwd">* 비밀번호 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;NaverLogin 진행중 </label>
+		                    <input type="password" class="form-control"  disabled> <br>
+		                    <input type="password" hidden class="form-control" id="userPwd" name="userPwd" value="${loginNaver.userId }"> <br>
+		                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
+		                    <br>
+							
+		                    <label for="userName">* 이름 : </label>
+		                    <input type="text" class="form-control" id="userName" value="${loginNaver.userName}" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="userName" name="userName"  value="${loginNaver.userName}"> <br>
+							<div id="namecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="email"> * 이메일 : </label>
+		                    <input type="text" class="form-control" id="email"  value = "${loginNaver.email }"" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="email"  value = "${loginNaver.email }" name="email" > <br>
+							<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="birthDate">* 생일 : </label>
+		                    <input type="text" class="form-control" id="birthDate"  value="${loginNaver.birthDate }" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="birthDate"  value="${loginNaver.birthDate }"  name="birthDate"> <br>
+		                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="phone"> * 전화번호 : </label>
+		                    <input type="text" class="form-control" id="phone"  disabled value = "${loginNaver.phone }"> <br>
+		                    <input type="text"hidden  class="form-control" id="phone"  name="phone" value = "${loginNaver.phone }"> <br>
+		                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		                    
+		                    <label for="nickName"> * 별명 : </label>		                    
+		                    <input type="text" class="form-control" id="nickName" disabled value="${loginNaver.nickName }"> <br>
+		                    <input type="text" hidden class="form-control" id="nickName" name="nickName"  value="${loginNaver.nickName }"> <br>
+		                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    
+		                    <label for="address"> * 주소 : </label>
+		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+		                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
+		                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+		                    
+		                    
+		                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
+		                    <input type="text"  class="form-control" id="gender"  disabled value="${loginNaver.gender}"> <br>
+		                    <input type="text" hidden class="form-control" id="gender"  name="gender" value="${loginNaver.gender}"> <br>
+		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                </div> 
+		                <br>
+		                <div class="btns" align="center">
+		                    <button type="submit" class="btn btn-primary" id="enrollbutton">회원가입</button>
+		                </div>
+	                </c:otherwise>
+                </c:choose>
             </form>
         </div>
         <br><br>

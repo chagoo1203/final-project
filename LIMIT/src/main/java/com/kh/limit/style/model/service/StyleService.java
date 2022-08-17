@@ -1,6 +1,7 @@
 package com.kh.limit.style.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class StyleService {
 	
 	
 	
-	public ArrayList<Style> selectStyleList(PageInfo pi){
-		return styleDao.selectStyleList(sqlSession, pi);
+	public ArrayList<Style> selectStyleList(PageInfo pi, String type){
+		return styleDao.selectStyleList(sqlSession, pi, type);
 	}
 	
 	
@@ -107,6 +108,21 @@ public class StyleService {
 
 	public ArrayList<Product> searchProductList(String keyWord) {
 		return styleDao.searchProductList(sqlSession, keyWord);
+	}
+
+
+	public int selectLikeCount(int sno) {
+		return styleDao.selectLikeCount(sqlSession, sno);
+	}
+
+
+	public int increaseLike(int styleNo) {
+		return styleDao.increaseLike(sqlSession,styleNo);
+	}
+
+
+	public int decreaseLike(int styleNo) {
+		return styleDao.decreaseLike(sqlSession,styleNo);
 	}
 
 

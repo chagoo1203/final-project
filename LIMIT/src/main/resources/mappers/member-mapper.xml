@@ -147,7 +147,37 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
+	<update id="updateMember" parameterType="member">
+	update
+	member
+	set
+	nickName = #{nickName},
+	email = #{email},
+	phone = #{phone},
+	address = #{address},
+	modify_date = sysdate
+	where
+	user_id = #{userId}
 	
+	
+	
+	
+	
+	
+	</update>
+	
+ <!--  회원탈퇴  -->
+ 
+ <update id="deleteMember">
+ 	update
+ 	member
+ 	set
+ 	status = 'N'
+ 	where
+ 	user_id = #{userId}
+ 
+ 
+ </update>
   
   
 </mapper>

@@ -77,8 +77,18 @@ public class ProductDao {
 	}
 
 
-	public ArrayList<Trade> priceGraph(SqlSessionTemplate sqlSession, int productNo) {
-		return (ArrayList)sqlSession.selectList("productMapper.priceGraph", productNo);
+	public ArrayList<Trade> priceGraphWeek(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphWeek", productNo);
+	}
+
+
+	public ArrayList<Trade> priceGraphMonth(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphMonth", productNo);
+	}
+
+
+	public ArrayList<Trade> priceGraphYear(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphYear", productNo);
 	}
 
 

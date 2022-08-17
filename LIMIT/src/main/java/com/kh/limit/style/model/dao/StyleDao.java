@@ -1,6 +1,7 @@
 package com.kh.limit.style.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,14 +19,15 @@ import com.kh.limit.style.model.vo.Style;
 
 public class StyleDao {
 
-	public ArrayList<Style> selectStyleList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Style> selectStyleList(SqlSessionTemplate sqlSession, PageInfo pi, String type) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
+		
 		RowBounds rowBounds= new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("styleMapper.selectStyleList",null, rowBounds);
+		return (ArrayList)sqlSession.selectList("styleMapper.selectStyleList",type, rowBounds);
 	}
 	
 	public int insetStyle(SqlSessionTemplate sqlSession, Style style) {
@@ -87,6 +89,18 @@ public class StyleDao {
 
 	public ArrayList<Product> searchProductList(SqlSessionTemplate sqlSession, String keyWord) {
 		return (ArrayList)sqlSession.selectList("styleMapper.searchProductList", keyWord);
+	}
+
+	public int selectLikeCount(SqlSessionTemplate sqlSession, int sno) {
+		return sqlSession.selectOne("styleMapper.selectLikeCount", sno);
+	}
+
+	public int increaseLike(SqlSessionTemplate sqlSession, int styleNo) {
+		return sqlSession.update("styleMapper.increaseLike", styleNo);
+	}
+
+	public int decreaseLike(SqlSessionTemplate sqlSession, int styleNo) {
+		return sqlSession.update("styleMapper.decreaseLike", styleNo);
 	}
 
 	

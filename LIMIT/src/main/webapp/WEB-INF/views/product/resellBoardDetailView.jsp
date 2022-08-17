@@ -169,6 +169,10 @@
 		    	</div>
 		    	<div class="priceGraph">
 		    		시세 그래프
+		    		<br>
+		    		<button type="button" id="week">1주일</button>
+		    		<button type="button" id="month">한 달</button>
+		    		<button type="button" id="year">1년</button>
 		    		<canvas id="line-chart" width="550" height="350"></canvas>
 		    	</div>
 		    </div>
@@ -208,16 +212,24 @@
            		})
            	})
            	
-           	$(document).ready(function(){
-           		getGraph();
+          /* 	$(document).ready(function(){
+           		getGraphWeek();
+           	}); */
+           	
+        	$(document).ready(function(){
+           		$('#week').click(function(){
+           		 $('#line-chart').remove(); // this is my <canvas> element
+           	  	$('.priceGraph').append('<canvas id="line-chart" width="550" height="350"></canvas>');
+         		   getGraphWeek();
+         	   })
            	});
            	
-           	function getGraph(){
-           		let timeList = [];
-           		let priceList = [];
+           	function getGraphWeek(){
+           		var timeList = [];
+           		var priceList = [];
            		
            		$.ajax({
-           			url:"priceGraph.resell",
+           			url:"priceGraphWeek.resell",
            			type:"get",
            			data : {productNo : $('.pno').val()},
            			dataType : "json",
@@ -232,7 +244,115 @@
            				new Chart(document.getElementById("line-chart"),{
            					type : 'line',
            					data : {
-           						labels : "시세 그래프",
+           						labels : timeList,
+           						datasets : [{
+           							data : priceList,
+           							label : "가격",
+           							borderColor : "#000000",
+           							fill : false
+           						}]
+           					},
+           					options : {
+           						title : {
+           							display : true,
+           							text : "과연?"
+           						}
+           					}
+           					
+           				});
+           				
+           			},
+           			error:function(){
+           				console.log("ㄲㅂ");
+           			}
+           			
+           		})
+           		
+           	}
+           	
+           	$(document).ready(function(){
+           		$('#month').click(function(){
+           		 $('#line-chart').remove(); // this is my <canvas> element
+            	  	$('.priceGraph').append('<canvas id="line-chart" width="550" height="350"></canvas>');
+         		    getGraphMonth();
+         	   })
+           	});
+           	
+           	function getGraphMonth(){
+           		var timeList = [];
+           		var priceList = [];
+           		
+           		$.ajax({
+           			url:"priceGraphMonth.resell",
+           			type:"get",
+           			data : {productNo : $('.pno').val()},
+           			dataType : "json",
+           			success:function(data){
+           				console.log(data);
+           				for(let i = 0; i < data.length; i++){
+           					timeList.push(data[i].purchaseDate);
+           					priceList.push(data[i].payment);
+           				}
+           				console.log(timeList);
+           				console.log(priceList);
+           				new Chart(document.getElementById("line-chart"),{
+           					type : 'line',
+           					data : {
+           						labels : timeList,
+           						datasets : [{
+           							data : priceList,
+           							label : "가격",
+           							borderColor : "#000000",
+           							fill : false
+           						}]
+           					},
+           					options : {
+           						title : {
+           							display : true,
+           							text : "과연?"
+           						}
+           					}
+           					
+           				});
+           				
+           			},
+           			error:function(){
+           				console.log("ㄲㅂ");
+           			}
+           			
+           		})
+           		
+           	}
+           	
+           	$(document).ready(function(){
+           		$('#year').click(function(){
+           		 $('#line-chart').remove(); // this is my <canvas> element
+            	  	$('.priceGraph').append('<canvas id="line-chart" width="550" height="350"></canvas>');
+         		   getGraphYear();
+         	   })
+           	});
+           	
+           	function getGraphYear(){
+           		let timeList = [];
+           		let priceList = [];
+           		
+           		$.ajax({
+           			url:"priceGraphYear.resell",
+           			type:"get",
+           			data : {productNo : $('.pno').val()},
+           			dataType : "json",
+           			success:function(data){
+           				console.log(data);
+           				for(let i = 0; i < data.length; i++){
+           					timeList.push(data[i].purchaseDate);
+           					priceList.push(data[i].payment);
+           				}
+           				console.log(timeList);
+           				console.log(priceList);
+           				new Chart(document.getElementById("line-chart"),{
+           					type : 'line',
+           					data : {
+           						labels : timeList,
            						datasets : [{
            							data : priceList,
            							label : "가격",

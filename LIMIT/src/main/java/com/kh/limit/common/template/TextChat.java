@@ -3,6 +3,7 @@ package com.kh.limit.common.template;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class TextChat {
 	public static ArrayList<Chat> readChat(String url) {
 		//메모장에 있는 모든 text를 불러오는 메소드
 		ArrayList<Chat> textList = new ArrayList<Chat>();
-		
+		System.out.println(url);
 		try {
 			Scanner scanner = new Scanner(new File(url));
 			
@@ -87,15 +88,15 @@ public class TextChat {
 	public static String searchChat(String userId, String userId2) {
 		//현재 원하는 하나의 채팅 텍스트를 찾아줌
 		File searchPath = new File(dirPath);
-				
+		System.out.println(userId + "  " + userId2);
 		FilenameFilter filter = new FilenameFilter() {
 			public boolean accept(File file, String name) {
-				return name.startsWith(userId + "_" + userId2);
+				return name.equals(userId + "_" + userId2 + ".txt");
 			}
 		};
 		FilenameFilter filter2 = new FilenameFilter() {
 			public boolean accept(File file, String name) {
-				return name.startsWith(userId2 + "_" + userId2);
+				return name.equals(userId2 + "_" + userId + ".txt");
 			}
 		};
 		
@@ -109,20 +110,27 @@ public class TextChat {
 		if(files2.length > 0) {
 			return dirPath + userId2 + "_" + userId + ".txt";
 		}		
-		return "안되네요 ㅠ";
+		return null;
 	}
 	public static boolean chatFileInsert(String fileName, String text) {
 		//text에 값 넣기
-		try {
-			BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
+		
+		try {			
 			if(text != null) {
+				BufferedWriter fw = new BufferedWriter(new FileWriter(fileName, true));
 				fw.write(text+"\r\n");
 //				fw.newLine();
 				fw.flush();
+				fw.close();	
+			}else {
+				BufferedWriter fw = new BufferedWriter(new FileWriter(dirPath + fileName, true));
+				fw.close();
 			}
-			fw.close();
-			
-			
+//			else {
+//				File file = new File(dirPath + fileName);
+//				FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+//			}
+								
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

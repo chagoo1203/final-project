@@ -3,6 +3,10 @@ package com.kh.limit.admin.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -578,8 +582,43 @@ public class AdminController {
 		
 		return imgList;
 	}
-	
-	
-	
+		
+	@RequestMapping("paymentForm.rs")
+	public ModelAndView paymentForm(ModelAndView mv) {
+		LocalDateTime now = LocalDateTime.now();	    
+	    
+		String minDate;
+		String maxDate;
+		String clothingPayment = adminService.selectClothingPayment();
+		String shoosePayment = adminService.selectShoosePayment();
+		String otherPayment = adminService.selectOtherPayment();
+		
+		
+		
+		String[] paymentArr = new String[6];
+		for(int i = 1; i <= 6; i++) {
+			minDate = now.minusMonths(i).with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ISO_DATE); 	    	    	    
+		    maxDate = now.minusMonths(i).with(TemporalAdjusters.lastDayOfMonth()).format(DateTimeFormatter.ISO_DATE);
+		    System.out.println( i + "번 째 "  + "minDate : " + minDate + " maxDate : "  + maxDate);
+		    HashMap<String, String> dates = new HashMap<String, String>();
+		    dates.put("minDate", minDate);
+		    dates.put("maxDate", maxDate);
+		    paymentArr[i-1] = adminService.selectSumPayment(dates);
+		}
+		
+		for(String d : paymentArr) {
+			System.out.println(d);
+		}
+
+	    
+	    mv.addObject("clothingPayment",clothingPayment);
+	    mv.addObject("shoosePayment",shoosePayment);
+	    mv.addObject("otherPayment",otherPayment);
+	    mv.addObject("paymentArr",paymentArr);
+	    
+		mv.setViewName("admin/paymentResult");
+		
+		return mv;
+	}
 	
 }
