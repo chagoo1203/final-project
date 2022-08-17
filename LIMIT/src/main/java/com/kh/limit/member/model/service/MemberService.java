@@ -52,4 +52,7 @@ public class MemberService {
 	public int updateMember(Member m) {
 		return memberDao.updateMember(sqlSession, m);
 	}
+	public int deleteMember(String userId) {
+		return memberDao.deleteMember(sqlSession, userId);
+	}
 }

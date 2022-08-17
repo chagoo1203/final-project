@@ -105,7 +105,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 ​
-                <form action="" method="post">
+                <form action="delete.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div align="center">
@@ -114,7 +114,8 @@
                         </div>
                         <br>
                             <label for="userPwd" class="mr-sm-2">Password : </label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name=""> <br>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="userPwd"> <br>
+                            <input type="hidden" name="userId" value="${ loginUser.userId }" />
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">

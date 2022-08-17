@@ -165,6 +165,19 @@
 	
 	
 	</update>
+	
+ <!--  회원탈퇴  -->
+ 
+ <update id="deleteMember">
+ 	update
+ 	member
+ 	set
+ 	status = 'N'
+ 	where
+ 	user_id = #{userId}
+ 
+ 
+ </update>
   
   
 </mapper>
