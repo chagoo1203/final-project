@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -112,10 +112,10 @@
                 <button id="btn3" type="button"  onclick="fileupload3()">사진2</button>
                 <button id="btn4" type="button"  onclick="fileupload4()">사진3</button>
 
-                <input id="inp1"   type="file" name="styleImg" required accept="image/*" onchange="loadImg(this,1);"/>
-                <input id="inp2"   type="file" name="styleImg"> 
-                <input id="inp3"   type="file" name="styleImg">
-                <input id="inp4"   type="file" name="styleImg">
+                <input id="inp1" hidden  type="file" name="styleImg" required accept="image/*" onchange="loadImg(this,1);"/>
+                <input id="inp2" hidden  type="file" name="styleImg"> 
+                <input id="inp3" hidden  type="file" name="styleImg">
+                <input id="inp4" hidden  type="file" name="styleImg">
                 <br><br><br><br>
 
                 <script>

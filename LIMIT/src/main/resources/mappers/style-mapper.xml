@@ -19,14 +19,33 @@
 
   
 
-	<select id="selectStyleList" resultMap="styleResultSet">
+	<select id="selectStyleList" resultMap="styleResultSet" parameterType="string">
         SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
         FROM STYLE S
 		JOIN ATTACHMENT ON(STYLE_NO = REF_NO)
 		WHERE S.STATUS = 'Y'
         AND FILE_LEVEL = 1
         AND TYPE_NO = 3
-        ORDER BY STYLE_NO DESC
+       
+       <choose>
+       	<when test="type eq 'like' ">
+       		ORDER BY "LIKE" DESC
+       	</when>
+       	<when test="type eq 'count'">
+       		 ORDER BY COUNT DESC
+       	</when>
+       	<otherwise>
+       	      ORDER BY STYLE_NO DESC
+       	</otherwise>
+       </choose>
+       
+       
+       
+
+        
+        
+        
+        
 	</select>
 
 
@@ -176,8 +195,35 @@
             AND PRODUCT_NO = #{l}
   	</select>
   	
+  	<select id="selectLikeCount" resultType="_int">
+  		SELECT COUNT(*)
+        FROM LIKES
+        WHERE STYLE_NO = #{sno}
+  	</select>
   	
   	
+  	<!-- 장민이 형꺼 -->
+  	<select id="productNoStyle">
+  		SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT, COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+        FROM STYLE S
+		JOIN ATTACHMENT ON(STYLE_NO = REF_NO)
+		WHERE S.STATUS = 'Y'
+        AND FILE_LEVEL = 1
+        AND TYPE_NO = 3
+        AND STYLE_TAG LIKE '%' || #{productNo} || '%'
+        ORDER BY STYLE_NO DESC
+  	</select>
+  	
+  	<update id="increaseLike" parameterType="_int">
+  		UPDATE STYLE SET "LIKE" = "LIKE" + 1
+        WHERE STYLE_NO = #{styleNo}
+  	</update>
+  	
+  	
+  	<update id="decreaseLike"  parameterType="_int">
+  UPDATE STYLE SET "LIKE" = "LIKE" - 1
+        WHERE STYLE_NO = #{styleNo}
+  	</update>
   	
   
 </mapper>

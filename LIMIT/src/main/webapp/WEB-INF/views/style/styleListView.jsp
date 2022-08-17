@@ -60,9 +60,9 @@
         height: auto;
     }
     .style{
-            
+            overflow:auto;
             width: 20%;
-            height: 70%;
+            height: 300px;
             text-align: center;
             cursor: pointer;
             border: 1px solid black;
@@ -89,7 +89,7 @@
 	  <jsp:include page="../common/menubar.jsp" />
     <div class="wrap">
         <div id="style_tab_lst" align="center">
-            <a href="" class="option">최신</a> <a href="" class="option">인기</a> <a href="" class="option">팔로잉</a>
+            <a href="style.bo" class="option">최신</a> <a href="style.bo?type=like" class="option">인기</a> <a href="style.bo?type=count" class="option">조회수</a>
         </div>
         <div id="hash_tag">
             <div id="hash_bar" align="center">#나이키 #아디다스 #조던1 </div>
@@ -111,20 +111,20 @@
 	            <div class="style">
 	            	<input type="hidden" value="${ s.styleNo }">
 	                <img src="${ s.titleImg }" style="width:210px; height:200px">
-	                <p>${ s.styleContent }</p>
+	                <p>${ s.styleContent }</p> 
+	                <p>♥ ${ s.like } 개</p>
+	                <p>조회수 ${s.count }</p>
 	                <ul>
-	                    <li>
-	                        <a href="">
-	                            <p class="product_name">Nike Air Force 1 '07 Low White </p>    
-	                            <p class="price_box">132000원</p>
-	                        </a>
-	                    </li>
-	                    <li>
-	                        <a href="">
-	                            <p class="product_name">Jordan 1 Retro Low OG Black and Dark Powder Blue </p>    
-	                            <p class="price_box">132000원</p>
-	                        </a>
-	                    </li>
+	 
+	              
+	                	<c:forEach var="p" items="${ s.tag }">
+		                    <li>
+		                        <a href="">
+		                            <p class="product_name">${ p.productName }</p>  
+		                        </a>
+		                    </li>
+	                	</c:forEach>
+	            
 	                </ul>
 	            </div>  
             

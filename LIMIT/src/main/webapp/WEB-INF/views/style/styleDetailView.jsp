@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>스타일 상세보기</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <style>
         div{
 
@@ -152,6 +154,7 @@
         			<a href="delete.st?sno=${ s.styleNo }">삭제</a>
         			<a href="updateForm.st?sno=${ s.styleNo }">수정</a>
         		</c:if>
+       	<p>♥ ${like } 개</p>
         </div>
         <div id="pictures" style="width:750px; height:600px">
    				<div class="slideshow-container" style="width:100%; height:100%">
@@ -241,17 +244,19 @@
 	        	<c:if test="${ ! empty loginUser }">
 		            <form action="stLike.bo">
 		      
-		    	   		<button>좋아요</button>
+		    	   		<button class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">좋아요</button>
+						<label class="btn btn-outline-danger" for="danger-outlined">좋아요</label>
 		              	<input type="hidden" name="styleNo" value="${ s.styleNo }">
 		          	  	<input type="hidden" name="userId" value="${ loginUser.userId }">
 		           
 		           </form>
 	           </c:if>
 	
-	             <button style="margin:5px"  onclick="getURL();">공유하기</button>
+	             <button style="margin:5px"  onclick="getURL();"  class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked></button>
+	             <label class="btn btn-outline-success" for="success-outlined">공유하기</label>
         		</tr>
         	</table>
-        	
+        
         	
         	<script>
                         function getURL() {
