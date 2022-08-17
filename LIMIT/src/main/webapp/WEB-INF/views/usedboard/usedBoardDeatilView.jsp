@@ -320,7 +320,7 @@
                     </div>
                     
                     <div class = "btnWrap">
-                        <button type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
+                        <button id="chatBtn" type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
                     </div>
                 </div>
             </div>
@@ -362,19 +362,35 @@
     $(function(){    	
         if("${loginUser.userId}" == ""){
         	$("#btn-check-2-outlined").prop("disabled", true);        	
+            $("#chatBtn").attr("disabled", true);
         }else{
         	aJaxLoadToInterested();
         }
-    })
-    $(document).ready(function(){
-    	$("#btn-check-2-outlined").change(function(){
+
+        $("#btn-check-2-outlined").change(function(){
     		if($("#btn-check-2-outlined").is(":checked")){    			
     			aJaxInsertToInterested();
     		}else{
     			aJaxDeleteToInterested();
     		}
     	})
+        $("#chatBtn").click(function(){
+            aJaxNewChatFile();
+            location.href = "chatListForm.used";
+        })
     })
+    
+    function aJaxNewChatFile(){
+        $.ajax({
+            url : "aJaxNewChatFile.used",
+            data : {userId : "${loginUser.userId}", toUser : "${usedBoard.boardWriter}"},
+            success : function(msg){            	
+	           	
+            },error : function(){
+            	alert("통신실패");
+            }
+        })
+    }
     function aJaxLoadToInterested(){
         $.ajax({
             url : "aJaxLoadToInterested.used",

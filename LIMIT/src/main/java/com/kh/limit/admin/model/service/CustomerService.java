@@ -1,5 +1,7 @@
 package com.kh.limit.admin.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,12 @@ public class CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public int selectNoticeCount(String type) {
-		return customerDao.selectNoticeCount(sqlSession, type);
+	public int selectNoticeCount() {
+		return customerDao.selectNoticeCount(sqlSession);
 	}
 
-	public Object selectList(PageInfo pi, String type) {
-		return customerDao.selectList(sqlSession, pi, type);
+	public ArrayList<Notice> selectQnaList(PageInfo pi) {
+		return customerDao.selectQnaList(sqlSession, pi);
 	}
 
 	public int increaseCount(int noticeNo) {
@@ -31,6 +33,14 @@ public class CustomerService {
 
 	public Notice selectNotice(int noticeNo) {
 		return customerDao.selectNotice(sqlSession, noticeNo);
+	}
+
+	public int selectQnaCount() {
+		return customerDao.selectQnaCount(sqlSession);
+	}
+
+	public ArrayList<Notice> selectNoticeList(PageInfo pi) {
+		return customerDao.selectNoticeList(sqlSession, pi);
 	}
 
 }

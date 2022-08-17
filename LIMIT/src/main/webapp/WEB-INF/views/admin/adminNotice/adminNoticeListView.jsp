@@ -5,12 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객센터</title>
-</head>
+<title>관리자페이지</title>
 <style>
 .outer{
-    margin-left: 35%;
     width: 800px;
+    margin-left: 35%;
     margin-top: 15px;
 }
 .title {
@@ -18,6 +17,7 @@
     font-weight: bold;
 }
 .table {
+    text-align: center;
     width: 650px;
 }
 
@@ -36,44 +36,63 @@
 .btn{
     float: right;
     margin-right: 10%;
+    margin-bottom: 10px;
+}
+thead{
+    background-color: rgb(220, 218, 218);
 }
 </style>
+</head>
 <body>
 
-	<jsp:include page="../common/menubar.jsp" />
-	<jsp:include page="noticeMenu.jsp" />
-	
+</body>
+
+	<jsp:include page="../../common/menubar.jsp" />
+	<jsp:include page="../adminMenu.jsp" />
+
 	<div class="outer">
-        <p class="title" align="center">공지사항</p>     
+        <p class="title" align="center">공지사항 관리</p>     
         <hr>
         <br>
-        <div class="container">           
-            <table class="table" id="noticeList">
-              <tbody>
-                <c:forEach var="n" items="${list}">
-	                <tr>
-	                  <input type="hidden" name="noticeNo" value="${n.noticeNo}">
-	                  <td>${n.noticeTitle}</td>
-	                </tr>
-       			</c:forEach>
-              </tbody>
-            </table>
-          </div>
+        <div id="btn">
+            <a class="btn btn-secondary" href="enrollForm.no">글작성</a>
+        </div>
+        <br>
+        <table class="table" align="center" id="noticeList">
+            <thead>
+            <tr>
+                <th>글번호</th>
+                <th>글제목</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            	<c:forEach var="n" items="${list}">
+                	<tr>
+                		<td>${n.noticeNo}</td>
+                		<td>${n.noticeTitle}</td>
+                		<td>${n.noticeCount}</td>
+                		<td>${n.createDate}</td>
+                	</tr>
+                </c:forEach>
+            </tbody>
+        </table>
         <br>
         
         <script>
          	$(function(){
          		$("#noticeList>tbody>tr").click(function(){
          			// 클릭될때마다 url 요청 
-         			var nno = $(this).children().eq(0).val();
+         			var nno = $(this).children().eq(0).text();
          			
-         			location.href = "detail.cno?nno="+ nno;
+         			location.href = "detail.no?nno="+ nno;
          		})
          	});
-         </script>
+          </script>
 
         <br><br><br>
-        <!-- 페이징 처리 하는 곳 / 아직 못 만듬 -->
+        <!-- 페이징 처리 -->
         <br><br><br>
         <div class="container">                  
             <ul class="pagination justify-content-center pagination-sm">
@@ -83,13 +102,13 @@
                		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
                	</c:when>
                	<c:otherwise>
-               		<li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${pi.currentPage - 1}">Previous</a></li>                    	
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="list.no?page=${pi.currentPage - 1}">Previous</a></li>                    	
                	</c:otherwise>
             </c:choose>
             
             <!-- 숫자가 나오는 페이지 버튼 -->
             <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-            	<li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${p}">${p}</a></li>
+            	<li class="page-item"><a class="page-link bg-secondary text-white" href="list.no?page=${p}">${p}</a></li>
             </c:forEach>
             
             <!-- next 페이지 버튼 -->
@@ -98,16 +117,15 @@
               <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
             	</c:when>
             	<c:otherwise>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="notice.ct?npage=${pi.currentPage + 1}">Next</a></li>
+              <li class="page-item"><a class="page-link bg-secondary text-white" href="list.no?page=${pi.currentPage + 1}">Next</a></li>
             	</c:otherwise>
             </c:choose>
             </ul>
         </div>
          
     </div>
-	
-	<br><br>
-	<jsp:include page="../common/footer.jsp" />
-
-</body>
+    
+    <br><br>
+	<jsp:include page="../../common/footer.jsp" />
+    
 </html>

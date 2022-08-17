@@ -2,6 +2,215 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminMapper">
 
+	<resultMap type="commonName" id="categorySet">
+		<result column="PRODUCT_TYPE_NAME" property="commonName"/>
+	</resultMap>
+	
+	<resultMap type="commonName" id="brandSet">
+		<result column="BRAND_NAME" property="commonName"/>
+	</resultMap>
+	
+	<resultMap type="commonName" id="collectionSet">
+		<result column="COLLECTION_NAME" property="commonName"/>
+	</resultMap>
+	
+	<resultMap type="product" id="productResultSet">
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="COLLECTION_NAME" property="collectionName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
+		<result column="STATUS" property="status" />
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="BRAND_NAME" property="brandName" />
+		<result column="RELEASE_DATE" property="releaseDate" />
+		<result column="TITLEIMG" property="titleImg" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="MODEL_NO" property="modelNo" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="RESELL_NO" property="resellNo" />
+	</resultMap>
 
- 
+	<select id = "selectCategory" resultMap = "categorySet">
+		SELECT *
+		FROM "CATEGORY"
+	</select>
+	
+	<select id = "selectBrand" resultMap = "brandSet">
+		SELECT *
+		FROM BRAND
+	</select>
+	
+	<select id = "selectCollection" resultMap = "collectionSet">
+		SELECT *
+		FROM COLLECTION
+	</select>
+	
+	<insert id="insertProduct" parameterType="product">
+		INSERT
+		  INTO	PRODUCT
+		  		(
+		  		PRODUCT_NO,
+		  		PRODUCT_NAME,
+		  		PRODUCT_CONTENT,
+		  		PRODUCT_TYPE_NAME,
+		  		BRAND_NAME,
+		  		RELEASE_DATE,
+		  		MODEL_NO,
+		  		COLLECTION_NAME,
+		  		RELEASE_PRICE
+		  		)
+		VALUES	(
+				SEQ_PNO.NEXTVAL,
+				#{productName},
+				#{productContent},
+				#{productTypeName},
+				#{brandName},
+				#{releaseDate},
+				#{modelNo},
+				#{collectionName},
+				#{releasePrice}
+				)
+	</insert>
+	
+	<insert id="insertResellImges">
+		INSERT 
+		  INTO 	ATTACHMENT
+				(
+				FILE_NO,
+				ORIGIN_NAME,
+				CHANGE_NAME,
+				FILE_PATH,
+				FILE_LEVEL,
+				REF_NO,
+				TYPE_NO
+				)
+		VALUES
+				(
+				SEQ_FNO.NEXTVAL,
+				#{originName},
+				#{changeName},
+				#{filePath},
+				#{fileLevel},
+				SEQ_PNO.CURRVAL,
+				1
+				)
+	</insert>
+	
+	<select id="selectProduct" resultMap="productResultSet">
+		SELECT 
+				PRODUCT_NO, PRODUCT_TYPE_NAME
+		  FROM
+		  		PRODUCT
+		 WHERE
+		 		ROWNUM = 1
+		 ORDER
+		    BY	PRODUCT_NO DESC
+	</select>
+	
+	<insert id="insertSize" parameterType="java.util.List">
+    	<foreach collection="list" item="pr" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	        INTO
+	              PRODUCT_RESELL
+	              (
+	              PRODUCT_NO,
+	              PRODUCT_AMOUNT,
+	              PRODUCT_SIZE
+	              )
+	      VALUES
+	              (
+	              #{pr.productNo},
+	              #{pr.productAmount},
+	              #{pr.productSize}
+	              )
+   		</foreach>
+   </insert>
+   
+   <select id="selectProdCount" resultType="_int">
+		SELECT COUNT(*)
+  		  FROM PRODUCT	
+   </select> 
+   
+   <select id="selectProductList" resultMap="productResultSet">
+   		SELECT 
+        		PRODUCT_NO, 
+        		COLLECTION_NAME, 
+        		BRAND_NAME, 
+        		PRODUCT_TYPE_NAME, 
+        		TRADE_COUNT, 
+        		CREATE_DATE, 
+        		STATUS
+ 		 FROM
+      			PRODUCT
+         ORDER 
+ 		    BY  PRODUCT_NO DESC
+   </select>
+   
+   <select id="searchProdCount" parameterType="hashmap" resultType="_int">
+   		SELECT	COUNT(*)
+   		  FROM  PRODUCT
+   		  WHERE
+   		  <choose>
+   		  	<when test="condition == 'brandName'">
+   		  	BRAND_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	COLLECTION_NAME
+   		  	</otherwise>
+   		  </choose>
+   		  	LIKE '%' || #{keyword} || '%'
+   </select>
+   
+   <select id="searchProdList" parameterType="hashmap" resultMap="productResultSet">
+   		SELECT 
+        		PRODUCT_NO, 
+        		COLLECTION_NAME, 
+        		BRAND_NAME, 
+        		PRODUCT_TYPE_NAME, 
+        		TRADE_COUNT, 
+        		CREATE_DATE, 
+        		STATUS
+ 		 FROM
+      			PRODUCT
+      	WHERE
+      	<choose>
+   		  	<when test="condition eq 'brandName'">
+   		  	BRAND_NAME
+   		  	</when>
+   		  	<otherwise>
+   		  	COLLECTION_NAME
+   		  	</otherwise>
+   		  </choose>
+      	 	LIKE '%' || #{keyword} || '%'
+         ORDER 
+ 		    BY  PRODUCT_NO DESC
+   </select>
+
+	
+	<select id ="selectShoosePayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '신발'
+	</select>
+	<select id ="selectOtherPayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '기타'
+	</select>
+	<select id ="selectClothingPayment" resultType ="string">
+		SELECT SUM(PAYMENT)
+		FROM TRADE 
+		JOIN PRODUCT USING(PRODUCT_NO)
+		WHERE PRODUCT_TYPE_NAME = '의류'
+	</select>
+ 	
+ 	<select id = "selectSumPayment" resultType="string" parameterType="hashmap">
+ 		SELECT SUM(PAYMENT)
+		FROM TRADE
+		WHERE STATUS = 'Y' AND 
+		PURCHASE_DATE BETWEEN TO_DATE(#{minDate}, 'YYYY-MM-DD') 
+		                  AND TO_DATE(#{maxDate}, 'YYYY-MM-DD')
+ 	</select>
 </mapper>

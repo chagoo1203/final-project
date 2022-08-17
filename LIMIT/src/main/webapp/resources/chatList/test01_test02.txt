@@ -1,8 +1,0 @@
-{"text":"test","date":"sysdate","msgWriter":"test01"}
-{"text":"test","date":"sysdate","msgWriter":"test01"}
-{"text":"test","date":"sysdate","msgWriter":"test01"}
-{"text":"test","date":"sysdate","msgWriter":"test01"}
-{"text":"text","date":"sysdate","msgWriter":"test01"}
-{"text":"cxvv","date":"sysdate","msgWriter":"test01"}
-{"text":"이거되나요?","date":"sysdate","msgWriter":"test01"}
-{"text":"혹시 ?","date":"sysdate","msgWriter":"test01"}
