@@ -12,18 +12,18 @@ import com.kh.limit.common.model.vo.PageInfo;
 @Repository
 public class CustomerDao {
 
-	public int selectNoticeCount(SqlSessionTemplate sqlSession, String type) {
-		return sqlSession.selectOne("noticeMapper.selectNoticeCount", type);
+	public int selectNoticeCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectNoticeCount");
 	}
 
-	public Object selectList(SqlSessionTemplate sqlSession, PageInfo pi, String type) {
+	public ArrayList<Notice> selectQnaList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectList", type, rowBounds);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectQnaList", null, rowBounds);
 	}
 
 	public int increaseCount(SqlSessionTemplate sqlSession, int noticeNo) {
@@ -32,6 +32,20 @@ public class CustomerDao {
 
 	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
 		return sqlSession.selectOne("noticeMapper.selectNotice", noticeNo);
+	}
+
+	public int selectQnaCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.selectQnaCount");
+	}
+
+	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
 	}
 
 }

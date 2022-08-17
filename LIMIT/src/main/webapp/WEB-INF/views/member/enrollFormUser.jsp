@@ -31,65 +31,131 @@
             <br>
 
             <form action="insert.me" method="post" id="enrollForm" >
-                <div class="form-group">
-                	<div>*는 필수 사항입니다.</div><br>
-                    <label for="userId">* 아이디 : </label>
-                    <label for="userId">&nbsp;&nbsp;영문자로 시작하는 영문자 또는 숫자 6~20자를 입력해주세요  </label>
-                    <input type="text" class="form-control" id="userId" name="userId"  maxlength="20" onkeyup="idCheck();" required> <br>
-					<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
-					
-                    <label for="userPwd">* 비밀번호 : </label>
-                    <label for="userPwd">&nbsp;&nbsp;8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합해주세요 </label>
-                    <input type="password" class="form-control" id="userPwd" name="userPwd"  maxlength="16" onkeyup="pwdInput();" required> <br>
-                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
-                    <br>
-					
-                    <label for="checkPwd">* 비밀번호 확인 : </label>
-                    <input type="password" class="form-control" id="checkPwd" maxlength="16" onkeyup="rePwd();" required> <br>
-                    <div id="checkPw" style="font-size : 0.7em; display:none"></div>
-					<br>
-
-                    <label for="userName">* 이름 : </label>
-                    <input type="text" class="form-control" id="userName" name="userName"  maxlength="6" onkeyup="nameCheck();" required> <br>
-					<div id="namecheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-					
-                    <label for="email"> * 이메일 : </label>
-                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" required> <br>
-					<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-					
-                    <label for="birthDate">* 생일 : </label>
-                    <input type="text" class="form-control" id="birthDate" placeholder="YYYY-MM-DD 형식으로 입력해주세요"  maxlength="10" name="birthDate" onkeyup="birthCheck();" required> <br>
-                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-
-                    <label for="phone"> * 전화번호 : </label>
-                    <input type="text" class="form-control" id="phone" placeholder="01X-XXXX-XXXX 형식으로 입력해주세요"  maxlength="13" name="phone" onkeyup="phoneCheck();" required> <br>
-                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
-					<br>
-                    
-                    <label for="nickName"> * 별명 : </label>
-                    <label for="userPwd">&nbsp;&nbsp;한글 2~8자 사이로 입력해주세요 </label>
-                    <input type="text" class="form-control" id="nickName" name="nickName"  maxlength="8" onkeyup="nickCheck();" required> <br>
-                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
-                    
-                    <label for="address"> * 주소 : </label>
-                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
-                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
-                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
-                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
-                    
-                    
-                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
-                    <input type="text" class="form-control" id="gender" maxlength="1" placeholder=" F / M " name="gender" onkeyup="genderCheck();" required> <br>
-                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
-                </div> 
-                <br>
-                <div class="btns" align="center">
-                    <button type="button" class="btn btn-primary" id="enrollbutton" onclick="enroll();">회원가입</button>
-                    <button type="reset" class="btn btn-danger">초기화</button>
-                </div>
+            	<c:choose>
+            		<c:when test="${empty loginNaver }">
+		                <div class="form-group">
+		                	<div>*는 필수 사항입니다.</div><br>
+		                    <label for="userId">* 아이디 : </label>
+		                    <label for="userId">&nbsp;&nbsp;영문자로 시작하는 영문자 또는 숫자 6~20자를 입력해주세요  </label>
+		                    <input type="text" class="form-control" id="userId" name="userId"  maxlength="20" onkeyup="idCheck();" required> <br>
+							<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
+							
+		                    <label for="userPwd">* 비밀번호 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합해주세요 </label>
+		                    <input type="password" class="form-control" id="userPwd" name="userPwd"  maxlength="16" onkeyup="pwdInput();" required> <br>
+		                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
+		                    <br>
+							
+		                    <label for="checkPwd">* 비밀번호 확인 : </label>
+		                    <input type="password" class="form-control" id="checkPwd" maxlength="16" onkeyup="rePwd();" required> <br>
+		                    <div id="checkPw" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="userName">* 이름 : </label>
+		                    <input type="text" class="form-control" id="userName" name="userName"  maxlength="6" onkeyup="nameCheck();" required> <br>
+							<div id="namecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="email"> * 이메일 : </label>
+		                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" required> <br>
+							<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="birthDate">* 생일 : </label>
+		                    <input type="text" class="form-control" id="birthDate" placeholder="YYYY-MM-DD 형식으로 입력해주세요"  maxlength="10" name="birthDate" onkeyup="birthCheck();" required> <br>
+		                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="phone"> * 전화번호 : </label>
+		                    <input type="text" class="form-control" id="phone" placeholder="01X-XXXX-XXXX 형식으로 입력해주세요"  maxlength="13" name="phone" onkeyup="phoneCheck();" required> <br>
+		                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		                    
+		                    <label for="nickName"> * 별명 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;한글 2~8자 사이로 입력해주세요 </label>
+		                    <input type="text" class="form-control" id="nickName" name="nickName"  maxlength="8" onkeyup="nickCheck();" required> <br>
+		                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    
+		                    <label for="address"> * 주소 : </label>
+		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+		                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
+		                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+		                    
+		                    
+		                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
+		                    <input type="text" class="form-control" id="gender" maxlength="1" placeholder=" F / M " name="gender" onkeyup="genderCheck();" required> <br>
+		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                </div> 
+		                <br>
+		                <div class="btns" align="center">
+		                    <button type="button" class="btn btn-primary" id="enrollbutton" onclick="enroll();">회원가입</button>
+		                    <button type="reset" class="btn btn-danger">초기화</button>
+		                </div>
+	                </c:when>
+	                <c:otherwise>	                
+	                	<div class="form-group">
+		                	<div>*는 필수 사항입니다.</div><br>
+		                    <label for="userId">* 아이디 : </label>
+		                    <label for="userId">&nbsp;&nbsp; NaverLogin 진행중 </label>
+		                    <input type="text" class="form-control" maxlength="20" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="userId" name="userId"  maxlength="20" value="${loginNaver.userId }"> <br>
+							<div id="checkResult" style="font-size : 0.7em; display:none"></div><br>
+							
+		                    <label for="userPwd">* 비밀번호 : </label>
+		                    <label for="userPwd">&nbsp;&nbsp;NaverLogin 진행중 </label>
+		                    <input type="password" class="form-control"  disabled> <br>
+		                    <input type="password" hidden class="form-control" id="userPwd" name="userPwd" value="${loginNaver.userId }"> <br>
+		                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
+		                    <br>
+							
+		                    <label for="userName">* 이름 : </label>
+		                    <input type="text" class="form-control" id="userName" value="${loginNaver.userName}" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="userName" name="userName"  value="${loginNaver.userName}"> <br>
+							<div id="namecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="email"> * 이메일 : </label>
+		                    <input type="text" class="form-control" id="email"  value = "${loginNaver.email }"" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="email"  value = "${loginNaver.email }" name="email" > <br>
+							<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+							
+		                    <label for="birthDate">* 생일 : </label>
+		                    <input type="text" class="form-control" id="birthDate"  value="${loginNaver.birthDate }" disabled> <br>
+		                    <input type="text" hidden class="form-control" id="birthDate"  value="${loginNaver.birthDate }"  name="birthDate"> <br>
+		                    <div id="birthcheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		
+		                    <label for="phone"> * 전화번호 : </label>
+		                    <input type="text" class="form-control" id="phone"  disabled value = "${loginNaver.phone }"> <br>
+		                    <input type="text"hidden  class="form-control" id="phone"  name="phone" value = "${loginNaver.phone }"> <br>
+		                    <div id="phonecheck" style="font-size : 0.7em; display:none"></div>
+							<br>
+		                    
+		                    <label for="nickName"> * 별명 : </label>		                    
+		                    <input type="text" class="form-control" id="nickName" disabled value="${loginNaver.nickName }"> <br>
+		                    <input type="text" hidden class="form-control" id="nickName" name="nickName"  value="${loginNaver.nickName }"> <br>
+		                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    
+		                    <label for="address"> * 주소 : </label>
+		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+		                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
+		                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+		                    
+		                    
+		                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
+		                    <input type="text"  class="form-control" id="gender"  disabled value="${loginNaver.gender}"> <br>
+		                    <input type="text" hidden class="form-control" id="gender"  name="gender" value="${loginNaver.gender}"> <br>
+		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                </div> 
+		                <br>
+		                <div class="btns" align="center">
+		                    <button type="submit" class="btn btn-primary" id="enrollbutton">회원가입</button>
+		                </div>
+	                </c:otherwise>
+                </c:choose>
             </form>
         </div>
         <br><br>
@@ -115,6 +181,7 @@
 									console.log(result);
 									$('#checkResult').show();
 									$('#checkResult').css('color', 'orangered').text('이미 중복된 아이디가 존재합니다');
+									ok1 = "N";
 								}else{ //사용가능
 									console.log(result);
 									var regExpId = /^[a-z]+[a-z0-9]{5,19}$/g;
@@ -122,6 +189,7 @@
 									if(!regExpId.test($idInput.val())){ //정규식에 맞지 않는 경우
 										$('#checkResult').show();
 										$('#checkResult').css('color', 'orangered').text('형식을 맞춰주세요');
+										ok1 = "N";
 									}else{
 										$('#checkResult').show();
 										$('#checkResult').css('color', 'yellowgreen').text('사용가능한 아이디입니다');
@@ -135,6 +203,7 @@
 						});					
 					}else{
 					    $('#checkResult').hide();
+					    ok1 = "N";
 				    }	
 					//console.log(ok1);
 					return ok1;
@@ -151,6 +220,7 @@
 					if(!regExpPwd.test($pwdInput.val())){			
 						$('#inputPw').show();
 						$('#inputPw').css('color', 'orangered').text('형식을 맞춰주세요');
+						ok2 = "N";
 					}else{
 						$('#inputPw').show();
 						$('#inputPw').css('color', 'yellowgreen').text('사용가능한 비밀번호입니다');
@@ -158,6 +228,7 @@
 					}
 				}else{
 					$('#inputPw').hide();
+					ok2 = "N";
 				}
 			return ok2;
 		}
@@ -172,6 +243,7 @@
 		 			if($pwdInput.val() != $rePwd.val()){
 		 				$('#checkPw').show();
 						$('#checkPw').css('color', 'orangered').text('비밀번호가 일치하지 않습니다');
+						ok3 = "N";
 		 			}else{
 		 				$('#checkPw').show();
 						$('#checkPw').css('color', 'yellowgreen').text('비밀번호가 일치합니다');
@@ -180,6 +252,7 @@
 		 		}else{
 		 			$('#checkPw').show();
 		 			$('#checkPw').css('color', 'black').text('위 비밀번호와 같이 입력해주세요');
+		 			ok3 = "N";
 		 		}
 	 		return ok3;
 		}
@@ -193,9 +266,11 @@
 				if(!regExpName.test($userName.val())){
 					if($userName.val() == ""){
 						$('#namecheck').hide();
+						ok4 = "N";
 					}else{
 						$('#namecheck').show();
 						$('#namecheck').css('color', 'orangered').text('한글 외에 다른 것을 입력하셨습니다.');
+						ok4 = "N";
 					}
 				}else{
 					$('#namecheck').show();
@@ -218,6 +293,7 @@
 					}else{
 						$('#birthcheck').show();
 						$('#birthcheck').css('color', 'orangered').text('형식이 잘못되었습니다');
+						ok5 = "N";
 					}
 				}else{
 					$('#birthcheck').show();
@@ -237,9 +313,11 @@
 					//console.log($phone)
 					if($phone.val() == ""){
 						$('#phonecheck').hide();
+						ok6 = "N";
 					}else{
 						$('#phonecheck').show();
 						$('#phonecheck').css('color', 'orangered').text('형식이 잘못되었습니다');
+						ok6 = "N";
 					}
 				}else{
 					$('#phonecheck').show();
@@ -266,12 +344,14 @@
 								if(result1 == 'NNNNN'){
 									$('#nickCheck').show();
 									$('#nickCheck').css('color', 'orangered').text('이미 중복된 닉네임이 존재합니다');
+									ok7 = "N";
 								}else{ //사용가능
 									var regExpNick = /^[가-힣]{2,8}$/
 									
 									if(!regExpNick.test($nickName.val())){ //정규식에 맞지 않는 경우
 										$('#nickCheck').show();
 										$('#nickCheck').css('color', 'orangered').text('한글만 입력해주세요');
+										ok7 = "N";
 									}else{
 										$('#nickCheck').show();
 										$('#nickCheck').css('color', 'yellowgreen').text('사용가능한 닉네임입니다');
@@ -281,11 +361,13 @@
 							},
 							error : function(){
 								console.log("닉네임 중복쳌 실패");
+								ok7 = "N";
 							}
 						});
 					}else{
 						$('#nickCheck').show();
 						$('#nickCheck').css('color', 'orangered').text('2이상 8이하여야 합니다');
+						ok7 = "N";
 					}
 			return ok7;
 		}
@@ -299,9 +381,11 @@
 					if(!regExpGender.test($genderCheck.val())){
 						if($genderCheck.val() == ""){
 							$('#genderCheck').hide();
+							ok8 = "N";
 						}else{
 							$('#genderCheck').show();
 							$('#genderCheck').css('color', 'orangered').text('대문자 F 또는 M 만 입력 해주세요');
+							ok8 = "N";
 						}
 					}else{
 						$('#genderCheck').show();

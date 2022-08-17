@@ -25,7 +25,7 @@
         }
     .sizeWrap{
     	width : 700px;
-    	height : 1000px;
+    	height : 800px;
     	margin : auto;
     }
     .productInfo{
@@ -51,6 +51,15 @@
     	height : 80px;
     	margin : auto;
     }
+    .paymentButton{
+    	width : 700px;
+    	margin : auto;
+    }
+    .payment{
+    	width : 500px;
+    	height : 100px;
+    	margin-left : 100px;
+    }
 </style>
 </head>
 <body>
@@ -60,7 +69,6 @@
 	<div id="resellWrap">
 	
 		<div id="shopMenu">구매하기</div>
-	
 			<div class="productInfo">
 				<p class="name">${p.productName}</p>
 				<p class="content">${p.productContent}</p>
@@ -75,9 +83,39 @@
 					</div>
 				</c:forEach>
 			</div>
-	
-	
+			<div class="paymentButton">
+				<input type="hidden" class="userId" name="userId" value="${loginUser.userId}">
+				<input type="hidden" class="productName" name="productName" value="신발1">
+				<input type="hidden" class="resellPrice" name="resellPrice" value="250000">
+				<button type="button" class="btn btn-outline-success payment">결제하기</button>
+			</div>
 	</div>
+	
+	<script>
+		$(function(){
+			$('.paymentButton >.payment').click(function(){
+
+				$.ajax({
+					url : "kakaopay.resell",
+					data : {userId : $('.userId').val(),
+							productName : $('.productName').val(),
+							resellPrice : $('.resellPrice').val()
+					},
+					dataType : 'json',
+					success:function(data){
+						//alert(data.tid);
+						window.open(data.next_redirect_pc_url);
+					},
+					error:function(data){
+						
+					}
+				
+				})
+			
+			})
+		})
+	
+	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 

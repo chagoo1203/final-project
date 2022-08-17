@@ -92,7 +92,7 @@ a {
 		<hr>
 		<div class="accordion">
 			<input type="checkbox" id="answer01" /> <label for="answer01">
-				<a href="">상품 관리</a>
+				<a href="admin.ad">상품 관리</a>
 			</label>
 		</div>
 			
@@ -114,7 +114,7 @@ a {
 				src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKKs6OP36GlHnJCLBRA3bwO1RYfLy9VLUesg&usqp=CAU"></label>
 			<div>
 				<a href="list.qna"> - Q&A 관리</a> <br /> <a
-					href=""> - 공지사항 관리</a>
+					href="list.no"> - 공지사항 관리</a>
 			</div>
 		</div>
 	</div>

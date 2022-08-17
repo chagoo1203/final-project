@@ -32,6 +32,11 @@
 		<result column="PRODUCT_SIZE" property="productSize" />
 	</resultMap>
 	
+	<resultMap type="trade" id="tradeSet">
+		<result column="PAYMENT" property="payment" />
+		<result column="PURCHASE_DATE" property="purchaseDate" />
+	</resultMap>
+	
 	<resultMap type="attachment" id="attachmentSet">
 		<result column="CHANGE_NAME" property="changeName" />
 		<result column="FILE_PATH" property="filePath" />
@@ -95,6 +100,85 @@
 	AND (A.PRODUCT_SIZE = B.PRODUCT_SIZE)
 	AND (A.RESELL_PRICE = B.RESELL_PRICE)
 	ORDER BY PRODUCT_SIZE ASC
+	</select>
+	
+	<select id="selectInterestProduct" parameterType="interested" resultType="_int">
+	SELECT COUNT(*)
+	FROM INTERESTED
+	WHERE USER_ID = #{userId}
+	AND PRODUCT_NO = #{productNo}
+	</select>
+	
+	<insert id="insertInterestProduct" parameterType="interested">
+	INSERT
+	  INTO INTERESTED
+	  	   (
+	  	   USER_ID,
+	  	   PRODUCT_NO
+	  	   )
+	VALUES 
+		   (
+		   #{userId},
+		   #{productNo}
+		   )
+	</insert>
+	
+	<update id="updateInterestProduct" parameterType="interested">
+	UPDATE PRODUCT SET LIKES = LIKES + 1 WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+	<delete id="deleteInterestProduct" parameterType="interested">
+	DELETE FROM INTERESTED
+	WHERE USER_ID = #{userId}
+	AND PRODUCT_NO = #{productNo}
+	</delete>
+	
+	<update id="reduceInterestProduct" parameterType="interested">
+	UPDATE PRODUCT SET LIKES = LIKES - 1 WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+	<insert id="insertSellProduct" parameterType="resellInfo">
+	INSERT INTO RESELL_INFO(RESELL_NO, PRODUCT_NO, SELLER, PRODUCT_SIZE, PRODUCT_AMOUNT, RESELL_UPLOAD_DATE, RESELL_PRICE)
+	VALUES(SEQ_RSNO.NEXTVAL, #{productNo}, #{seller}, #{productSize}, 1, SYSDATE, #{resellPrice})
+	</insert>
+	
+	<select id="priceGraphWeek" resultMap="tradeSet">
+	SELECT AVG(PAYMENT) PAYMENT, TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE"
+	FROM (SELECT PAYMENT, PURCHASE_DATE
+	        FROM TRADE
+	        WHERE PRODUCT_NO = #{productNo}
+	        AND PURCHASE_DATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD')
+	        AND STATUS = 'Y'
+	        AND DELIVERY = 'E'
+	        ORDER BY PURCHASE_DATE ASC)
+	GROUP BY PURCHASE_DATE
+	ORDER BY PURCHASE_DATE ASC
+	</select>
+	
+	<select id="priceGraphMonth" resultMap="tradeSet">
+	SELECT AVG(PAYMENT) PAYMENT, TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE"
+	FROM (SELECT PAYMENT, PURCHASE_DATE
+	        FROM TRADE
+	        WHERE PRODUCT_NO = #{productNo}
+	        AND PURCHASE_DATE >= TO_CHAR(SYSDATE-30,'YYYYMMDD')
+	        AND STATUS = 'Y'
+	        AND DELIVERY = 'E'
+	        ORDER BY PURCHASE_DATE ASC)
+	GROUP BY PURCHASE_DATE
+	ORDER BY PURCHASE_DATE ASC
+	</select>
+	
+	<select id="priceGraphYear" resultMap="tradeSet">
+	SELECT AVG(PAYMENT) PAYMENT, TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE"
+	FROM (SELECT PAYMENT, PURCHASE_DATE
+	        FROM TRADE
+	        WHERE PRODUCT_NO = #{productNo}
+	        AND PURCHASE_DATE >= TO_CHAR(SYSDATE-365,'YYYYMMDD')
+	        AND STATUS = 'Y'
+	        AND DELIVERY = 'E'
+	        ORDER BY PURCHASE_DATE ASC)
+	GROUP BY PURCHASE_DATE
+	ORDER BY PURCHASE_DATE ASC
 	</select>
 
 </mapper>
