@@ -171,8 +171,8 @@
                 
 
                 <div id="product_search_area">
-                    <p>상품태그 N개</p>
-                    <input type="text" name="styleTag" id="productSerachBar" placeholder="상품검색"> <button>검색</button>
+                    <p>상품태그</p>
+                    <input type="text" name="styleTag" id="productSerachBar" placeholder="상품검색"> 
                 </div>
                 <div id="product_list">
                 	
@@ -201,8 +201,8 @@
 								console.log(list)
 								
 							if(list.length == 0){ // 사용 불가
-								console.log("냐오");
-								$('#product_list').css('color', 'orangered').text('조회된 상품이 없습니다.');
+							
+								$('#product_list').text('조회된 상품이 없습니다.');
 							}
 							else{ // 사용 가능
 								

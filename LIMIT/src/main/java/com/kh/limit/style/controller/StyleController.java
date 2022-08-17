@@ -205,7 +205,6 @@ public class StyleController {
 			
 				for(String l : list) {
 					
-					System.out.println(l);
 					
 					Product p = styleService.selectProductList(l);
 					

@@ -14,15 +14,17 @@
 		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="STYLE_WRITER" property="styleWriter"/>
 		<result column="TITLE_IMG" property="titleImg" />
+		<result column="NICKNAME" property="nickname" />
 	</resultMap>
 
 
   
 
 	<select id="selectStyleList" resultMap="styleResultSet" parameterType="string">
-        SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+        SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE", NICKNAME
         FROM STYLE S
 		JOIN ATTACHMENT ON(STYLE_NO = REF_NO)
+		JOIN MEMBER ON(USER_ID = STYLE_WRITER)
 		WHERE S.STATUS = 'Y'
         AND FILE_LEVEL = 1
         AND TYPE_NO = 3
@@ -82,10 +84,11 @@
   	</select>
   	
 	<select id="selectStyle" resultType="style" parameterType="_int" resultMap="styleResultSet">
-		SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT,STATUS, COUNT, "LIKE", CREATE_DATE, MODIFY_DATE, STYLE_WRITER
-        FROM STYLE  
+        SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT, S.STATUS, COUNT, "LIKE", CREATE_DATE, S.MODIFY_DATE, STYLE_WRITER, NICKNAME
+        FROM STYLE S 
+        JOIN MEMBER ON (USER_ID = STYLE_WRITER)
         WHERE STYLE_NO = #{sno}
-        AND STATUS = 'Y'
+        AND S.STATUS = 'Y'
 	</select>
 	
 	
@@ -110,6 +113,7 @@
         FROM STYLE
         JOIN ATTACHMENT ON (REF_NO = STYLE_NO)
         WHERE REF_NO = #{sno}
+        AND TYPE_NO = 3
         ORDER BY FILE_LEVEL ASC
 	</select>
   	
@@ -141,8 +145,9 @@
   	</insert>
   	
   	<select id="selectReplyList" resultMap="replyResultSet">
-  	    SELECT REPLY_NO, REPLY_WRITER, REPLY_CONTENT, TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') AS "REPLY_DATE", STATUS, STYLE_NO
-        FROM REPLY
+  	    SELECT REPLY_NO, REPLY_WRITER, REPLY_CONTENT, TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') AS "REPLY_DATE", R.STATUS, STYLE_NO, NICKNAME
+        FROM REPLY R
+        JOIN MEMBER ON(USER_ID = REPLY_WRITER)
         WHERE STYLE_NO = #{sno}
   	</select>
   	
@@ -153,6 +158,7 @@
 		<result column="STYLE_NO" property="refSno"/>
 		<result column="REPLY_WRITER" property="replyWriter"/>
 		<result column="STATUS" property="status"/>
+		<result column="NICKNAME" property="nickname"/>
 	</resultMap>
   	
   	<insert id="insertReply" parameterType="reply">

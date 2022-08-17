@@ -24,4 +24,5 @@ public class Style {
 	private String styleWriter; // STYLE_WRITER	VARCHAR2(40 BYTE)
 	private String titleImg;
 	private ArrayList<Product> tag; 
+	private String nickname;
 }

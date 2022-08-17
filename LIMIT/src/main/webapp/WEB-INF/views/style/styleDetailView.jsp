@@ -139,8 +139,7 @@
 			  .prev, .next,.text {font-size: 11px}
 			}
 			          
-          
-          
+       
           
     </style>
 </head>
@@ -149,12 +148,46 @@
 	 <div id="wrap">
 
      <div id="style_detail">
-        <div id="userInfo"><p style="font-size: large; text-align:center;">${ s.styleWriter }</p>
+        <div id="userInfo">
         		<c:if test="${ loginUser.userId eq s.styleWriter }">
-        			<a href="delete.st?sno=${ s.styleNo }">삭제</a>
-        			<a href="updateForm.st?sno=${ s.styleNo }">수정</a>
+        			<button  class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">삭제</button>
+					<label id="deleteStyle" class="btn btn-outline-danger" for="danger-outlined">삭제</label>
+        			<button class="btn-check" id="btn-check-outlined" autocomplete="off" >수정</button>
+        			<label  id="updateStyle" class="btn btn-outline-primary" for="btn-check-outlined">수정</label><br>
         		</c:if>
-       	<p>♥ ${like } 개</p>
+        		
+        		
+       <script>
+       		$(function(){
+       		
+       			$("#updateStyle").click(function(){
+       				
+       				location.href = "updateForm.st?sno=${ s.styleNo }";
+       		
+       			})
+       			
+       			
+       			$("#deleteStyle").click(function(){
+       				
+       				location.href =  href="delete.st?sno=${ s.styleNo }";
+       		
+       			})
+       			
+       			
+       		})
+       		
+       
+       </script>
+        		
+        		
+        		
+			
+		
+        		
+        		
+        		
+        		
+       	<p style="margin-left:600px">♥ ${ like }개  조회수 ${ s.count }</p>
         </div>
         <div id="pictures" style="width:750px; height:600px">
    				<div class="slideshow-container" style="width:100%; height:100%">
@@ -219,6 +252,7 @@
         </div>
         
         <br><br><br><br><br>
+        <p style="font-size: large;">닉네임 : ${ s.nickname }</p>	
         <div id="hash_tag">
           	<hr>
             <p style="font-size: 19px;">${ s.styleContent }</p>
@@ -365,7 +399,7 @@
     				
     				for(let i in list){
     					value += "<tr>"
-    						  + "<th>" + list[i].replyWriter +"</th>"
+    						  + "<th>" + list[i].nickname +"</th>"
     						  + "<td>" + list[i].replyContent +"</td>"
     						  + "<td>" + list[i].replyDate +"</td>"
     						  + "</tr>"

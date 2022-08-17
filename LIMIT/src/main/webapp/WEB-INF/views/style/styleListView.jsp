@@ -24,10 +24,16 @@
     li{
         list-style: none;
     }
-    a{
+    #style_tab_lst > a{	
+    	
         text-decoration: none;
         color: black;
     }
+    
+    #style_tab_lst >  a:link { color: red; text-decoration: none;}
+    #style_tab_lst > a:visited { color: black; text-decoration: none;}
+    #style_tab_lst > a:hover { color: blue; text-decoration: underline;}
+
 
     #hash_bar{
         width : 1200px;
@@ -60,9 +66,9 @@
         height: auto;
     }
     .style{
-            overflow:auto;
+           
             width: 20%;
-            height: 300px;
+            height: auto;
             text-align: center;
             cursor: pointer;
             border: 1px solid black;
@@ -111,6 +117,7 @@
 	            <div class="style">
 	            	<input type="hidden" value="${ s.styleNo }">
 	                <img src="${ s.titleImg }" style="width:210px; height:200px">
+	                <p>${ s.nickname }</p>
 	                <p>${ s.styleContent }</p> 
 	                <p>♥ ${ s.like } 개</p>
 	                <p>조회수 ${s.count }</p>
