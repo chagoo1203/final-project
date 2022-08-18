@@ -43,6 +43,7 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchList", map, rowBounds);
 	}
+	
 	public Member checkMember(SqlSessionTemplate sqlSession, Member check) {
 		return sqlSession.selectOne("memberMapper.checkMember", check);
 	}

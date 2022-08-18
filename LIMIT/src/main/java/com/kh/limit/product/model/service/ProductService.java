@@ -75,8 +75,16 @@ public class ProductService {
 		return productDao.insertSellProduct(sqlSession, ri);
 	}
 
-	public ArrayList<Trade> priceGraph(int productNo) {
-		return productDao.priceGraph(sqlSession, productNo);
+	public ArrayList<Trade> priceGraphWeek(int productNo) {
+		return productDao.priceGraphWeek(sqlSession, productNo);
+	}
+
+	public ArrayList<Trade> priceGraphMonth(int productNo) {
+		return productDao.priceGraphMonth(sqlSession, productNo);
+	}
+
+	public ArrayList<Trade> priceGraphYear(int productNo) {
+		return productDao.priceGraphYear(sqlSession, productNo);
 	}
 
 }

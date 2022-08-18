@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,14 +36,49 @@ public class StyleController {
 	private StyleService styleService;
 	
 	@RequestMapping("style.bo")
-	public ModelAndView selectStyleList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView selectStyleList(@RequestParam(value="cpage", defaultValue="1") int currentPage, @RequestParam(value="type", required=false) String type , ModelAndView mv) {
 		
 		PageInfo pi = Pagination.getPageInfo(styleService.seletListCount(), currentPage, 5, 12);
-		ArrayList<Style> list = styleService.selectStyleList(pi);
+		ArrayList<Style> list = styleService.selectStyleList(pi, type);
+		
 
 		
+		
+		for(Style s : list) {
+	
+			
+			s.setLike(styleService.selectLikeCount(s.getStyleNo()));
+			
+			
+			
+			if(s.getStyleTag() != null) {
+				
+				String[] tag = s.getStyleTag().split(","); //sub 
+		
+			ArrayList<Product> plist = new ArrayList();
+			
+			for(String l : tag) {
+			
+				Product p = styleService.selectProductList(l);
+			
+				plist.add(p);
+		
+				
+			}
+			s.setTag(plist);
+			
+			
+			
+			
+			}
+		}
+		
+	
+		
+		
+		
 		mv.addObject("pi", pi)
-		  .addObject("list", styleService.selectStyleList(pi))
+		  .addObject("list", list)
 		  .setViewName("style/styleListView");
 		
 		return mv;
@@ -156,6 +192,7 @@ public class StyleController {
 			
 			ArrayList<Product> plist = new ArrayList();
 
+			int likeCount = styleService.selectLikeCount(sno);
 			
 			
 			String productNo = s.getStyleTag();
@@ -168,7 +205,6 @@ public class StyleController {
 			
 				for(String l : list) {
 					
-					System.out.println(l);
 					
 					Product p = styleService.selectProductList(l);
 					
@@ -179,7 +215,7 @@ public class StyleController {
 			
 			
 			ArrayList<Attachment> attlist = styleService.selectAtt(sno);
-			
+			model.addAttribute("like", likeCount);
 			model.addAttribute("plist", plist);
 			model.addAttribute("s", s);
 			model.addAttribute("attlist", attlist);
@@ -211,7 +247,7 @@ public class StyleController {
 		
 		if(count > 0) {
 			result = styleService.deleteLike(like);
-			
+			result *= styleService.decreaseLike(styleNo);
 			if(result > 0) {
 				session.setAttribute("alertMsg", "좋아요 취소");
 				return "redirect:stdetail.bo?sno=" + styleNo;
@@ -225,6 +261,7 @@ public class StyleController {
 		}else {
 			
 			result = styleService.insertLike(like);
+			result *= styleService.increaseLike(styleNo);
 			if(result > 0) {
 				session.setAttribute("alertMsg", "좋아요!");
 				return "redirect:stdetail.bo?sno=" + styleNo;
