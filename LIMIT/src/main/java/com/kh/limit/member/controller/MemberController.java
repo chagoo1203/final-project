@@ -195,5 +195,10 @@ public class MemberController {
 		return "product/resellBoardList";
 	}
 
+	
+	
+	
+	
+
 }
 
