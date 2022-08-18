@@ -149,11 +149,6 @@
 				AND TYPE_NO = 1
 	</select>
 	
-	
-	
-	
-	
 
-  
   
 </mapper>
