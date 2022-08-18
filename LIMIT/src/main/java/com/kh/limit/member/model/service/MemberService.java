@@ -49,4 +49,8 @@ public class MemberService {
 		
 		return memberDao.selectSearchList(sqlSession, map, pi);
 	}
+
+	public Member checkMember(Member check) {
+		return memberDao.checkMember(sqlSession, check);
+	}
 }
