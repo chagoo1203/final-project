@@ -7,18 +7,24 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	#tableWrap{
-		width : 1200px;
-		margin : 0 auto;
-	}
-	td, th{
-		text-align : center;
-	}
+#tableWrap{
+   width: 800px;
+   margin-left: 35%;
+   margin-top: 15px;
+}
+td, th{
+	text-align : center;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
+	<jsp:include page="adminMenu.jsp" />
+	
 	<div id = "tableWrap">
+	<p class="title" align="center">매출관리</p>     
+    <hr>
+    <br>
 		<table class="table">
 		  <thead class="thead-light">
 		    <tr>
@@ -83,7 +89,7 @@
 		  </thead>
 		  <tbody>
 		  	<c:set var = "i" value="7"/>
-		  	<c:forEach var = "p" items="${paymentArr }">
+		  	<c:forEach var = "p" items="${paymentArr}">
 		  		<tr>
 			      <th scope="row">${i}월</th>
 			      <c:choose>
@@ -95,7 +101,7 @@
 			      	</c:otherwise>
 			      </c:choose>		      
 			    </tr>
-		  		<c:set var = "i" value="${i-1 }"/>
+		  		<c:set var = "i" value="${i-1}"/>
 		  	</c:forEach>		    
 		  </tbody>
 		</table>
