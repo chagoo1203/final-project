@@ -51,14 +51,8 @@
     	height : 80px;
     	margin : auto;
     }
-    .paymentButton{
-    	width : 700px;
-    	margin : auto;
-    }
-    .payment{
-    	width : 500px;
-    	height : 100px;
-    	margin-left : 100px;
+    #insertPayment{
+    	display : inline-block;
     }
 </style>
 </head>
@@ -75,47 +69,22 @@
 			</div>
 			<div class="sizeWrap">
 				<c:forEach var="s" items="${list}">
+				<form action="insertPayment.resell" id="insertPayment" method="post">
 					<div class="detailSize">
-						<button type="button" class="btn btn-outline-success buy">
+						<input type="hidden" name="resellNo" value="${s.resellNo}">
+						<input type="hidden" name="productNo" value="${p.productNo}">
+						<button type="submit" class="btn btn-outline-success buy">
 						<p>${s.productSize}</p>
 						<p>${s.resellPrice}</p>
 						</button>
 					</div>
+				</form>
 				</c:forEach>
 			</div>
-			<div class="paymentButton">
-				<input type="hidden" class="userId" name="userId" value="${loginUser.userId}">
-				<input type="hidden" class="productName" name="productName" value="신발1">
-				<input type="hidden" class="resellPrice" name="resellPrice" value="250000">
-				<button type="button" class="btn btn-outline-success payment">결제하기</button>
-			</div>
+			
 	</div>
 	
-	<script>
-		$(function(){
-			$('.paymentButton >.payment').click(function(){
-
-				$.ajax({
-					url : "kakaopay.resell",
-					data : {userId : $('.userId').val(),
-							productName : $('.productName').val(),
-							resellPrice : $('.resellPrice').val()
-					},
-					dataType : 'json',
-					success:function(data){
-						//alert(data.tid);
-						window.open(data.next_redirect_pc_url);
-					},
-					error:function(data){
-						
-					}
-				
-				})
-			
-			})
-		})
 	
-	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 
