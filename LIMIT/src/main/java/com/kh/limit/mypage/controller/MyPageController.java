@@ -1,5 +1,6 @@
 package com.kh.limit.mypage.controller;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.kh.limit.mypage.model.service.MyPageService;
 import com.kh.limit.member.model.service.MemberService;
 
 @Controller
+
 public class MyPageController {
 	@Autowired
 	private MyPageService mypageService;
@@ -79,9 +81,11 @@ public String myPage() {
 		
 		return mypageService.nickCheck(checkNick) > 0 ? "NNNNN" : "NNNNY";
 		}
-	}
+	
 	
 	
 
-    
+
+}
+
 

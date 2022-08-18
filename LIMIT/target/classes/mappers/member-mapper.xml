@@ -16,7 +16,8 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
-		<resultMap id="productResultSet" type="product">
+		
+	 <resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="PRODUCT_CONTENT" property="productContent" />
@@ -147,6 +148,7 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
+
 
 
 	
@@ -288,6 +290,7 @@
  
  
  </update>
+
 
   
 </mapper>

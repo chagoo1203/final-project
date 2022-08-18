@@ -28,7 +28,9 @@ import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
+import com.kh.limit.usedboard.model.vo.UsedBoard;
 
 @Controller
 public class AdminController {
@@ -209,10 +211,118 @@ public class AdminController {
 		}
 	}
 	
-	
-	
-	
+	// 회원 리스트 
+	@RequestMapping("member.ad")
+	public ModelAndView selectMemberList(@RequestParam(value="page", defaultValue="1") int currentPage, ModelAndView mv) {
 		
+		PageInfo pi = Pagination.getPageInfo(adminService.selectMemberCount(), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.selectMemberList(pi))
+		  .setViewName("admin/adminMember/adminMemberListView");
+		
+		return mv;
+	}
+	
+	// 회원 검색 메소드
+	@RequestMapping("searchMem.ad")
+	public ModelAndView searchMember(@RequestParam(value="page", defaultValue="1") int currentPage,
+								     String condition, String keyword, ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.searchMemberCount(map), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.searchMemberList(map, pi))
+		  .addObject("condition", condition)
+		  .addObject("keyword", keyword)
+		  .setViewName("admin/adminMember/adminMemberListView");
+		
+		return mv;
+	}
+	
+	// 회원 상세 조회 메소드
+	@RequestMapping("detail.ad")
+	public ModelAndView selectMember(String userId, ModelAndView mv) {
+		
+		Member m = adminService.selectMember(userId);
+		
+		if(m != null) {
+			mv.addObject("m", m).setViewName("admin/adminMember/adminMemberDetailView");
+		} else {
+			mv.addObject("errorMsg", "회원 조회 실패").setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	// 회원 삭제 메소드
+	@RequestMapping("delete.ad")
+	public String deleteMember(String userId, Model model, HttpSession session) {
+		
+		int result = adminService.deleteMember(userId);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "아이디가" + userId +"인 회원의 탈퇴 처리가 완료 되었습니다.");
+			return "redirect:member.ad";
+		} else {
+			model.addAttribute("errorMsg", "회원 탈퇴처리에 실패 하였습니다.");
+			return "common/errorPage";
+		}
+	}
+	
+	// 회원 복구 메소드
+	@RequestMapping("restore.ad")
+	public String restoreProduct(String userId, HttpSession session, Model model) {
+		
+		int result = adminService.restoreMember(userId);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "회원 복구에 성공하였습니다.");
+			return "redirect:member.ad";
+		} else {
+			model.addAttribute("errorMsg", "회원 복구에 실패하였습니다.");
+			return "common/errorPage";
+		}
+	}
+	
+	// 탈퇴회원 리스트
+	@RequestMapping("deletedMember.ad")
+	public ModelAndView deletedMemberList(@RequestParam(value="page", defaultValue="1") int currentPage, ModelAndView mv) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.deletedMemberCount(), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.deletedMemberList(pi))
+		  .setViewName("admin/adminMember/adminDeletedMemberList");
+		
+		return mv;
+	}
+	
+	// 탈퇴 회원 검색 메소드
+	@RequestMapping("searchDeletedMem.ad")
+	public ModelAndView searchDeletedMember(@RequestParam(value="page", defaultValue="1") int currentPage,
+								     String condition, String keyword, ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.searchDeletedMemCount(map), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.searchDeletedMemList(map, pi))
+		  .addObject("condition", condition)
+		  .addObject("keyword", keyword)
+		  .setViewName("admin/adminMember/adminDeletedMemberList");
+		
+		return mv;
+	}
+	
+	
 	
 	
 	
@@ -245,7 +355,6 @@ public class AdminController {
 		
 		if(result > 0) {
 			Product p = adminService.selectProduct();
-			//System.out.println(p);
 			model.addAttribute("p", p);
 			return "admin/adminProduct/adminSizeEnrollForm";
 			
@@ -254,8 +363,127 @@ public class AdminController {
 			return "common/errorPage";
 		}
 	}
+	
+	// 리셀 상품 사이즈 등록 메소드
+	@RequestMapping("insertSize.rs")
+	public String insertSize(Product p, String[] sizes, Model model, HttpSession session) {
 
-	// 프로덕트 사진 파일 INSERT할대 파일 이름 바꾸기
+		ArrayList<ProductResell> list = new ArrayList<>();
+		
+		for(int i = 0; i < sizes.length; i++) {
+			
+			list.add(new ProductResell(p.getProductNo(), 0, sizes[i]));	
+		}
+		int result = adminService.insertSize(list);
+		
+		if(result >0) {
+			session.setAttribute("alertMsg", "리셀 상품 등록이 완료 되었습니다.");
+			return "redirect:admin.ad";
+		} else {
+			model.addAttribute("errorMsg", "리셀 상품 등록에 실패 하였습니다");
+			return "common/errorPage";
+		}
+	}
+	
+	// admin 등록된 리셀 상품 검색 메소드
+	@RequestMapping("searchProd.rs")
+	public ModelAndView searchProduct(@RequestParam(value="page", defaultValue="1") int currentPage,
+								String condition, String keyword, ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.searchProdCount(map), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.searchProdList(map, pi))
+		  .addObject("condition", condition)
+		  .addObject("keyword", keyword)
+		  .setViewName("admin/adminProduct/adminProductListView");
+		
+		return mv;
+	}
+	
+	// 리셀 상품 수정 할수 있는 화면을 보여주는 메소드
+	@RequestMapping("detail.rs")
+	public ModelAndView selectProductDetial(int pno, ModelAndView mv) {
+		
+		Product p = adminService.selectProductDetail(pno);
+		ArrayList<CommonName> categoryList = adminService.selectCategory();
+		ArrayList<CommonName> brandList = adminService.selectBrand();
+		ArrayList<CommonName> collectionList = adminService.selectCollection();
+		
+		System.out.println(p);
+		
+		if( p != null) {
+			
+			ArrayList<Attachment> list = adminService.selectAttachment(pno);
+			mv.addObject("p", p)
+			  .addObject("list", list)
+			  .addObject("categoryList",categoryList)
+			  .addObject("brandList",brandList)
+			  .addObject("collectionList",collectionList)
+			  .setViewName("admin/adminProduct/adminProductDetailView");
+			
+		} else {
+			mv.addObject("errorMsg", "등록된 상품이 없습니다").setViewName("common/errorPage");
+		}
+		return mv;	
+	}
+	
+	// 리셀 상품 수정 메소드
+	@RequestMapping("updateProduct.rs")
+	public ModelAndView updateProduct(Product p, ModelAndView mv, MultipartFile[] resellImg, HttpSession session, int[] fileNo) {
+		
+		System.out.println(p.getProductNo());
+		ArrayList<Attachment> originFileList = adminService.selectAttachment(p.getProductNo());
+		System.out.println(originFileList.size());
+		
+		ArrayList<Attachment> imgList = saveFile(resellImg, session, originFileList, fileNo);
+		
+		int result1 = adminService.updateProduct(p);
+		int result2 = adminService.insertUpdateImgs(imgList, p.getProductNo());
+		
+		if(result1 * result2 > 0) {
+			mv.setViewName("redirect:admin.ad");
+		} else {
+			mv.addObject("errorMsg", "상품 수정에 실해하였습니다.").setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// 상품 삭제 메소드
+	@RequestMapping("delete.rs")
+	public String deleteProduct(int rno, HttpSession session, Model model) {
+		
+		int result = adminService.deleteProduct(rno);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "상품 삭제 성공");
+			return "redirect:admin.ad";
+		} else {
+			model.addAttribute("errorMsg", "상품 삭제 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 상품 복구 메소드
+	@RequestMapping("restore.rs")
+	public String restoreProduct(int rno, HttpSession session, Model model) {
+		
+		int result = adminService.restoreProduct(rno);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "상품 복구 성공");
+			return "redirect:admin.ad";
+		} else {
+			model.addAttribute("errorMsg", "상품 복구 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	// 프로덕트 사진 파일 등록할때 파일 이름 바꾸기
 	public ArrayList<Attachment> saveFile(MultipartFile[] resellImg, HttpSession session) { 
 		 
 		String originName;
@@ -290,50 +518,71 @@ public class AdminController {
 		return imgList;
 	}
 	
-	// 리셀 상품 사이즈 등록 메소드
-	@RequestMapping("insertSize.rs")
-	public String insertSize(Product p, String[] sizes, Model model, HttpSession session) {
-
-		ArrayList<ProductResell> list = new ArrayList<>();
+	// 프로덕트 사진 파일 수정할때 파일 이름 바꾸기
+	private ArrayList<Attachment> saveFile(MultipartFile[] resellImg, HttpSession session,
+										   ArrayList<Attachment> originFileList, int[] fileNo) {
 		
-		for(int i = 0; i < sizes.length; i++) {
+		String originName;
+		String currentTime;
+		int ranNum;
+		String ext;		
+		String changeName;
+		ArrayList<Attachment>imgList = new ArrayList<Attachment>();					
+		String savePath = session.getServletContext().getRealPath("/resources/resellListImges/");
+		int fileLevel = 1;
+		
+		for(int i = 0; i < resellImg.length; i++) { 
 			
-			list.add(new ProductResell(p.getProductNo(), 0, sizes[i]));	
+			if(i != 0) fileLevel = 2;			
+			
+			if(!resellImg[i].getOriginalFilename().equals("")) { 				
+				originName = resellImg[i].getOriginalFilename();
+				currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+				ranNum = (int)(Math.random() * 90000) + 10000;
+				ext = originName.substring(originName.lastIndexOf("."));
+				changeName =  currentTime + ranNum + ext;				
+				
+				try {
+					resellImg[i].transferTo(new File(savePath + changeName));
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				if(i < originFileList.size()) {
+					
+					new File(savePath+originFileList.get(i).getChangeName()).delete(); //원본파일 삭제
+					
+					if(!(adminService.updateAttachment(new Attachment(originFileList.get(i).getFileNo(),
+													   originName,
+													   changeName
+													   )) > 0)) return null;
+					
+				}else { 
+					imgList.add(new Attachment(originName, changeName, "resources/resellListImges/", fileLevel));
+					
+				}								
+			}										
 		}
-		int result = adminService.insertSize(list);
 		
-		if(result >0) {
-			session.setAttribute("alertMsg", "리셀 상품 등록이 완료 되었습니다.");
-			return "redirect:admin.ad";
-		} else {
-			model.addAttribute("errorMsg", "리셀 상품 등록에 실패 하였습니다");
-			return "common/errorPage";
+		if(resellImg.length <= originFileList.size()) {					
+			
+			for(int i = 0; i < fileNo.length; i++) {
+				for(int j = 0; j < originFileList.size(); j++) {
+					if(originFileList.get(j).getFileNo() == fileNo[i]) {
+						originFileList.remove(j);
+					}
+				}								
+			}
+			
+			for(int i = 0; i < originFileList.size(); i++) {												
+				new File(savePath+originFileList.get(i).getChangeName()).delete();		
+				if(!(adminService.deleteAttachment(originFileList.get(i).getFileNo()) > 0)) return null;
+			}
 		}
+		
+		return imgList;
 	}
-	
-	// admin 등록된 리셀 상품 검색 메소드
-	@RequestMapping("searchProd.rs")
-	public ModelAndView searchProduct(@RequestParam(value="page", defaultValue="1") int currentPage,
-								String condition, String keyword, ModelAndView mv) {
 		
-		HashMap<String, String> map = new HashMap<>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-		
-		System.out.println(condition + keyword);
-		
-		PageInfo pi = Pagination.getPageInfo(adminService.searchProdCount(map), currentPage, 5, 10);
-		
-		mv.addObject("pi", pi)
-		  .addObject("list", adminService.searchProdList(map, pi))
-		  .addObject("condition", condition)
-		  .addObject("keyword", keyword)
-		  .setViewName("admin/adminProduct/adminProductListView");
-		
-		return mv;
-	}
-	
-	
 	@RequestMapping("paymentForm.rs")
 	public ModelAndView paymentForm(ModelAndView mv) {
 		LocalDateTime now = LocalDateTime.now();	    
@@ -371,7 +620,5 @@ public class AdminController {
 		
 		return mv;
 	}
-	
-	
 	
 }

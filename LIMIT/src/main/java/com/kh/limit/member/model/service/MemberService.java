@@ -48,40 +48,11 @@ public class MemberService {
 	public ArrayList<Product> selectSearchList(HashMap<String, String> map, PageInfo pi) {
 		
 		return memberDao.selectSearchList(sqlSession, map, pi);
+	
+
+
 	}
-
-	
-	
-	
-	
 	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
