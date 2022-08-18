@@ -27,7 +27,9 @@
 	<select id="selectQnaList" resultMap="noticeResultSet">
 		SELECT 
         		NOTICE_NO,
-        		NOTICE_TITLE
+        		NOTICE_TITLE,
+        		NOTICE_COUNT,
+			    CREATE_DATE
   		  FROM
         		NOTICE
  		 WHERE

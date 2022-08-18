@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -112,10 +112,10 @@
                 <button id="btn3" type="button"  onclick="fileupload3()">사진2</button>
                 <button id="btn4" type="button"  onclick="fileupload4()">사진3</button>
 
-                <input id="inp1"   type="file" name="styleImg" required accept="image/*" onchange="loadImg(this,1);"/>
-                <input id="inp2"   type="file" name="styleImg"> 
-                <input id="inp3"   type="file" name="styleImg">
-                <input id="inp4"   type="file" name="styleImg">
+                <input id="inp1" hidden  type="file" name="styleImg" required accept="image/*" onchange="loadImg(this,1);"/>
+                <input id="inp2" hidden  type="file" name="styleImg"> 
+                <input id="inp3" hidden  type="file" name="styleImg">
+                <input id="inp4" hidden  type="file" name="styleImg">
                 <br><br><br><br>
 
                 <script>
@@ -171,8 +171,8 @@
                 
 
                 <div id="product_search_area">
-                    <p>상품태그 N개</p>
-                    <input type="text" name="styleTag" id="productSerachBar" placeholder="상품검색"> <button>검색</button>
+                    <p>상품태그</p>
+                    <input type="text" name="styleTag" id="productSerachBar" placeholder="상품검색"> 
                 </div>
                 <div id="product_list">
                 	
@@ -201,8 +201,8 @@
 								console.log(list)
 								
 							if(list.length == 0){ // 사용 불가
-								console.log("냐오");
-								$('#product_list').css('color', 'orangered').text('조회된 상품이 없습니다.');
+							
+								$('#product_list').text('조회된 상품이 없습니다.');
 							}
 							else{ // 사용 가능
 								

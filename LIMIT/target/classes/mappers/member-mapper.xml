@@ -16,7 +16,8 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
-		<resultMap id="productResultSet" type="product">
+		
+	 <resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="PRODUCT_NAME" property="productName" />
 		<result column="PRODUCT_CONTENT" property="productContent" />
@@ -147,7 +148,62 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
+
+	<select id="checkMember" parameterType="member" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_PWD,
+				USER_NAME,
+				EMAIL,
+				GENDER,
+				BIRTH_DATE,
+				PHONE,  
+				ADDRESS,
+				ENROLL_DATE,
+				MODIFY_DATE,
+				STATUS,
+				NICKNAME
+		  FROM
+		  		MEMBER
+		 WHERE
+		 		USER_PWD = #{ userPwd }
+		   AND STATUS = 'Y' 
+     </select>
+
+	 <select id="renickCheck" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	MEMBER
+		WHERE	NICKNAME = #{checkNick}	
+	</select>
 	
-  
+	
+	<!-- 회원정보수정 -->
+	<update id="updateMember" parameterType="member">
+	update
+	member
+	set
+	nickName = #{nickName},
+	email = #{email},
+	phone = #{phone},
+	address = #{address},
+	modify_date = sysdate
+	where
+	user_id = #{userId}
+		
+	</update>
+	
+ <!--  회원탈퇴  -->
+ 
+ <update id="deleteMember">
+ 	update
+ 	member
+ 	set
+ 	status = 'N'
+ 	where
+ 	user_id = #{userId}
+ 
+ 
+ </update>
+
   
 </mapper>
