@@ -106,7 +106,9 @@ a {
 			</div>
 		</div>
 		<div class="accordion">
-			<input type="checkbox" id="answer03" /> <label for="answer03">매출 관리</label>
+			<input type="checkbox" id="answer03" /> <label for="answer03">
+			<a href="paymentForm.rs">매출 관리</a>
+			</label>
 		</div>
 		<div class="accordion">
 			<input type="checkbox" id="answer04" /> <label for="answer04">고객센터<img

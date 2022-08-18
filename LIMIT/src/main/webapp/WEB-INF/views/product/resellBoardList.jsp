@@ -59,7 +59,15 @@
 	
 		<div id="shopMenu">Shop</div>
 		
-        <div align="right">option</div>
+        <div align="right">
+			<select id="changeFilter" name="option">
+				<option value="기본">기본</option>
+				<option value="조회수">조회수</option>
+				<option value="좋아요">좋아요</option>
+				<option value="판매량">판매량</option>
+				<option value="발매일자">발매일자</option>
+			</select>
+		</div>
         
         <jsp:include page="resellBoardFilter.jsp" />
         
@@ -87,6 +95,10 @@
 					$('.resellList>div').click(function(){
 						location.href = 'resellDetail.resell?pno=' + $(this).children().children('.pno').val();			
 					})
+            	})
+            	
+            	$("select[name=option]").change(function(){
+            		location.href = 'resellList.resell?option=' + $(this).val();
             	})
             </script>
         
