@@ -48,11 +48,13 @@ public class MemberService {
 	public ArrayList<Product> selectSearchList(HashMap<String, String> map, PageInfo pi) {
 		
 		return memberDao.selectSearchList(sqlSession, map, pi);
+	
+
+
 	}
-	public int updateMember(Member m) {
-		return memberDao.updateMember(sqlSession, m);
+
+	public Member checkMember(Member check) {
+		return memberDao.checkMember(sqlSession, check);
 	}
-	public int deleteMember(String userId) {
-		return memberDao.deleteMember(sqlSession, userId);
-	}
+
 }

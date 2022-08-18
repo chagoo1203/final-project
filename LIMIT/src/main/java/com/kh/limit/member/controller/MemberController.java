@@ -1,7 +1,9 @@
 package com.kh.limit.member.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,15 +96,23 @@ public class MemberController {
         JSONObject jsonObj = (JSONObject) jsonParse.parse(apiResult);
         
         jsonObj = (JSONObject) jsonParse.parse(jsonObj.get("response").toString());
-        String id = jsonObj.get("id").toString();
+        String pwd = jsonObj.get("id").toString();
+        
+        //ID 를 Pwd 로 사용할것
         
         Member check = new Member();
-        check.setUserId(id);
-        Member loginUser = memberService.loginMember(check);
+        
+        check.setUserPwd(pwd);
+        
+        Member loginUser = memberService.checkMember(check);
+        
         if(loginUser != null) {
         	session.setAttribute("loginUser", loginUser);
         	return "redirect:/";
         }else {
+        	String currentTime = new SimpleDateFormat("HHmmss").format(new Date());
+			int ranNum = (int)(Math.random() * 90000) + 100;
+        	String id = "naverUser" + ranNum;
             String gender = jsonObj.get("gender").toString();        
             String nickName = jsonObj.get("nickname").toString();
             String email = jsonObj.get("email").toString();
@@ -111,7 +121,7 @@ public class MemberController {
             String birthDate = jsonObj.get("birthyear").toString() + "-" + jsonObj.get("birthday").toString();
             
                     
-            Member loginNaver = new Member(id, name, email, gender, birthDate, phone, nickName);
+            Member loginNaver = new Member(id, pwd, name, email, gender, birthDate, phone, nickName);
             
             model.addAttribute("loginNaver", loginNaver);
      
@@ -147,14 +157,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("insert.me")
-	public String insertMember(Member m, Model model, HttpSession session) {
-		
-		//암호화 작업(암호문을 만4들어내는 과정)
-		System.out.println(m);
-		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-		//System.out.println(encPwd);
-		
-		m.setUserPwd(encPwd);
+	public String insertMember(Member m, Model model, HttpSession session, boolean loginNaver) {
+		if(loginNaver == false) {
+			//암호화 작업(암호문을 만4들어내는 과정)
+			System.out.println(m);
+			String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+			//System.out.println(encPwd);
+			
+			m.setUserPwd(encPwd);
+		}
 		int result = memberService.insertMember(m);
 		if(result > 0) {
 			session.setAttribute("alertMsg", "성공적으로 회원가입~");
@@ -194,60 +205,13 @@ public class MemberController {
 		
 		return "product/resellBoardList";
 	}
-	@RequestMapping("myPage.me")
-	public String myPage() {
-		
-		return "mypage/myPage";
-	}
-	// 정보수정
-	@RequestMapping("update.me")
-	public String updateMember(Member m, Model model, HttpSession session) {
-		
-		int result = memberService.updateMember(m);
-		
-		if(result > 0) {
-			session.setAttribute("loginUser", memberService.loginMember(m));
-			
-			session.setAttribute("alertMsg", "회원정보수정 성공");
-			return "redirect:myPage.me";
-			
-			
-		}else {
-			model.addAttribute("errorMsg","정보수정실패");
-			return "common/errorPage";
-		}
-	}
-	
-	// 회원탈퇴
-	@RequestMapping("delete.me")
-	public String deleteMember(String userId, String userPwd, HttpSession session) {
-		String encPwd = ((Member)session.getAttribute("loginUser")).getUserPwd();		
-		if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
-			
-			int result = memberService.deleteMember(userId);
-			if(result > 0) {
-					session.removeAttribute("loginUser");
-					session.setAttribute("alertMsg", "그동안  LIMIT를 사랑해주셔서 감사합니다.");
-					return "redirect:/";
-				
-			}else {
-				session.setAttribute("errorMsg", "실패했습니다." );
-				return "common/errorPage";
-				
-			}
-			
-		}else {
-			session.setAttribute("alertMsg", "비밀번호가 틀렸습니다");
-			return "redirect:myPage.me";
-		}
+
+
 	
 	
-	}
 	
 	
 
-	
-
-	
 }
+
 

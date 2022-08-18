@@ -29,11 +29,27 @@
             padding:5% 10%;
             background-color:white;
         }
+        .mypageMenu {
+	float: left;
+    width: 500px;
+	font-size: 20px;
+	margin-left: 20%;
+	margin-top: 100px;
+	margin:left;
+}
+
     </style>
 </head>
 <body>
     
 	<jsp:include page="../common/menubar.jsp" />
+	
+	<div class="mypageMenu">
+		<p class="title"></p>
+		<a href="">구매 내역</a> <br><br>
+		<a href="">판매 내역</a> <br><br>
+		<a href="">관심 상품</a>
+	</div>
 	
     <div class="content">
         <br><br>
@@ -41,7 +57,7 @@
             <h2>마이페이지</h2>
             <br>
 ​
-            <form action="update.me" method="post">
+            <form action="update.me" method="post" id="mypageForm">
                 <div class="form-group">
                     <label for="userId"> 아이디 : </label>
                     <input type="text" class="form-control" id="userId" value="${loginUser.userId }" name="userId" readonly> <br>
@@ -51,6 +67,19 @@
                     
                      <label for=nickName"> &nbsp; 별명 : </label>
                     <input type="text" class="form-control" id="nickName" value="${loginUser.nickName}" name="nickName"> <br>
+                    <div id="checkResult" style="font-size:0.7em; display:none"></div>
+                    <br>
+                   
+                   	 비밀번호 수정하기 : 
+                    <input type="password" class="form-control" id="userPwd" placeholder="현재비밀번호를 입력해주세요"> <br>
+					
+                                              새로 사용할 비밀번호 입력
+             		
+             		<input type="password" class="form-control" id="npwd" placeholder="새로 비밀번호를 입력해 주세요"><br>
+             		
+             		
+             		새로 사용할 비밀번호 입력이 동일한지 한번 더 입력해주세요         
+             		<input type="password" class="form-control" id="npwd2" placeholder="새로 비밀번호를 입력해 주세요"><br>      	
                     
                      <label for="birthDate"> &nbsp; 생일 : </label>
                     <input type="text" class="form-control" id="birthDate" value="${loginUser.birthDate}" name="birthDate" readonly> <br>
@@ -74,6 +103,9 @@
                     <label for="Female">여자</label> &nbsp;&nbsp;
                 	
                 </div> 
+                
+                
+                   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script>
                 	$(function(){
                 	if("${loginUser.gender }" != "" ){
@@ -82,6 +114,45 @@
                 		}
                 	})
                 
+                	
+        var ok7;
+        const $nickName = $('#mypageForm input[name=nickName]');
+		
+		if($nickName.val().length >= 2 && $nickName.val().length <= 8){
+			$.ajax({
+				url : 'renickCheck.me',
+				data : {checkNick:$nickName.val()},
+				success : function(result1){
+					//console.log(result);
+					if(result1 == 'NNNNN'){
+						$('#nickCheck').show();
+						$('#nickCheck').css('color', 'orangered').text('이미 중복된 닉네임이 존재합니다');
+						ok7 = "N";
+					}else{ //사용가능
+						var regExpNick = /^[가-힣]{2,8}$/
+						
+						if(!regExpNick.test($nickName.val())){ //정규식에 맞지 않는 경우
+							$('#nickCheck').show();
+							$('#nickCheck').css('color', 'orangered').text('한글만 입력해주세요');
+							ok7 = "N";
+						}else{
+							$('#nickCheck').show();
+							$('#nickCheck').css('color', 'yellowgreen').text('사용가능한 닉네임입니다');
+							ok7 = "Y";
+						}
+					}
+				},
+				error : function(){
+					console.log("닉네임 중복쳌 실패");
+					ok7 = "N";
+				}
+			});
+		}else{
+			$('#nickCheck').show();
+			$('#nickCheck').css('color', 'orangered').text('2이상 8이하여야 합니다');
+			ok7 = "N";
+		}
+return ok7;
                 </script>
                 <br>
                 <div class="btns" align="center">
@@ -114,18 +185,25 @@
                         </div>
                         <br>
                             <label for="userPwd" class="mr-sm-2">Password : </label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="userPwd"> <br>
+                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="userPwd"> <br>
                             <input type="hidden" name="userId" value="${ loginUser.userId }" />
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">
                         <button type="submit" class="btn btn-danger">탈퇴하기</button>
                     </div>
-                </form>
+              
+              </form>
+
+                </div>
+                </div>
             </div>
-        </div>
-    </div>
-​
+
+        
+
+        
+
+
   <jsp:include page="../common/footer.jsp" />
 ​
 </body>
