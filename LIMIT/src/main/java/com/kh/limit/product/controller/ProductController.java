@@ -24,7 +24,6 @@ import com.kh.limit.common.model.vo.ResellInfo;
 import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.service.ProductService;
 import com.kh.limit.product.model.vo.Product;
-import com.kh.limit.style.model.vo.Style;
 
 @Controller
 public class ProductController {
@@ -33,10 +32,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@RequestMapping("resellList.resell")
-	public ModelAndView resellList(ModelAndView mv, String option, String brand, String collection) {
-		
-		System.out.println(brand);
-		System.out.println(collection);
+	public ModelAndView resellList(ModelAndView mv, String option) {
 		
 		if(option == null){
 			mv.addObject("list", productService.selectResellList());
@@ -66,32 +62,8 @@ public class ProductController {
 		if(result > 0) {
 			Product p = productService.selectResellProduct(pno);
 			ArrayList<Attachment> list = productService.selectAttachmentList(pno);
-			
-			ArrayList<Style> listStyle = productService.productNoStyle(pno);
-			
-			for(Style s : listStyle) {
-				
-				if(s.getStyleTag() != null) {
-					
-					String[] tag = s.getStyleTag().split(","); //sub 
-			
-				ArrayList<Product> plist = new ArrayList();
-				
-				for(String l : tag) {
-				
-					Product pt = productService.selectProductList(l);
-				
-					plist.add(pt);
-					
-				}
-				s.setTag(plist);
-				
-				}
-			}
-			
 			mv.addObject("p", p)
 			  .addObject("list", list)
-			  .addObject("listStyle", listStyle)
 			  .setViewName("product/resellBoardDetailView");
 		} else {
 			mv.addObject("errorMsg", "비상~ 비상~").setViewName("common/errorPage");

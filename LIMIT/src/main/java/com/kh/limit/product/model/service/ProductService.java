@@ -13,7 +13,6 @@ import com.kh.limit.common.model.vo.ResellInfo;
 import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.dao.ProductDao;
 import com.kh.limit.product.model.vo.Product;
-import com.kh.limit.style.model.vo.Style;
 
 @Service
 public class ProductService {
@@ -118,14 +117,6 @@ public class ProductService {
 
 	public Object selectResellListDate() {
 		return productDao.selectResellListDate(sqlSession);
-	}
-
-	public ArrayList<Style> productNoStyle(int pno) {
-		return productDao.productNoStyle(sqlSession, pno);
-	}
-
-	public Product selectProductList(String l) {
-		return productDao.selectProductList(sqlSession, l);
 	}
 
 }

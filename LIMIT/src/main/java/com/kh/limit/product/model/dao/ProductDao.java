@@ -11,7 +11,6 @@ import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.ResellInfo;
 import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.vo.Product;
-import com.kh.limit.style.model.vo.Style;
 
 
 @Repository
@@ -130,15 +129,6 @@ public class ProductDao {
 
 	public ArrayList<Product> selectResellListDate(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("productMapper.selectResellListDate");
-	}
-
-
-	public ArrayList<Style> productNoStyle(SqlSessionTemplate sqlSession, int pno) {
-		return (ArrayList)sqlSession.selectList("productMapper.productNoStyle", pno);
-	}
-
-	public Product selectProductList(SqlSessionTemplate sqlSession, String l) {
-		return sqlSession.selectOne("productMapper.selectProductList", l);
 	}
 
 

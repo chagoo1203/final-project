@@ -47,27 +47,67 @@
                 	<span>
                 		<c:forEach var="b" items="${brand}">
 	                		<div>
-		                        <input type="checkbox" name="brand" id="brand" value="${b.commonName}">
-		                        <label for="brand">${b.commonName}</label>
+		                        <input type="checkbox" name="${b.commonName}" id="${b.commonName}">
+		                        <label for="${b.commonName}">${b.commonName}</label>
 	                        </div>
                         </c:forEach>
                 	</span>
-                </ul>
+                	</ul>
                 <ul>
                 	컬렉션 <br><br>
                 	<span>
                 		<c:forEach var="c" items="${collection}">
 	                		<div>
-		                        <input type="checkbox" name="collection" id="collection" value="${c.commonName}">
-		                        <label for="collection">${c.commonName}</label>
+		                        <input type="checkbox" name="${c.commonName}" id="${c.commonName}">
+		                        <label for="${c.commonName}">${c.commonName}</label>
 	                        </div>
                         </c:forEach>
                 	</span>
-                </ul>
+                	
+                	</ul>
+                <ul>신발 사이즈</ul>
+                <ul>
+                	의류 사이즈 <br><br>
+                	<span>
+                		<button>XS</button>
+                		<button>S</button>
+                		<button>M</button>
+                		<button>L</button>
+                		<button>XL</button>
+                		<button>XXL</button>
+                		<br>
+                		<button>85</button>
+                		<button>90</button>
+                		<button>95</button>
+                		<button>100</button>
+                		<button>105</button>
+                		<button>110</button>
+                	</span>
+                	</ul>
+                <ul>
+                	가격 <br><br>
+                	<span>
+                		<div>
+                		<input type="checkbox" name="price1" id="price1">
+	                    <label for="price1">10만원 이하</label>
+	                    </div>
+	                    <div>
+	                    <input type="checkbox" name="price2" id="price2">
+	                    <label for="price2">10만원 ~ 30만원 미만</label>
+	                    </div>
+	                    <div>
+	                    <input type="checkbox" name="price3" id="price3">
+	                    <label for="price3">30만원 ~ 50만원 미만</label>
+	                    </div>
+	                    <div>
+	                    <input type="checkbox" name="price4" id="price4">
+	                    <label for="price4">50만원 이상</label>
+	                    </div>
+                	</span>
+            	</ul>
+		    	
+		    	
 	    </div>
-	    
-	    
-	    
 
 </body>
 </html>
