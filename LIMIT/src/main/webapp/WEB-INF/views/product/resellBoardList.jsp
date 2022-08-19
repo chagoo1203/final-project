@@ -18,7 +18,7 @@
        }
 	 #shopMenu{
             font-weight: bold;
-            font-size: 30px;
+            font-size: 30px; 
             cursor: pointer;
             margin-top : 10px;
             text-align: center;
@@ -30,8 +30,6 @@
      		height : 100%;
      }
      .resellList div{
-     
-     
      }
      .thumbnail{
      		width : 225px;
