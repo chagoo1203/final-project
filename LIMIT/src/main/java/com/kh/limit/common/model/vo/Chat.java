@@ -1,7 +1,5 @@
 package com.kh.limit.common.model.vo;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +14,12 @@ public class Chat {
 	private String text;
 	private String date;
 	private String msgWriter;	
+	private String readStatus;
+	public Chat(String text, String date, String msgWriter) {
+		super();
+		this.text = text;
+		this.date = date;
+		this.msgWriter = msgWriter;
+	}
+	
 }

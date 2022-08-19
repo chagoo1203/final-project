@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class Trade {
 	private int tradeNo; 
-	private String receviverName; 
+	private String recevierName; 
 	private String recevierPhone; 
 	private String recevierAddress; 
 	private String orderComment; 

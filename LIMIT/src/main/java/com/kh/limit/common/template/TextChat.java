@@ -3,7 +3,6 @@ package com.kh.limit.common.template;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -21,27 +20,61 @@ import com.kh.limit.common.model.vo.Chat;
 public class TextChat {
 	public static String dirPath = "C:\\final-project\\LIMIT\\src\\main\\webapp\\resources\\chatList\\"; 
 	
-	public static ArrayList<Chat> readChat(String url) {
+	public static ArrayList<Chat> readChat(String url, String userId) {
 		//메모장에 있는 모든 text를 불러오는 메소드
 		ArrayList<Chat> textList = new ArrayList<Chat>();
 		System.out.println(url);
 		try {
 			Scanner scanner = new Scanner(new File(url));
-			
+			String lastReadStatus = "";
 			while(scanner.hasNextLine()) {
 				JSONParser parser = new JSONParser();				
 				JSONObject jsonObj = (JSONObject) parser.parse(scanner.nextLine());
 				String date = (String)jsonObj.get("date"); 
 				String text = (String)jsonObj.get("text");
-				String userId = (String)jsonObj.get("msgWriter");
-				textList.add(new Chat(text, date, userId));
+				String msgWriter = (String)jsonObj.get("msgWriter");
+				lastReadStatus = (String)jsonObj.get("readStatus");
+				textList.add(new Chat(text, date, msgWriter));
 				
 //				textList.add(new Chat(scanner.nextLine(), "test"));
+				
 			}
 			scanner.close();
+			System.out.println("마지막 행의 user ID : " +textList.get(textList.size() - 1).getMsgWriter());
+			System.out.println("userId : " + userId);
+			System.out.println("마지막 행의 readStatus : " + lastReadStatus);
+			if(!textList.get(textList.size() - 1).getMsgWriter().equals(userId) && lastReadStatus.equals("N")) {
+				//마지막행 
+				scanner = new Scanner(new File(url));
+				File originFile = new File(url);
+				
+				
+				String newFileName = url.substring(0, url.lastIndexOf('.')) + "_temp" + ".txt";
+				System.out.println("newFileName : " + newFileName);
+
+				File newFile = new File(newFileName);
+				BufferedWriter fw = new BufferedWriter(new FileWriter(newFileName, true));
+				String regex = "\"readStatus\":\"N\"";
+				String replacement = "\"readStatus\":\"Y\"";
+				while(scanner.hasNextLine()) {															
+					fw.write(scanner.nextLine().replaceAll(regex, replacement) + "\r\n");
+					fw.flush();
+				}
+				fw.close();
+				scanner.close();
+				if(originFile.delete() == true) {
+					System.out.println("파일삭제 완료");
+				}else {
+					System.out.println("실패");
+				}
+				
+				newFile.renameTo(new File(url));
+			}			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();		
 		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return textList;
@@ -150,7 +183,7 @@ public class TextChat {
 				while(scanner.hasNextLine()) {
 					JSONParser parser = new JSONParser();				
 					JSONObject jsonObj = (JSONObject) parser.parse(scanner.nextLine());					 
-					lastLine = (String)jsonObj.get("text");										
+					lastLine = (String)jsonObj.get("text");															
 	//				textList.add(new Chat(scanner.nextLine(), "test"));				
 				}				
 				if(!lastLine.equals("")) {
@@ -167,6 +200,100 @@ public class TextChat {
 		if(scanner != null) scanner.close();
 		
 		return lastTextList;
+	}
+	
+	
+	
+	public static ArrayList<String> chatLastDate(String files[]) {
+		
+		ArrayList<String> lastDateList = new ArrayList<String>();
+		Scanner scanner = null;
+		try {			
+			for(String s : files) {
+				scanner = new Scanner(new File(dirPath + s));
+				String lastLine = "";
+				
+				while(scanner.hasNextLine()) {
+					JSONParser parser = new JSONParser();				
+					JSONObject jsonObj = (JSONObject) parser.parse(scanner.nextLine());					 
+					lastLine = (String)jsonObj.get("date");										
+					//				textList.add(new Chat(scanner.nextLine(), "test"));				
+				}				
+				if(!lastLine.equals("")) {
+					lastDateList.add(lastLine);
+				}else {
+					lastDateList.add("대화한 내역이 없습니다.");
+				}
+			}				
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();		
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		if(scanner != null) scanner.close();
+		
+		return lastDateList;
+	}
+	
+	public static ArrayList<String> chatLastReadStatus(String files[]) {
+		
+		ArrayList<String> lastReadStatus = new ArrayList<String>();
+		Scanner scanner = null;
+		try {			
+			for(String s : files) {
+				scanner = new Scanner(new File(dirPath + s));
+				String readStatus = "";
+				
+				while(scanner.hasNextLine()) {
+					JSONParser parser = new JSONParser();				
+					JSONObject jsonObj = (JSONObject) parser.parse(scanner.nextLine());					 
+					readStatus = (String)jsonObj.get("readStatus");										
+					//				textList.add(new Chat(scanner.nextLine(), "test"));				
+				}				
+				if(!readStatus.equals("")) {
+					lastReadStatus.add(readStatus);
+				}else {
+					lastReadStatus.add("대화한 내역이 없습니다.");
+				}
+			}				
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();		
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		if(scanner != null) scanner.close();
+		
+		return lastReadStatus;
+	}
+	public static ArrayList<String> chatLastLineWrtier(String files[]) {
+		
+		ArrayList<String> lastWriter = new ArrayList<String>();
+		Scanner scanner = null;
+		try {			
+			for(String s : files) {
+				scanner = new Scanner(new File(dirPath + s));
+				String msgWriter = "";
+				
+				while(scanner.hasNextLine()) {
+					JSONParser parser = new JSONParser();				
+					JSONObject jsonObj = (JSONObject) parser.parse(scanner.nextLine());					 
+					msgWriter = (String)jsonObj.get("msgWriter");										
+					//				textList.add(new Chat(scanner.nextLine(), "test"));				
+				}				
+				if(!msgWriter.equals("")) {
+					lastWriter.add(msgWriter);
+				}else {
+					lastWriter.add("");
+				}
+			}				
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();		
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		if(scanner != null) scanner.close();
+		
+		return lastWriter;
 	}
 	
 }
