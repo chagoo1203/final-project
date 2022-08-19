@@ -182,6 +182,8 @@
             ajaxLoadToUsedBoardPaging();
         })
         
+        
+        
         function ajaxLoadToUsedBoardPaging(page){
             if(page){
                 cpage = page;
