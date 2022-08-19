@@ -103,7 +103,7 @@
 	
 	<select id="selectTopBoardList" resultMap="productResultSet">
 
- 	 	SELECT PRODUCT_NO, PRODUCT_NAME, COUNT, FILE_PATH||CHANGE_NAME TITLEIMG, "LIKE", RELEASE_PRICE, PRODUCT_TYPE_NAME, BRAND_NAME
+ 	 	SELECT PRODUCT_NO, PRODUCT_NAME, COUNT, FILE_PATH||CHANGE_NAME TITLEIMG, LIKES, RELEASE_PRICE, PRODUCT_TYPE_NAME, BRAND_NAME
 		  FROM PRODUCT P
 		  JOIN ATTACHMENT ON(PRODUCT_NO = REF_NO)
 		 WHERE P.STATUS = 'Y'
@@ -147,7 +147,27 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
+	<select id="selectIdPhoneList" resultMap="memberResultSet" parameterType="hashmap">
+		SELECT USER_NAME,USER_ID, PHONE
+		FROM MEMBER
+		WHERE USER_NAME = #{member_name}
+		AND PHONE = #{member_phone}
 	
+	</select>
+	<update id="findPw" parameterType="hashmap">
+		UPDATE MEMBER
+		SET USER_PWD = #{userPw}
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+		
+	</update>
+
+	<select id="findPwCheck" resultType="_int" parameterType="member">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+	</select>
   
   
 </mapper>

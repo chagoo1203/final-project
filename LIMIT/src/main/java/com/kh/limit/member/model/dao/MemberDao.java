@@ -2,6 +2,7 @@ package com.kh.limit.member.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -43,4 +44,20 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchList", map, rowBounds);
 	}
+	public Member selectIdPhoneList(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		
+		return sqlSession.selectOne("memberMapper.selectIdPhoneList", map);
+	}
+	public int findPwCheck(Member member, SqlSessionTemplate sqlSession){
+		System.out.println(member);
+		return sqlSession.selectOne("memberMapper.findPwCheck", member);	
+	}
+	public int findPw(String email, String userId, String userPwd, SqlSessionTemplate sqlSession){
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		map.put("userId", userId);
+		map.put("userPw", userPwd);
+		return sqlSession.update("memberMapper.findPw", map);
+	}
+
 }
