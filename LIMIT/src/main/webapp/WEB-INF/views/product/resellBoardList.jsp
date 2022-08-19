@@ -100,6 +100,15 @@
             	$("select[name=option]").change(function(){
             		location.href = 'resellList.resell?option=' + $(this).val();
             	})
+            	
+            	$('#brand').change(function(){
+            		location.href = 'resellList.resell?brand=' + $(this).val();
+            	})
+            	
+            	$('#collection').change(function(){
+            		location.href = 'resellList.resell?collection=' + $(this).val();
+            	})
+            	
             </script>
         
 	

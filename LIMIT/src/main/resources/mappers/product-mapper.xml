@@ -49,6 +49,20 @@
 		<result column="RESELL_PRICE" property="resellPrice" />
 		
 	</resultMap>
+	
+	<resultMap type="style" id="styleResultSet">
+		<result column="STYLE_NO" property="styleNo"/>
+		<result column="STYLE_TAG" property="styleTag"/>
+		<result column="STATUS" property="status"/>
+		<result column="STYLE_CONTENT" property="styleContent"/>
+		<result column="COUNT" property="count"/>
+		<result column="LIKE" property="like"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="STYLE_WRITER" property="styleWriter"/>
+		<result column="TITLE_IMG" property="titleImg" />
+		<result column="NICKNAME" property="nickname" />
+	</resultMap>
 
 	<select id="selectBrand" resultMap="brandSet">
 	SELECT BRAND_NAME
@@ -247,5 +261,24 @@
 	<update id="updateProduct">
 	UPDATE PRODUCT SET TRADE_COUNT = TRADE_COUNT + 1 WHERE PRODUCT_NO = #{productNo}
 	</update>
+	
+	<select id="productNoStyle" resultMap="styleResultSet">
+  		SELECT STYLE_NO, STYLE_TAG, STYLE_CONTENT, COUNT, "LIKE", STYLE_WRITER, FILE_PATH||CHANGE_NAME TITLE_IMG, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+        FROM STYLE S
+		JOIN ATTACHMENT ON(STYLE_NO = REF_NO)
+		WHERE S.STATUS = 'Y'
+        AND FILE_LEVEL = 1
+        AND TYPE_NO = 3
+        AND STYLE_TAG LIKE '%' || #{productNo} || '%'
+        AND ROWNUM <![CDATA[ <= ]]> 4
+        ORDER BY STYLE_NO DESC
+  	</select>
+  	
+  	<select id="selectProductList" resultMap="productSet" >
+         SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_CONTENT
+         FROM PRODUCT 
+         WHERE STATUS = 'Y'
+         AND PRODUCT_NO = #{l}
+      </select>
  
 </mapper>
