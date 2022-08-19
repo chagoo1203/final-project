@@ -67,17 +67,25 @@ thead{
                 </select>
             </div>
             <div class="text">
-                <input type="text" class="form-control" name="keyword" value="${keyword}">
+                <input type="text" class="form-control" id="keyword" name="keyword" value="${keyword}">
             </div>
             <button type="submit" class="searchBtn btn btn-secondary">검색</button>
         </form>
         
-        <c:if test="${ not empty condition }">
+        <c:if test="${not empty condition}">
         <script>
         	$(function(){
         		$("#search-area option[value=${condition}]").attr("selected", true);
         	});
         </script>
+		</c:if>
+		
+		<c:if test="${not empty keyword}">
+		<script>
+		$(function(){
+    		$("#keyword").val("${keyword}");
+    	});
+		</script>
 		</c:if>
         
         <table class="table" align="center" id="productList">
@@ -137,6 +145,9 @@ thead{
            		<c:when test="${pi.currentPage eq 1}">
                		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
                	</c:when>
+               	<c:when test="${not empty condition and not empty keyword}">
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${pi.currentPage - 1}">Previous</a></li>
+               	</c:when>
                	<c:otherwise>
                		<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage - 1}">Previous</a></li>                    	
                	</c:otherwise>
@@ -144,13 +155,23 @@ thead{
             
             <!-- 숫자가 나오는 페이지 버튼 -->
             <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-            	<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${p}">${p}</a></li>
+            	<c:choose>
+            		<c:when test="${not empty condition and not empty keyword}">
+		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${p}">${p}</a></li>
+            		</c:when>
+            		<c:otherwise>
+		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${p}">${p}</a></li>
+            		</c:otherwise>
+            	</c:choose>
             </c:forEach>
             
             <!-- next 페이지 버튼 -->
             <c:choose>
             	<c:when test="${pi.currentPage eq pi.maxPage}">
               <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
+            	</c:when>
+            	<c:when test="${not empty keyword and not empty keyword}">
+	              <li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${pi.currentPage + 1}">Next</a></li>
             	</c:when>
             	<c:otherwise>
               <li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage + 1}">Next</a></li>

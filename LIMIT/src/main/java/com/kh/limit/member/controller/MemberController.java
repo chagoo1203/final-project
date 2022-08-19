@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.template.NaverLoginBo;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.member.model.dao.MemberDao;
 import com.kh.limit.member.model.service.MemberService;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
@@ -36,7 +39,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
+	private MemberDao memberDao;
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
 	
 	
 	private NaverLoginBo naverLoginBO;
@@ -208,9 +215,59 @@ public class MemberController {
 
 
 	
+	@RequestMapping("idPwFind.me")
+	public String viewIdPwFind() {
+		return "member/id_pwFind";
+	}
+	@RequestMapping("idFind.me")
+	public String viewIdFind() {
+		return "member/idSearch";
+	}
+	@RequestMapping("pwFind.me")
+	public String findPwView() {
+		return "member/pwSearch";
+	}
+	@RequestMapping("findIdResult.me")
+	public ModelAndView viewIdFindResult(HttpSession session, String member_name, String member_phone, ModelAndView mv) {
+		
+		
+		HashMap<String, String> map = new HashMap();
+		map.put("member_name", member_name);
+		map.put("member_phone", member_phone);
+		
+		Member idFindList = memberService.selectIdPhoneList(map);
+		
+		//System.out.println(idFindList);
+		
+		if(idFindList != null) {
+			session.setAttribute("idFindList", idFindList);
+			mv.setViewName("member/idResult");
+		}else {
+			mv.addObject("errorMsg","일치하는 회원이 없습니다!").setViewName("common/errorPage");
+		}
+		
+		return mv;
+
+	}
+		
+	@RequestMapping(value="pwResult.me", method=RequestMethod.POST)
+	public String findPw(Member memberVO,Model model) throws Exception{
+		logger.info("memberId"+memberVO.getUserId());
+		logger.info("memberEmail"+memberVO.getEmail());
+		
+		if(memberService.findPwCheck(memberVO)==0) {
+			model.addAttribute("msg", "아이디와 이메일를 확인해주세요");
+			
+			return "member/pwSearch";
+		}else {
 	
-	
-	
+		memberService.findPw(memberVO.getEmail(),memberVO.getUserId());
+		model.addAttribute("memberEmail", memberVO.getEmail());
+		
+		return"member/pwResult";
+		}
+	}
+
 
 }
 

@@ -148,6 +148,28 @@
 			LIKE '%' || #{keyword} || '%'
 				AND TYPE_NO = 1
 	</select>
+	<select id="selectIdPhoneList" resultMap="memberResultSet" parameterType="hashmap">
+		SELECT USER_NAME,USER_ID, PHONE
+		FROM MEMBER
+		WHERE USER_NAME = #{member_name}
+		AND PHONE = #{member_phone}
+	
+	</select>
+	<update id="findPw" parameterType="hashmap">
+		UPDATE MEMBER
+		SET USER_PWD = #{userPw}
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+		
+	</update>
+
+	<select id="findPwCheck" resultType="_int" parameterType="member">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+	</select>
+  
 
 	<select id="checkMember" parameterType="member" resultMap="memberResultSet">
 		SELECT

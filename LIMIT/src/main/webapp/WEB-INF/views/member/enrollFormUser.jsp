@@ -57,8 +57,8 @@
 							<br>
 							
 		                    <label for="email"> * 이메일 : </label>
-		                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" required> <br>
-							<div id="emailcheck" style="font-size : 0.7em; display:none"></div>
+		                    <input type="text" class="form-control" id="email" placeholder="예) khuser01@naver.com " name="email" onkeyup="emailCheck();" required> <br>
+							<div id="emailCheck" style="font-size : 0.7em; display:none"></div>
 							<br>
 							
 		                    <label for="birthDate">* 생일 : </label>
@@ -77,7 +77,7 @@
 		                    <div id="nickCheck" style="font-size : 0.7em; display:none"></div><br>
 		                    
 		                    <label for="address"> * 주소 : </label>
-		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		                    <input type="text" class="form-control" id="address_kakao" name="address_search" required placeholder="주소입력을 위해 클릭해주세요" readonly />
 		                    <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
 		                    <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
 		                    <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
@@ -395,14 +395,37 @@
 						ok8 = "Y"
 					}
 			return ok8;
+		}		
+		
+		function emailCheck(){
+			
+				//성별
+				var $emailCheck = $("#enrollForm input[name=email]");
+				var regExpEmail =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+				var ok9;
+					if(!regExpEmail.test($emailCheck.val())){
+						if($emailCheck.val() == ""){
+							$('#emailCheck').hide();
+							ok9 = "N";
+						}else{
+							$('#emailCheck').show();
+							$('#emailCheck').css('color', 'orangered').text('이메일형식에 맞춰 기입해주세요.');
+							ok9 = "N";
+						}
+					}else{
+						$('#emailCheck').show();
+						$('#emailCheck').css('color', 'yellowgreen').text('확인');
+						ok9 = "Y";
+					}
+			return ok9;
 		}			
 		
 		function enroll(){
 			var success = "";
 			//console.log("먼데이게 : " + typeof(idCheck()));
-			success = idCheck() + nickCheck() + pwdInput() + rePwd() + nameCheck() + birthCheck() + phoneCheck() + genderCheck();
+			success = idCheck() + nickCheck() + pwdInput() + rePwd() + nameCheck() + birthCheck() + phoneCheck() + genderCheck() + emailCheck();
 			//console.log(success);
-			if(success == "YYYYYYYY") { // 조건에 모두 만족할 경우 회원가입이 가능
+			if(success == "YYYYYYYYY") { // 조건에 모두 만족할 경우 회원가입이 가능
 				$("#enrollbutton").attr('type',"submit");
 			} else {
 				alert("필수항목을 조건에 맞게 입력해주세요.");
