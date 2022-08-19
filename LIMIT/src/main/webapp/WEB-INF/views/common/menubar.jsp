@@ -115,6 +115,9 @@
             	<a href="style.bo"> STYLE </a>
                 <a href="resellList.resell"> SHOP </a>
                 <a href="list.used"> USEDSHOP </a>
+                <c:if test="${not empty loginUser }">
+                	<a href="chatListForm.used"> MYCHAT </a>
+                </c:if>                
             </div>
         </div>
     </div>    

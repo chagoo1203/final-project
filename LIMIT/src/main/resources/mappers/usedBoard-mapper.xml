@@ -105,15 +105,23 @@
 			SELECT BOARD_NO
 			FROM USEDBOARD
 			WHERE STATUS = 'Y'
-			<if test="productTypeName != '' ">
-				AND PRODUCT_TYPE_NAME = #{productTypeName}
-			</if>
-			<if test="brandName != '' ">
-				AND BRANDNAME = #{brandName}
-			</if>
-			<if test="collectionName != '' ">
-				AND COLLECTION_NAME = #{collectionName}
-			</if>
+			<if test="productTypeName != null">
+		    	<foreach item="p" index="i" collection="productTypeName" open="AND(" close=")" separator="OR">
+			   		  PRODUCT_TYPE_NAME = #{p}
+			    </foreach>
+		    </if>
+		    
+		    <if test="brandName != null">
+				<foreach item="b" index="i" collection="brandName" open="AND(" close=")" separator="OR">
+			    	 BRAND_NAME = #{b}
+			    </foreach>
+		    </if>
+		    
+		    <if test="collectionName != null">
+			    <foreach item="c" index="i" collection="collectionName" open="AND(" close=")" separator="OR">
+			    	 COLLECTION_NAME = #{c}
+			    </foreach>					
+		    </if>
 			
 			)
 		
@@ -125,16 +133,25 @@
 			    SELECT BOARD_NO, BOARD_TITLE, USED_PRICE, FILE_PATH||CHANGE_NAME TITLEIMG
 			    FROM USEDBOARD U
 			    JOIN ATTACHMENT ON(BOARD_NO = REF_NO)
-			    WHERE U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 2
-			    <if test="productTypeName != '' ">
-					AND PRODUCT_TYPE_NAME = #{productTypeName}
-				</if>
-				<if test="brandName != '' ">
-					AND BRANDNAME = #{brandName}
-				</if>
-				<if test="collectionName != '' ">
-					AND COLLECTION_NAME = #{collectionName}
-				</if>
+			    WHERE (U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 2)
+			    <if test="productTypeName != null">
+			    	<foreach item="p" index="i" collection="productTypeName" open="AND(" close=")" separator="OR">
+				   		  PRODUCT_TYPE_NAME = #{p}
+				    </foreach>
+			    </if>
+			    
+			    <if test="brandName != null">
+					<foreach item="b" index="i" collection="brandName" open="AND(" close=")" separator="OR">
+				    	 BRAND_NAME = #{b}
+				    </foreach>
+			    </if>
+			    
+			    <if test="collectionName != null">
+				    <foreach item="c" index="i" collection="collectionName" open="AND(" close=")" separator="OR">
+				    	 COLLECTION_NAME = #{c}
+				    </foreach>					
+			    </if>
+				
 				) A)
 		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
 		

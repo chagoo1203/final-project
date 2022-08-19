@@ -1,17 +1,29 @@
 package com.kh.limit.usedboard.controller;
 
+import static com.kh.limit.common.template.TextChat.chatFileInsert;
+import static com.kh.limit.common.template.TextChat.chatLastDate;
+import static com.kh.limit.common.template.TextChat.chatLastLine;
+import static com.kh.limit.common.template.TextChat.chatLastLineWrtier;
+import static com.kh.limit.common.template.TextChat.chatLastReadStatus;
+import static com.kh.limit.common.template.TextChat.filesToUsers;
+import static com.kh.limit.common.template.TextChat.readChat;
+import static com.kh.limit.common.template.TextChat.searchChat;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +36,6 @@ import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.common.template.Pagination;
-import static com.kh.limit.common.template.TextChat.*;
 import com.kh.limit.usedboard.model.service.UsedBoardService;
 import com.kh.limit.usedboard.model.vo.UsedBoard;
 
@@ -49,8 +60,16 @@ public class UsedBoardController {
 		return mv;
 	}
 	@RequestMapping("list.used")
-	public String listView() {
-		return "/usedboard/usedBoardList";
+	public ModelAndView listView(ModelAndView mv) {
+		ArrayList<CommonName> categoryList = boardService.selectCategory();
+		ArrayList<CommonName> brandList = boardService.selectBrand();
+		ArrayList<CommonName> collectionList = boardService.selectCollection();
+		
+		mv.addObject("categoryList",categoryList);
+		mv.addObject("brandList",brandList);
+		mv.addObject("collectionList",collectionList);
+		mv.setViewName("/usedboard/usedBoardList");
+		return mv;
 	}
 	
 	@RequestMapping("insert.used")
@@ -75,9 +94,29 @@ public class UsedBoardController {
 	@ResponseBody
 	@RequestMapping(value = "aJaxLoadtoUsedBoard.used", produces="application/json; charset=UTF-8")	
 	public String aJaxLoadtoUsedBoard(SelectUsedBoardVo subv) {
-						
+		
+//		for(String s : subv.getProductTypeName()) {
+//			System.out.println(s);
+//		}
+//		for(String s : subv.getBrandName()) {
+//			System.out.println(s);
+//		}
+//		for(String s : subv.getCollectionName()) {
+//			System.out.println(s);
+//		}
 		return new Gson().toJson(boardService.selectBoard(subv));
 	}
+	@ResponseBody
+	@RequestMapping("aJaxLoadtoUsedBoardPaging.used")	
+	public PageInfo aJaxLoadtoUsedBoardPaging(SelectUsedBoardVo subv, int cpage) {							
+		PageInfo pi = Pagination.getPageInfo(boardService.selectListCount(subv), cpage, 10, 20);								
+		return pi;
+	}
+	
+	
+	
+	
+	
 	
 	@ResponseBody
 	@RequestMapping("aJaxLoadToInterested.used")
@@ -97,12 +136,7 @@ public class UsedBoardController {
 		if(boardService.deleteInterested(new Interested(userId, usedNo)) > 0) return "Y";
 		return "N";
 	}
-	@ResponseBody
-	@RequestMapping("aJaxLoadtoUsedBoardPaging.used")	
-	public PageInfo aJaxLoadtoUsedBoardPaging(SelectUsedBoardVo subv, int cpage) {				
-		PageInfo pi = Pagination.getPageInfo(boardService.selectListCount(subv), cpage, 10, 20);						
-		return pi;		
-	}
+	
 	
 	
 	@RequestMapping("detail.used")
@@ -155,8 +189,7 @@ public class UsedBoardController {
 	@RequestMapping("aJaxNewChatFile.used") // MyChat이 아닌 연락하기 클릭 후 입장전 메모장을 생성해주는 메소드 메모장이 있어도 상관없음
 	@ResponseBody
 	public void aJaxNewChatFile(String userId, String toUser, ModelAndView mv) {
-		if(searchChat(userId, toUser) == null) {
-			System.out.println("test");
+		if(searchChat(userId, toUser) == null) {			
 			if(chatFileInsert(userId +"_" +toUser+".txt", null) == false) {
 				System.out.println("Error : " + userId + " " + toUser);
 			}
@@ -170,16 +203,37 @@ public class UsedBoardController {
 		String files[] = searchChat(userId);
 		if(files == null) return "N";
 		ArrayList<String>lastList = chatLastLine(files);
+		ArrayList<String>lastDate = chatLastDate(files);
+		ArrayList<String>lastReadStatus = chatLastReadStatus(files); 
+		ArrayList<String>lastMsgWriters = chatLastLineWrtier(files); 
 		
 		String[] users = filesToUsers(files, userId);
-		String lastTexts[] = new String[lastList.size()];
+		String lastTexts[] = new String[lastList.size()];		
+		String lastDates[] = new String[lastList.size()];
+		String lastReads[] = new String[lastList.size()];
+		String lastWriters[] = new String[lastList.size()];
 		int index = 0;
 		for(String s : lastList) {
 			lastTexts[index] = s;
 			index++;			
 		}
+		index = 0;
+		for(String s : lastDate) {
+			lastDates[index] = s;
+			index++;			
+		}
+		index  = 0;
+		for(String s : lastReadStatus) {
+			lastReads[index] = s;
+			index++;			
+		}
+		index  = 0;
+		for(String s : lastMsgWriters) {
+			lastWriters[index] = s;
+			index++;			
+		}
 		
-		String[][] list = {users, lastTexts};
+		String[][] list = {users, lastTexts, lastDates, lastReads, lastWriters};
 		
 		
 		return new Gson().toJson(list); 
@@ -190,16 +244,16 @@ public class UsedBoardController {
 	public String aJaxLoadToTextList(String userId, String toUser) {
 		//대화방 클릭시 모든 대화를 불러오는 메소드  
 		System.out.println(searchChat(userId,toUser));
-		return new Gson().toJson(readChat(searchChat(userId,toUser)));
+		return new Gson().toJson(readChat(searchChat(userId,toUser), userId));
 	}
 	
 	@RequestMapping(value = "aJaxChatInsert.used", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public void aJaxChatInsert(String userId, String toUser, String text) {
+	public void aJaxChatInsert(String userId, String toUser, String text, String sysdate) {
 		//전송 클릭시 사용할 메소드
 		//전송한사람, 오늘 날짜, 내용 기입 
 		System.out.println(searchChat(userId, toUser));
-		chatFileInsert(searchChat(userId, toUser), new Gson().toJson(new Chat(text, "sysdate", userId)));
+		chatFileInsert(searchChat(userId, toUser), new Gson().toJson(new Chat(text, sysdate, userId, "N")));
 		
 	}
 	@RequestMapping("chatListForm.used")
