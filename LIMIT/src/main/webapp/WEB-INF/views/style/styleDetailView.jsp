@@ -265,7 +265,7 @@
             <ul>
             	<c:forEach var="p" items="${ plist }">
 	                <li>
-	                    <a href="">
+	                    <a href="resellDetail.resell?pno=${p.productNo }">
 	                        <p class="product_name">${ p.productName }</p>    
 	                        <p class="price_box"></p>
 	                    </a>
@@ -278,8 +278,8 @@
 	        	<c:if test="${ ! empty loginUser }">
 		            <form action="stLike.bo">
 		      
-		    	   		<button class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">좋아요</button>
-						<label class="btn btn-outline-danger" for="danger-outlined">좋아요</label>
+		    	   		<button class="btn-check" name="options-outlined" id="danger-outlinedd" autocomplete="off">좋아요</button>
+						<label class="btn btn-outline-danger" for="danger-outlinedd">좋아요</label>
 		              	<input type="hidden" name="styleNo" value="${ s.styleNo }">
 		          	  	<input type="hidden" name="userId" value="${ loginUser.userId }">
 		           

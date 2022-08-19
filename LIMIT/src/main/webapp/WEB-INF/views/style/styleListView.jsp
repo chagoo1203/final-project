@@ -186,7 +186,7 @@
 	              
 	                	<c:forEach var="p" items="${ s.tag }">
 		                    <li>
-		                        <a href="">
+		                        <a href="resellDetail.resell?pno=${p.productNo }">
 		                            <p class="product_name">${ p.productName }</p>  
 		                        </a>
 		                    </li>
