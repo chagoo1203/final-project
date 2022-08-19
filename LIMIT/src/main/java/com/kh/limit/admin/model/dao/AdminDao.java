@@ -2,6 +2,7 @@ package com.kh.limit.admin.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -13,6 +14,7 @@ import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
 
@@ -244,6 +246,54 @@ public class AdminDao {
 
 	public String selectSumPayment(SqlSessionTemplate sqlSession, HashMap<String, String> dates) {
 		return sqlSession.selectOne("adminMapper.selectSumPayment",dates);
+	}
+
+	public int deliveryCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.deliveryCount");
+	}
+
+	public ArrayList<Trade> deliveryList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.deliveryList", null, rowBounds);
+	}
+
+	public int searchDeliveryCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("adminMapper.searchDeliveryCount", map);
+	}
+
+	public ArrayList<Trade> searchDeliveryList(SqlSessionTemplate sqlSession, HashMap<String, String> map,
+			PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.searchDeliveryList", map, rowBounds);
+	}
+
+	public Trade selectDelivery(SqlSessionTemplate sqlSession, int tradeNo) {
+		return sqlSession.selectOne("adminMapper.selectDelivery", tradeNo);
+	}
+
+	public int updateDelivery(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		
+		Set<String> keySet = map.keySet();        
+		for (String key : keySet) {           
+			System.out.println(key + " : " + map.get(key));
+		}
+		
+		int result = sqlSession.update("adminMapper.updateDelivery", map);
+		
+		System.out.println(result);	
+		
+		
+		return result;
 	}
 
 }

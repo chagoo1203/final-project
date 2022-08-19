@@ -62,20 +62,20 @@ public class CustomerController {
 	}
 	
 	// 고객센터 Q&A 글 상세 보기
-		@RequestMapping("detail.cno")
-		public ModelAndView selectNotice(int nno, ModelAndView mv) {
-			
-			// 해당 Q&A의 조회수 증가용 서비스를 호출 결과 받기 (update)
-			int result = customerService.increaseCount(nno);
-			
-			if(result > 0 ) {	//조회수 증가 성공
-				Notice n = customerService.selectNotice(nno);
-				mv.addObject("n", n).setViewName("notice/noticeDetailView");
-			} else {
-				mv.addObject("errorMsg", "Q&A 게시글 조회 실패").setViewName("common/errorPage");
-			}
-			return mv;
+	@RequestMapping("detail.cno")
+	public ModelAndView selectNotice(int nno, ModelAndView mv) {
+		
+		// 해당 Q&A의 조회수 증가용 서비스를 호출 결과 받기 (update)
+		int result = customerService.increaseCount(nno);
+		
+		if(result > 0 ) {	//조회수 증가 성공
+			Notice n = customerService.selectNotice(nno);
+			mv.addObject("n", n).setViewName("notice/noticeDetailView");
+		} else {
+			mv.addObject("errorMsg", "Q&A 게시글 조회 실패").setViewName("common/errorPage");
 		}
+		return mv;
+	}
 	
 
 	

@@ -30,6 +30,10 @@
     background-color: #e9ecef;
 }
 
+.table tbody>tr:hover{
+	cursor : pointer;
+}
+
 #searchForm {
             width:80%;
             margin:auto;

@@ -34,7 +34,7 @@
         <label>USER NAME : </label>
         <input type="text" readonly class="form-control" value="${m.userName}">
         <br>
-        <label>닉네임 :  </label>
+        <label>NICKNAME :  </label>
         <input type="text" readonly class="form-control" value="${m.nickName}">
         <br>
         <label>EAMIL :  </label>
