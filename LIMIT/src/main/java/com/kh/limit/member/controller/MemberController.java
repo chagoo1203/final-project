@@ -121,7 +121,7 @@ public class MemberController {
 			int ranNum = (int)(Math.random() * 90000) + 100;
         	String id = "naverUser" + ranNum;
             String gender = jsonObj.get("gender").toString();        
-            String nickName = jsonObj.get("nickname").toString();
+            String nickName = id;
             String email = jsonObj.get("email").toString();
             String name = jsonObj.get("name").toString();
             String phone = jsonObj.get("mobile").toString();
