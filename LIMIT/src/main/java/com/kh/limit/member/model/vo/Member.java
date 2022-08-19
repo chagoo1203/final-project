@@ -37,5 +37,11 @@ public class Member {
 		this.nickName = nickName;
 		this.userPwd = userPwd;
 	}
+	public Member(String userId, String email) {
+		super();
+		this.userId = userId;
+		this.email = email;
+	}
+	
 	
 }

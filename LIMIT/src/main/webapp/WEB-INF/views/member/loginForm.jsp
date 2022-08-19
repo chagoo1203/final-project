@@ -78,6 +78,9 @@ header{
 					    <label for="saveId" id="labelSaveId">아이디 저장</label>
 					</div>
 					<div class="enroll">
+						<a href="idPwFind.me" id="find">id/pw찾기</a>
+					</div>
+					<div class="enroll">
 						<a href="enrollForm.me" id="aEnroll">회원가입</a>
 					</div><br><br><br>
 					<input type="submit" id="loginSubmit" value="로그인">					
