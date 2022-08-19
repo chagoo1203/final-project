@@ -25,7 +25,7 @@
         }
     .sizeWrap{
     	width : 700px;
-    	height : 1000px;
+    	height : 800px;
     	margin : auto;
     }
     .productInfo{
@@ -51,6 +51,9 @@
     	height : 80px;
     	margin : auto;
     }
+    #insertPayment{
+    	display : inline-block;
+    }
 </style>
 </head>
 <body>
@@ -66,15 +69,22 @@
 			</div>
 			<div class="sizeWrap">
 				<c:forEach var="s" items="${list}">
+				<form action="insertPayment.resell" id="insertPayment" method="post">
 					<div class="detailSize">
-						<button type="button" class="btn btn-outline-success buy">
+						<input type="hidden" name="resellNo" value="${s.resellNo}">
+						<input type="hidden" name="productNo" value="${p.productNo}">
+						<button type="submit" class="btn btn-outline-success buy">
 						<p>${s.productSize}</p>
 						<p>${s.resellPrice}</p>
 						</button>
 					</div>
+				</form>
 				</c:forEach>
 			</div>
+			
 	</div>
+	
+	
 	
 	<jsp:include page="../common/footer.jsp" />
 

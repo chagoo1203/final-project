@@ -75,8 +75,48 @@ public class ProductService {
 		return productDao.insertSellProduct(sqlSession, ri);
 	}
 
-	public ArrayList<Trade> priceGraph(int productNo) {
-		return productDao.priceGraph(sqlSession, productNo);
+	public ArrayList<Trade> priceGraphWeek(int productNo) {
+		return productDao.priceGraphWeek(sqlSession, productNo);
+	}
+
+	public ArrayList<Trade> priceGraphMonth(int productNo) {
+		return productDao.priceGraphMonth(sqlSession, productNo);
+	}
+
+	public ArrayList<Trade> priceGraphYear(int productNo) {
+		return productDao.priceGraphYear(sqlSession, productNo);
+	}
+
+	public ResellInfo selectResellInfo(int resellNo) {
+		return productDao.selectResellInfo(sqlSession, resellNo);
+	}
+
+	public int insertTrade(Trade t) {
+		return productDao.insertTrade(sqlSession, t);
+	}
+
+	public int updateResellInfo(int resellNo) {
+		return productDao.updateResellInfo(sqlSession, resellNo);
+	}
+
+	public int updateProduct(int productNo) {
+		return productDao.updateProduct(sqlSession, productNo);
+	}
+
+	public Object selectResellListCount() {
+		return productDao.selectResellListCount(sqlSession);
+	}
+
+	public Object selectResellListLikes() {
+		return productDao.selectResellListLikes(sqlSession);
+	}
+
+	public Object selectResellListTrade() {
+		return productDao.selectResellListTrade(sqlSession);
+	}
+
+	public Object selectResellListDate() {
+		return productDao.selectResellListDate(sqlSession);
 	}
 
 }

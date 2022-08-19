@@ -58,7 +58,11 @@ public class MemberService {
 	public ArrayList<Product> selectSearchList(HashMap<String, String> map, PageInfo pi) {
 		
 		return memberDao.selectSearchList(sqlSession, map, pi);
+	
+
+
 	}
+
 	public Member selectIdPhoneList(HashMap<String, String> map){
 		return memberDao.selectIdPhoneList(sqlSession, map);
 	}
@@ -87,4 +91,9 @@ public class MemberService {
 			sendMail.send();
 	}
 	
+
+	public Member checkMember(Member check) {
+		return memberDao.checkMember(sqlSession, check);
+	}
+
 }

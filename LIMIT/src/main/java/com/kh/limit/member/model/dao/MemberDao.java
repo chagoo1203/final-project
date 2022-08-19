@@ -44,6 +44,7 @@ public class MemberDao {
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectSearchList", map, rowBounds);
 	}
+
 	public Member selectIdPhoneList(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
 		
 		return sqlSession.selectOne("memberMapper.selectIdPhoneList", map);
@@ -60,4 +61,8 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.findPw", map);
 	}
 
+	
+	public Member checkMember(SqlSessionTemplate sqlSession, Member check) {
+		return sqlSession.selectOne("memberMapper.checkMember", check);
+	}
 }

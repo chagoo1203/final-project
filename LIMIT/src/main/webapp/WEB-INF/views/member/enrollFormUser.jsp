@@ -86,6 +86,7 @@
 		                    <label for="gender"> * 성별 : </label> &nbsp;&nbsp;
 		                    <input type="text" class="form-control" id="gender" maxlength="1" placeholder=" F / M " name="gender" onkeyup="genderCheck();" required> <br>
 		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    <input hidden type ="text" name ="loginNaver" value="false"/>
 		                </div> 
 		                <br>
 		                <div class="btns" align="center">
@@ -105,7 +106,7 @@
 		                    <label for="userPwd">* 비밀번호 : </label>
 		                    <label for="userPwd">&nbsp;&nbsp;NaverLogin 진행중 </label>
 		                    <input type="password" class="form-control"  disabled> <br>
-		                    <input type="password" hidden class="form-control" id="userPwd" name="userPwd" value="${loginNaver.userId }"> <br>
+		                    <input type="password" hidden class="form-control" id="userPwd" name="userPwd" value="${loginNaver.userPwd }"> <br>
 		                    <div id="inputPw" style="font-size : 0.7em; display:none"></div>
 		                    <br>
 							
@@ -149,6 +150,7 @@
 		                    <input type="text"  class="form-control" id="gender"  disabled value="${loginNaver.gender}"> <br>
 		                    <input type="text" hidden class="form-control" id="gender"  name="gender" value="${loginNaver.gender}"> <br>
 		                    <div id="genderCheck" style="font-size : 0.7em; display:none"></div><br>
+		                    <input hidden type ="text" name ="loginNaver" value="true"/>
 		                </div> 
 		                <br>
 		                <div class="btns" align="center">

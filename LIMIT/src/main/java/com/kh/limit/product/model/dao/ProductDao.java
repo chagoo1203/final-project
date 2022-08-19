@@ -77,8 +77,58 @@ public class ProductDao {
 	}
 
 
-	public ArrayList<Trade> priceGraph(SqlSessionTemplate sqlSession, int productNo) {
-		return (ArrayList)sqlSession.selectList("productMapper.priceGraph", productNo);
+	public ArrayList<Trade> priceGraphWeek(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphWeek", productNo);
+	}
+
+
+	public ArrayList<Trade> priceGraphMonth(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphMonth", productNo);
+	}
+
+
+	public ArrayList<Trade> priceGraphYear(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("productMapper.priceGraphYear", productNo);
+	}
+
+
+	public ResellInfo selectResellInfo(SqlSessionTemplate sqlSession, int resellNo) {
+		return sqlSession.selectOne("productMapper.selectResellInfo", resellNo);
+	}
+
+
+	public int insertTrade(SqlSessionTemplate sqlSession, Trade t) {
+		return sqlSession.insert("productMapper.insertTrade", t);
+	}
+
+
+	public int updateResellInfo(SqlSessionTemplate sqlSession, int resellNo) {
+		return sqlSession.update("productMapper.updateResellInfo", resellNo);
+	}
+
+
+	public int updateProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.update("productMapper.updateProduct", productNo);
+	}
+
+
+	public ArrayList<Product> selectResellListCount(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("productMapper.selectResellListCount");
+	}
+
+
+	public ArrayList<Product>selectResellListLikes(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("productMapper.selectResellListLikes");
+	}
+
+
+	public ArrayList<Product> selectResellListTrade(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("productMapper.selectResellListTrade");
+	}
+
+
+	public ArrayList<Product> selectResellListDate(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("productMapper.selectResellListDate");
 	}
 
 
