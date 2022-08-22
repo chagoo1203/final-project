@@ -35,6 +35,7 @@
   .list_detail > img{
   		display: block; 
   		margin: 0px auto;
+  		height: 250px;
   }
   .product_list{
 	  	width : 100%;
