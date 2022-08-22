@@ -114,9 +114,13 @@
 					url : 'topList.pr',
 					success : function(data){
 						let value=''
-						for( var i = 0 ; i < 8 ; i ++ ){
+						var j = 8;
+						if(data.length < 8){
+							j = data.length;
+						}
+						for( var i = 0 ; i < j ; i ++ ){
 							value += '<div class="list_detail">'
-								   + '<input type="hidden" name="productName" value="' + data[i].productNo + '">'
+								   + '<input type="hidden" name="productNo" value="' + data[i].productNo + '">'
 								   + '<img id="thumbnail" src="' + data[i].titleImg + '">'
 								   + '<p>' + data[i].brandName + '</p>'
 								   + '<p>' + data[i].productName + '</p>'

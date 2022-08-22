@@ -15,15 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.Interested;
+import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ResellInfo;
+import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.common.model.vo.Trade;
+import com.kh.limit.common.template.Pagination;
 import com.kh.limit.product.model.service.ProductService;
 import com.kh.limit.product.model.vo.Product;
+import com.kh.limit.style.model.vo.Style;
 
 @Controller
 public class ProductController {
@@ -32,7 +38,9 @@ public class ProductController {
 	private ProductService productService;
 	
 	@RequestMapping("resellList.resell")
-	public ModelAndView resellList(ModelAndView mv, String option) {
+	public ModelAndView resellList(ModelAndView mv, String option, @RequestParam(value="cpage", defaultValue="1") int currentPage ) {
+		
+		PageInfo pi = Pagination.getPageInfo(productService.selectCount(), currentPage, 5, 12);
 		
 		if(option == null){
 			mv.addObject("list", productService.selectResellList());
@@ -48,6 +56,7 @@ public class ProductController {
 		
 		mv.addObject("brand", productService.selectBrand())
 		  .addObject("collection", productService.selectCollection())
+		  .addObject("pi", pi)
 		  .setViewName("product/resellBoardList");
 		
 		return mv;
@@ -62,8 +71,32 @@ public class ProductController {
 		if(result > 0) {
 			Product p = productService.selectResellProduct(pno);
 			ArrayList<Attachment> list = productService.selectAttachmentList(pno);
+			
+			ArrayList<Style> listStyle = productService.productNoStyle(pno);
+			
+				for(Style s : listStyle) {
+					
+					if(s.getStyleTag() != null) {
+						
+						String[] tag = s.getStyleTag().split(","); //sub 
+				
+					ArrayList<Product> plist = new ArrayList();
+					
+					for(String l : tag) {
+					
+						Product pt = productService.selectProductList(l);
+					
+						plist.add(pt);
+						
+					}
+					s.setTag(plist);
+					
+					}
+			}
+			
 			mv.addObject("p", p)
 			  .addObject("list", list)
+			  .addObject("listStyle", listStyle)
 			  .setViewName("product/resellBoardDetailView");
 		} else {
 			mv.addObject("errorMsg", "비상~ 비상~").setViewName("common/errorPage");
@@ -238,6 +271,21 @@ public class ProductController {
 		
 		return "product/resellPaymentResult";
 		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "aJaxLoadtoUsedBoard.resell", produces="application/json; charset=UTF-8")	
+	public String aJaxLoadtoUsedBoard(SelectUsedBoardVo subv) {
+
+		return new Gson().toJson(productService.selectBoard(subv));
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("aJaxLoadtoUsedBoardPaging.resell")	
+	public PageInfo aJaxLoadtoUsedBoardPaging(SelectUsedBoardVo subv, int cpage) {							
+		PageInfo pi = Pagination.getPageInfo(productService.selectListCount(subv), cpage, 5, 12);								
+		return pi;
 	}
 
 }
