@@ -14,6 +14,7 @@ import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
 
@@ -207,6 +208,30 @@ public class AdminService {
 
 	public String selectSumPayment(HashMap<String, String> dates) {
 		return adminDao.selectSumPayment(sqlSession, dates);
+	}
+
+	public int deliveryCount() {
+		return adminDao.deliveryCount(sqlSession);
+	}
+
+	public ArrayList<Trade> deliveryList(PageInfo pi) {
+		return adminDao.deliveryList(sqlSession, pi);
+	}
+
+	public int searchDeliveryCount(HashMap<String, String> map) {
+		return adminDao.searchDeliveryCount(sqlSession, map);
+	}
+
+	public ArrayList<Trade> searchDeliveryList(HashMap<String, String> map, PageInfo pi) {
+		return adminDao.searchDeliveryList(sqlSession, map, pi);
+	}
+
+	public Trade selectDelivery(int tradeNo) {
+		return adminDao.selectDelivery(sqlSession, tradeNo );
+	}
+
+	public int updateDelivery(HashMap<String, String> map) {
+		return adminDao.updateDelivery(sqlSession, map);
 	}
 
 }
