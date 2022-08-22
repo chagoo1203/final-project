@@ -152,14 +152,27 @@
 
     <script>
         var toUser ="";
+        var chatListInterval;
+        var loadChatTextInterval;
+        
+        function loadChatTextInterval(){
+        	if(aJaxLoadToTextList == true){
+        		if(aJaxloadToChatList() == true) return true;
+        	}
+        }
+       
         $(function(){
-        	setInterval(() => aJaxloadToChatList(), 1000);            
+        	chatListInterval = setInterval(() => aJaxloadToChatList(), 1000);            
         })
         $(document).on("click", ".chatListMember" , function(){
             //채팅 불러오기 
             toUser = $(this).children().siblings("input").val();
-            setInterval(() => aJaxLoadToTextList(toUser), 1000);
-            
+                                    
+            if(chatListInterval != null){
+            	clearInterval(chatListInterval);
+            }
+            loadChatTextInterval = setInterval(() => loadChatTextInterval(), 1000);
+
             $("#conversationTitle").empty();
             $("#conversationTitle").append(toUser+"님과의 대화");
             $("#button-addon2").attr("disabled", false);
@@ -256,6 +269,7 @@
                 }
                 
             })
+            return true;
         }
         function aJaxChatInsert(toUser, text, sysdate){        	
             $.ajax({

@@ -91,7 +91,7 @@ td, th{
 		  	<c:set var = "i" value="7"/>
 		  	<c:forEach var = "p" items="${paymentArr}">
 		  		<tr>
-			      <th scope="row">${i}월</th>
+			      <th scope="row" id="${i}row">test</th>
 			      <c:choose>
 			      	<c:when test="${empty p}" >
 			      		<td colspan = "3">0</td>
@@ -106,6 +106,24 @@ td, th{
 		  </tbody>
 		</table>
 	</div>
+	
+	<script>
+		$(function(){
+			var now = new Date();
+			var month = now.getMonth();
+			var j = 0;
+
+			for(var i = 7; i >= 2; i--)     {
+				
+				var el ="#" +  i + "row";
+
+				$(el).html(month - j);
+
+				j++;
+			}
+			
+		})
+	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

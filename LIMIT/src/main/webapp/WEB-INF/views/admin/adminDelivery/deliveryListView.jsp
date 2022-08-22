@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자페이지</title>
+<title>관리자 페이지</title>
 <style>
 .outer{
     width: 800px;
@@ -13,23 +13,22 @@
     margin-top: 15px;
 }
 .title {
-	font-size: xx-large;
-	font-weight: bold;
+    font-size: xx-large;
+    font-weight: bold;
 }
 .table {
-	text-align: center;
+    text-align: center;
     width: 650px;
 }
 
 .table a {
-	color: black;
+    color: black;
 }
 
 .table th {
-	color: #495057;
-	background-color: #e9ecef;
+    color: #495057;
+    background-color: #e9ecef;
 }
-
 .table tbody>tr:hover{
 	cursor : pointer;
 }
@@ -60,14 +59,15 @@ thead{
 	<jsp:include page="../adminMenu.jsp" />
 	
 	<div class="outer">
-        <p class="title" align="center">상품 관리</p>     
+        <p class="title" align="center">배송 관리</p>     
         <hr>
         <br>
-        <form id="searchForm" action="searchProd.rs" method="get" align="center">
+        <form id="searchForm" action="searchDelivery.ad" method="get" align="center">
             <div class="select" id="search-area">
                 <select class="custom-select" name="condition">
-                    <option value="collectionName">컬렉션 명</option>
-                    <option value="brandName">브랜드 명</option>
+                    <option value="tradeNo">거래번호</option>
+                    <option value="buyer">구매자 아이디</option>
+                    <option value="seller">판매자 아이디</option>
                 </select>
             </div>
             <div class="text">
@@ -76,7 +76,7 @@ thead{
             <button type="submit" class="searchBtn btn btn-secondary">검색</button>
         </form>
         
-        <c:if test="${not empty condition}">
+        <c:if test="${ not empty condition }">
         <script>
         	$(function(){
         		$("#search-area option[value=${condition}]").attr("selected", true);
@@ -91,53 +91,51 @@ thead{
     	});
 		</script>
 		</c:if>
-        
-        <table class="table" align="center" id="productList">
+       
+        <table class="table" align="center" id="deliveryList">
             <thead>
             <tr>
-                <th>상품번호</th>
-                <th>컬렉션명</th>
-                <th>브랜드명</th>
-                <th>카테고리</th>
-                <th>거래량</th>
-                <th>등록일자</th>
-                <th>판매 상태</th>
+                <th>거래번호</th>
+                <th>구매일</th>
+                <th>구매자 회원 아이디</th>
+                <th>판매자 회원 아이디</th>
+                <th>배송상태</th>
             </tr>
             </thead>
             <tbody>
-            	<c:forEach var="p" items="${list}">
+            	<c:forEach var="t" items="${list}">
                 	<tr>
-                		<td>${p.productNo}</td>
-                		<td>${p.collectionName}</td>
-                		<td>${p.brandName}</td>
-                		<td>${p.productTypeName}</td>
-                		<td>${p.tradeCount}</td>
-                		<td>${p.createDate}</td>
+                		<td>${t.tradeNo}</td>
+                		<td>${t.purchaseDate}</td>
+                		<td>${t.buyer}</td>
+                		<td>${t.seller}</td>
                 		<c:choose>
-                			<c:when test="${p.status eq 'Y'}">
-                				<td>진행</td>
+                			<c:when test="${t.delivery eq 'Y'}">
+		                		<td>배송대기</td>
+                			</c:when>
+                			<c:when test="${t.delivery eq 'A'}">
+		                		<td>배송중</td>
                 			</c:when>
                 			<c:otherwise>
-                				<td>종료</td>
+		                		<td>배송완료</td>
                 			</c:otherwise>
                 		</c:choose>
                 	</tr>
                 </c:forEach>
             </tbody>
         </table>
+        <br>
         
         <script>
          	$(function(){
-         		$("#productList>tbody>tr").click(function(){
+         		$("#deliveryList>tbody>tr").click(function(){
          			// 클릭될때마다 url 요청 
-         			var pno = $(this).children().eq(0).text();
+         			var tno = $(this).children().eq(0).text();
          			
-         			location.href = "detail.rs?pno="+ pno;
+         			location.href = "deliveryDetail.ad?tno="+ tno;
          		})
          	});
-          </script>
-
-		<a class="btn btn-secondary" href="productEnrollForm.rs">상품등록</a>
+        </script>
 
         <br><br>
         <!-- 페이징 처리 -->
@@ -150,10 +148,10 @@ thead{
                		<li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Previous</a></li>
                	</c:when>
                	<c:when test="${not empty condition and not empty keyword}">
-               		<li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${pi.currentPage - 1}">Previous</a></li>
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="searchDelivery.ad?condition=${condition}&keyword=${keyword}&page=${pi.currentPage - 1}">Previous</a></li>
                	</c:when>
                	<c:otherwise>
-               		<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage - 1}">Previous</a></li>                    	
+               		<li class="page-item"><a class="page-link bg-secondary text-white" href="delivery.ad?page=${pi.currentPage - 1}">Previous</a></li>                    	
                	</c:otherwise>
             </c:choose>
             
@@ -161,10 +159,10 @@ thead{
             <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
             	<c:choose>
             		<c:when test="${not empty condition and not empty keyword}">
-		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${p}">${p}</a></li>
+		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="searchDelivery.ad?condition=${condition}&keyword=${keyword}&page=${p}">${p}</a></li>
             		</c:when>
             		<c:otherwise>
-		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${p}">${p}</a></li>
+		            	<li class="page-item"><a class="page-link bg-secondary text-white" href="delivery.ad?page=${p}">${p}</a></li>
             		</c:otherwise>
             	</c:choose>
             </c:forEach>
@@ -175,19 +173,17 @@ thead{
               <li class="page-item disabled"><a class="page-link bg-secondary text-white" href="#">Next</a></li>
             	</c:when>
             	<c:when test="${not empty keyword and not empty keyword}">
-	              <li class="page-item"><a class="page-link bg-secondary text-white" href="searchProd.rs?condition=${condition}&keyword=${keyword}&page=${pi.currentPage + 1}">Next</a></li>
+	              <li class="page-item"><a class="page-link bg-secondary text-white" href="searchDelivery.ad?condition=${condition}&keyword=${keyword}&page=${pi.currentPage + 1}">Next</a></li>
             	</c:when>
             	<c:otherwise>
-              <li class="page-item"><a class="page-link bg-secondary text-white" href="admin.ad?page=${pi.currentPage + 1}">Next</a></li>
+              <li class="page-item"><a class="page-link bg-secondary text-white" href="delivery.ad?page=${pi.currentPage + 1}">Next</a></li>
             	</c:otherwise>
             </c:choose>
             </ul>
         </div>
-         
     </div>
-	
-	
-	<br><br><br clear="both">
+    
+    <br><br>
 	<jsp:include page="../../common/footer.jsp" />
 
 </body>

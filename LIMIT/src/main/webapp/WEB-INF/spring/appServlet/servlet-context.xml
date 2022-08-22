@@ -25,8 +25,25 @@
 	
 		<interceptors>
 		  <interceptor>
-		  	<mapping path="/myPage.me"/>
-		  	<mapping path="/enrollForm.bo"/>
+				<mapping path="/insertStyle.bo"/>
+				<mapping path="/updateForm.st"/>
+				<mapping path="/myPage.me"/>
+				<mapping path="/update.me"/>
+				<mapping path="/delete.me"/>
+				<mapping path="/insert.used"/>
+				<mapping path="/delete.used"/>
+				<mapping path="/chatListForm.used"/>
+				<mapping path="/update.used"/>
+				<mapping path="/resellSell.resell"/>
+				<mapping path="/insertSellProduct.resell"/>
+				<mapping path="/insertInterest.resell"/>
+				<mapping path="/insertPayment.resell"/>
+				<mapping path="/kakaopay.resell"/>
+				<mapping path="/paymentResult.resell"/>
+				<mapping path="/*.qna"/>
+				<mapping path="/*.no"/>
+				<mapping path="/*.ad"/>
+				<mapping path="/*.rs"/>
 			<beans:bean class="com.kh.limit.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>
 		  </interceptor>
 		</interceptors>

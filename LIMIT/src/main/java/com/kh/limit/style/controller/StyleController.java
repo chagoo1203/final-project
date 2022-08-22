@@ -89,8 +89,8 @@ public class StyleController {
 	@RequestMapping("styleEnrollForm.bo")
 	public String styleEnrollForm() {
 		return "style/styleEnrollForm";
-	}
 	
+	}
 	
 	
 	

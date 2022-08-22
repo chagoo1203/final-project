@@ -23,9 +23,11 @@ public class TextChat {
 	public static ArrayList<Chat> readChat(String url, String userId) {
 		//메모장에 있는 모든 text를 불러오는 메소드
 		ArrayList<Chat> textList = new ArrayList<Chat>();
+		String lastMsgWriter="";
 		System.out.println(url);
+		Scanner scanner = null;
 		try {
-			Scanner scanner = new Scanner(new File(url));
+			scanner = new Scanner(new File(url));
 			String lastReadStatus = "";
 			while(scanner.hasNextLine()) {
 				JSONParser parser = new JSONParser();				
@@ -34,16 +36,17 @@ public class TextChat {
 				String text = (String)jsonObj.get("text");
 				String msgWriter = (String)jsonObj.get("msgWriter");
 				lastReadStatus = (String)jsonObj.get("readStatus");
+				lastMsgWriter = msgWriter;
 				textList.add(new Chat(text, date, msgWriter));
 				
 //				textList.add(new Chat(scanner.nextLine(), "test"));
 				
-			}
+			} 
 			scanner.close();
-			System.out.println("마지막 행의 user ID : " +textList.get(textList.size() - 1).getMsgWriter());
+			System.out.println("마지막 행의 user ID : " +lastMsgWriter);
 			System.out.println("userId : " + userId);
 			System.out.println("마지막 행의 readStatus : " + lastReadStatus);
-			if(!textList.get(textList.size() - 1).getMsgWriter().equals(userId) && lastReadStatus.equals("N")) {
+			if(!lastMsgWriter.equals(userId) && lastReadStatus.equals("N")) {
 				//마지막행 
 				scanner = new Scanner(new File(url));
 				File originFile = new File(url);
@@ -62,12 +65,7 @@ public class TextChat {
 				}
 				fw.close();
 				scanner.close();
-				if(originFile.delete() == true) {
-					System.out.println("파일삭제 완료");
-				}else {
-					System.out.println("실패");
-				}
-				
+				originFile.delete();	            				
 				newFile.renameTo(new File(url));
 			}			
 		} catch (FileNotFoundException e) {
