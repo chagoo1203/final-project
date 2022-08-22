@@ -29,6 +29,8 @@ public class ProductDao {
 	}
 	
 	public ArrayList<Product> selectResellList(SqlSessionTemplate sqlSession){
+		
+
 		return (ArrayList)sqlSession.selectList("productMapper.selectResellList");
 	}
 

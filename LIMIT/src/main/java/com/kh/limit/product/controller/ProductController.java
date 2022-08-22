@@ -54,6 +54,8 @@ public class ProductController {
 			mv.addObject("list", productService.selectResellListDate());
 		}
 		
+
+		
 		mv.addObject("brand", productService.selectBrand())
 		  .addObject("collection", productService.selectCollection())
 		  .addObject("pi", pi)
