@@ -7,9 +7,10 @@
 <meta charset="UTF-8">
 <title>리셀 상품 리스트</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	#resellWrap{
            width : 1200px;
@@ -27,9 +28,7 @@
      		width : 900px;
      		margin : auto;
      		margin-top : 0px;
-     		height : 100%;
-     }
-     .resellList div{
+     		height : 900px;
      }
      .thumbnail{
      		width : 225px;
@@ -71,33 +70,167 @@
         
 		    <div class="resellList" >
 		    	
-		    	<c:forEach var="b" items="${list}">
-		    	<div class="thumbnail" align="center">
-					<img class="resellThumbnail" src="${b.titleImg}">
-					<div class="productInfo" align="left">
-						<input type="hidden" name="productNo" class="pno" value="${b.productNo}">
-						<p class="brand">${b.brandName}</p>
-						<p class="name">${b.productName}</p>
-						<p class="translatedName">${b.productContent}</p>
-						<p class="price">${b.resellPrice}</p>
-						<P>♥ ${b.likes}</P>
-					</div>    	
-		    	</div>
+		    	<div id="mainContentForm">
+			    	<c:forEach var="b" items="${list}">
+			    	<div class="thumbnail" align="center">
+						<img class="resellThumbnail" src="${b.titleImg}">
+						<div class="productInfo" align="left">
+							<input type="hidden" name="productNo" class="pno" value="${b.productNo}">
+							<p class="brand">${b.brandName}</p>
+							<p class="name">${b.productName}</p>
+							<p class="translatedName">${b.productContent}</p>
+							<p class="price">${b.resellPrice}</p>
+							<P>♥ ${b.likes}</P>
+						</div>    	
+			    	</div>
 		    	</c:forEach>
+		    	</div>
+		    	<br clear="both">
+		    	<div id="pagingArea">
+	             <ul class="pagination">
+	             
+	             	<c:choose>
+		         		<c:when test="${ pi.currentPage eq 1 }">    	
+	                 		<li class=""><a class="page-link" href="#">Previous</a></li>
+	             		</c:when>
+	             		<c:otherwise>
+	             			<li class="page-item"><a class="page-link" href="resellList.resell?cpage=${pi.currentPage - 1}">Previous</a></li>
+	             		</c:otherwise>
+	                 
+	             	</c:choose>
+	
+	                 <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+	                 	<li class=""><a class="page-link" href="resellList.resell?cpage=${ p }">${ p }</a></li>
+	                 </c:forEach>
+	                 
+	                 <c:choose>
+	                 	<c:when test="${ pi.currentPage eq pi.maxPage }">
+	                 		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+	                 	</c:when>
+	                 	<c:otherwise>
+	             			<li class=""><a class="page-link" href="resellList.resell?cpage=${pi.currentPage + 1}">Next</a></li>
+	             		</c:otherwise>
+	             	</c:choose>
+	             
+	             </ul>
+	         </div>
 		    	
 	    	</div>
+	    	
+		    	
+	    	
 		  </div>
 		  
+		  
+		  
 		  <script>
-            	$(function(){
-					$('.resellList>div').click(function(){
-						location.href = 'resellDetail.resell?pno=' + $(this).children().children('.pno').val();			
-					})
-            	})
+            	
+            	$(document).on("click", "img", function(){
+		        	var pno = $(this).next().children('.pno').val();      	
+		        	location.href = "resellDetail.resell?pno="+pno; 
+		        })
             	
             	$("select[name=option]").change(function(){
             		location.href = 'resellList.resell?option=' + $(this).val();
             	})
+            	
+            	var cpage =1;
+		        var productTypeName = [];
+		        var brandName = [];        
+		        var collectionName = [];
+		        
+		        $(document).on("change", "input[name=productTypeName]", function(){
+		            productTypeName = [];
+		            $("input[name=productTypeName]:checked").each(function(e){
+		                productTypeName.push($(this).val());
+		            });
+		            ajaxLoadToUsedBoardPaging();  
+		        })
+		        $(document).on("change", "input[name=brandName]", function(){
+		            brandName = [];
+		            $("input[name=brandName]:checked").each(function(e){
+		                brandName.push($(this).val());
+		            });            
+		            ajaxLoadToUsedBoardPaging();
+		        })
+		        $(document).on("change", "input[name=collectionName]", function(){
+		            collectionName = [];
+		            $("input[name=collectionName]:checked").each(function(e){
+		                collectionName.push($(this).val());
+		            });            
+		            ajaxLoadToUsedBoardPaging();
+		        })
+		        
+		    function ajaxLoadToUsedBoardPaging(page){
+	            if(page){
+	                cpage = page;
+	            }        
+	        	$("#pagingArea").empty();         
+	        	var result ="";
+	        	$.ajax({
+	        			url : "aJaxLoadtoUsedBoardPaging.resell",
+	        			traditional: true,   			
+	        			data : {cpage : cpage, productTypeName : productTypeName, brandName : brandName, collectionName : collectionName},
+	        			success : function(pi){
+	        			
+	        				if(pi.currentPage == 1){
+	        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
+	        				}
+	        				else{
+	        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
+	        				}
+	        				
+	        				
+	        				for(var i = pi.startPage; i <= pi.endPage; i++){
+	                           
+	                            if(i != pi.currentPage){
+	                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + i + ')">'+ i +'</button>';
+	                            }else{
+	                                result +=  '<button class="btn btn-outline-secondary" disabled>' + i + '</button>'
+	                            }
+	                        }
+	        				if(pi.currentPage < pi.maxPage){
+	                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
+	                        }
+	        			
+	        				$("#pagingArea").append(result);
+	        				ajaxLoadToUsedBoardPage(pi);
+	        			}
+	        	})
+	        }
+		        
+	        function ajaxLoadToUsedBoardPage(pi){
+	            $("#mainContentForm").empty();
+	            var result = "";
+	            var startRow = (pi.currentPage - 1) * pi.boardLimit + 1;
+	            var endRow = startRow + pi.boardLimit - 1;
+            
+	            $.ajax({
+	                url : "aJaxLoadtoUsedBoard.resell",
+	                traditional: true,
+	                data : {cpage : cpage, productTypeName : productTypeName, brandName : brandName, collectionName : collectionName, startRow : startRow, endRow : endRow},
+	                success : function(list){
+	                	console.log(list);
+	                	for(let i in list){
+	                		console.log(i + '번쨰');
+	                		result += '<div class="thumbnail" align="center">' + 
+	                		'<img class="resellThumbnail" src="' + list[i].titleImg + '">' +
+	                		'<div class="productInfo" align="left">' +
+	                            '<input type="hidden" name="productNo" class="pno" value="' + list[i].productNo +'">' +
+	                        '<p class="brand">' + list[i].brandName + '</p>' +
+	                        '<p class="name">' + list[i].productName + '</p>' +
+	                        '<p class="translatedName">' + list[i].productContent + '</p>' +
+	                        '<P>♥ ' + list[i].likes + '</P>' +
+	                        '</div>' +
+	                    	'</div>';
+	                	}
+	                	$("#mainContentForm").append(result);
+	                },error : function(){
+						console.log("test");
+	                }
+	            })
+        	}	
+            	
             </script>
         
 	

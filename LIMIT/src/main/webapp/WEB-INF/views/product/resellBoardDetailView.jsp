@@ -91,8 +91,8 @@
 	}
 	#styleWrap{
 	 	width : 1200px;
-        overflow: auto;
-        margin: 0 auto;
+       	height: auto;
+	 	margin : auto;
 	}
 	.styleInfo{
 		width : 290px;
@@ -101,6 +101,29 @@
 		margin : auto;		
 		margin-top : 20px;
 	}
+	.style{
+           
+            width: 20%;
+            height: auto;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid black;
+            border-radius:10px;
+            margin: 10px;
+            margin-left: 40px;
+            display : inline-block;
+    }
+    .style > img{
+        width: auto;
+        height: auto;
+    }
+    #styleWrap > div {
+		float : left;
+	}
+	.productImg {
+        width:50px;
+        height:50px;
+    }
 
 </style>
 </head>
@@ -185,11 +208,33 @@
 	
 	<div id="styleWrap">
 		<h3 class="infoName">스타일</h3>
-			<div class="styleInfo">1234</div>
-			<div class="styleInfo">2345</div>
-			<div class="styleInfo">3456</div>
-			<div class="styleInfo">4567</div>
+			<c:forEach var="s" items="${ listStyle }">
+	            <div class="style">
+	            	<input type="hidden" value="${ s.styleNo }">
+	                <img src="${ s.titleImg }" style="width:210px; height:200px">
+	                <p>${ s.nickname }</p>
+	                <p>${ s.styleContent }</p> 
+	                <p>♥ ${ s.like } 개</p>
+	                <p>조회수 ${s.count }</p>
+	                <ul>
+	 
+	              
+	                	<c:forEach var="p" items="${ s.tag }">
+		                    <li>
+		                        <a href="resellDetail.resell?pno=${p.productNo}">
+		                        	<img class="productImg" src="${p.titleImg }">
+		                            <p class="product_name">${ p.productName }</p>  
+		                        </a>
+		                    </li>
+	                	</c:forEach>
+	            
+	                </ul>
+	            </div>  
+            
+            </c:forEach> 
 	</div>
+	
+	<br><br clear="both">
 	
 	<script>
            	$(function(){
@@ -211,6 +256,15 @@
            			
            		})
            	})
+           	
+           	$(function(){
+    			
+    			$(".style").click(function(){
+    					var sno = $(this).children().eq(0).val();
+    					 		//$(this).children('.bno').text
+    					location.href = "stdetail.bo?sno=" + sno;
+    			})
+    		})
            	
           /* 	$(document).ready(function(){
            		getGraphWeek();
