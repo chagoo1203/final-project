@@ -27,6 +27,7 @@ import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.model.vo.ProductResell;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.common.template.Pagination;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
@@ -322,10 +323,71 @@ public class AdminController {
 		return mv;
 	}
 	
+	// 배송관리 리스트 메소드
+	@RequestMapping("delivery.ad")
+	public ModelAndView deliveryList(@RequestParam(value="page", defaultValue="1") int currentPage, ModelAndView mv) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.deliveryCount(), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.deliveryList(pi))
+		  .setViewName("admin/adminDelivery/deliveryListView");
+		
+		return mv;
+	}
 	
+	// 배송관리 검색 메소드
+	@RequestMapping("searchDelivery.ad")
+	public ModelAndView searchDeliveryList(@RequestParam(value="page", defaultValue="1") int currentPage,
+								     String condition, String keyword, ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.searchDeliveryCount(map), currentPage, 5, 10);
+		
+		mv.addObject("pi", pi)
+		  .addObject("list", adminService.searchDeliveryList(map, pi))
+		  .addObject("condition", condition)
+		  .addObject("keyword", keyword)
+		  .setViewName("admin/adminDelivery/deliveryListView");
+		
+		return mv;
+	}
+
+	// 배송 상세 보기 메소드
+	@RequestMapping("deliveryDetail.ad")
+	public ModelAndView selectDelivery(int tno, ModelAndView mv) {
+		
+		Trade t = adminService.selectDelivery(tno);
+		
+		if(t != null) {
+			mv.addObject("t", t).setViewName("admin/adminDelivery/deliveryDetailView");
+		} else {
+			mv.addObject("errorMsg", "배송조회 실패").setViewName("common/errorPage");
+		}
+		return mv;
+	}
 	
-	
-	
+	// 배송 상태 수정 메소드
+	@RequestMapping("updateDelivery.ad")
+	public String updateDelivery(String tno, String delivery, Model model, HttpSession session) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("tradeNo", tno);
+		map.put("delivery", delivery);
+		
+		int result = adminService.updateDelivery(map);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "배송상태 수정 완료");
+			return "redirect: deliveryDetail.ad?tno="+tno;
+		} else {
+			model.addAttribute("errorMsg", "배송상태 수정 실패");
+			return "common/errorPage";
+		}
+	}
 	
 	// 리셀 상품 등록할수 있는 화면에 연결하는 메소드
 	@RequestMapping("productEnrollForm.rs")

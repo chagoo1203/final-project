@@ -17,8 +17,8 @@
             margin: 0 auto;
         }        
         #mainCotentForm {
-            width: 100%;
-            overflow: auto;
+            width: 100%;            
+            overflow : auto;
             
         }
         .resellFilter{
@@ -28,43 +28,53 @@
         }
         .usedItem{
             width: 24%;
-            height: 240px;
+            height: 255px;
             float:left;
-            
+            cursor : pointer;
         }
+        
         .usedImgWrap{
             width : 165px;
             height : 150px;
             margin: 0 auto;
-            border-top: 1px solid gray;
-            border-left: 1px solid gray;
-            border-right: 1px solid gray;
+            border : 3px solid gray;
+			border-radius : 10%;
             
             margin-top: 20px;
             
             
         }
+        .brandNameWrap{
+        	width : 165px;
+            height: 35px;
+            margin: 0 auto;
+
+            color : black;
+            font-weight : bold;
+            text-align : left;
+        }
         .titleWrap{
             width : 165px;
             height: 25px;
             margin: 0 auto;
-            border-left: 1px solid gray;
-            border-right: 1px solid gray;
-            color : gray;
+
+            color : black;
+            font-weight : middle;            
+            font-size : 8px;
         }
         .priceWrap{
             width: 165px;            
             height: 20px;
             margin: 0 auto;           
-            color : gray;
+            font-size : 15px;
+            font-weight : bold;
             text-align: right;
-         	border-left: 1px solid gray;
-            border-right: 1px solid gray;
-            border-bottom: 1px solid gray;
+            
+
         }
         img {
+        	border-radius : 10%;
         	
-        	cursor : pointer;
         }
     </style>
 </head>
@@ -74,7 +84,7 @@
 	<div id ="usedBoardArea">		
         <div class="container-fluid">
             <div class="row">
-              <div class="resellFilter">              
+              <div class="resellFilter" style ="margin-top : 25px;">              
                   <ul>
                           카테고리 <br><br>
                       <span>
@@ -117,7 +127,7 @@
                       </ul>                                                      
                 </div>
 
-                <div id="mainCotentFormWrap" style="width : 75%;">
+                <div id="mainCotentFormWrap" style="width : 75%; margin-top : 70px">
                     <div id ="mainCotentForm">
                     
                     
@@ -169,18 +179,7 @@
         	var bno = $(this).parent().siblings("input").val();        	
         	location.href = "detail.used?boardNo="+bno; 
         })
-        $(document).on("click",".btn-check[name=productTypeName]", function(){
-            productTypeName = $(this).val();
-            ajaxLoadToUsedBoardPaging();
-        })
-        $(document).on("change",".selectpicker[name=brandName]", function(){
-        	brandName = $(this).val();
-            ajaxLoadToUsedBoardPaging();
-        })
-        $(document).on("change",".selectpicker[name=collectionName]", function(){
-        	collectionName = $(this).val();
-            ajaxLoadToUsedBoardPaging();
-        })
+        
         
         
         
@@ -244,11 +243,14 @@
                 		'<div class ="usedImgWrap">' +
                             '<img src="' + list[i].titleImg +'" alt="" width="100%" height="100%">' +
                         '</div>' +
+                        '<div class = "brandNameWrap">' +
+                        	list[i].brandName + 
+                        '</div>' +
                         '<div class = "titleWrap">' +
                             list[i].boardTitle +
                         '</div>' +
                         '<div class ="priceWrap">' +
-                            list[i].usedPrice + 
+                            list[i].usedPrice + '원' +
                         '</div>' +
                     	'</div>';
                 	}

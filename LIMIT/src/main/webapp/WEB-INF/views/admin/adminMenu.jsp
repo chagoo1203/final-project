@@ -111,6 +111,11 @@ a {
 			</label>
 		</div>
 		<div class="accordion">
+			<input type="checkbox" id="answer03" /> <label for="answer03">
+			<a href="delivery.ad">배송 관리</a>
+			</label>
+		</div>
+		<div class="accordion">
 			<input type="checkbox" id="answer04" /> <label for="answer04">고객센터<img
 				alt=""
 				src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKKs6OP36GlHnJCLBRA3bwO1RYfLy9VLUesg&usqp=CAU"></label>
