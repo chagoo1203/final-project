@@ -75,9 +75,9 @@ public class MemberController {
 	@RequestMapping("loginForm.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);		
-		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 		
-		//System.out.println("암호문 : " + encPwd);
+		System.out.println("암호문 : " + encPwd);
 		
 		if(loginUser != null && bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
