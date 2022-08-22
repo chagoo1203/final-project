@@ -35,6 +35,8 @@
   .list_detail > img{
   		display: block; 
   		margin: 0px auto;
+  		margin-top : 5px;
+  		height: 250px;
   }
   .product_list{
 	  	width : 100%;
@@ -104,7 +106,7 @@
 			$(function(){
 				topBoardList();
 				$(document).on("click","#product_item > div", function(){
-		            location.href="#?pno=" + $(this).children().eq(0).val();
+		            location.href="resellDetail.resell?pno=" + $(this).children().eq(0).val();
 		        });
 			})
 			
