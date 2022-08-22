@@ -61,10 +61,10 @@ public class MemberController {
         
         //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
         //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-        System.out.println("네이버:" + naverAuthUrl);
+        //  System.out.println("네이버:" + naverAuthUrl);
         
         //네이버 
-        model.addAttribute("url", naverAuthUrl);
+        // model.addAttribute("url", naverAuthUrl);
         
 		return "member/loginForm";
 	}
@@ -76,9 +76,9 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);		
 		
-		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 		
-		//System.out.println("암호문 : " + encPwd);
+		System.out.println("암호문 : " + encPwd);
 		
 		if(loginUser != null && bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
@@ -170,7 +170,7 @@ public class MemberController {
 			//암호화 작업(암호문을 만4들어내는 과정)
 			System.out.println(m);
 			String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-			//System.out.println(encPwd);
+			System.out.println(encPwd);
 			
 			m.setUserPwd(encPwd);
 		}

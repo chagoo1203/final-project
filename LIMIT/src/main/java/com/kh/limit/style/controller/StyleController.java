@@ -113,7 +113,7 @@ public class StyleController {
 			}
 		
 		}
-		System.out.println(styleTag);
+
 		
 		style.setStyleTag(styleTag);
 		
