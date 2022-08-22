@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>필터</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
   <style>
@@ -29,15 +29,15 @@
                	     카테고리 <br><br>
                     <span>
                     	<div>
-	                        <input type="checkbox" name="clothes" id="clothes">
+	                        <input type="checkbox" name="productTypeName" id="clothes" value="clothes">
 	                        <label for="clothes">의류</label>
                         </div>
                         <div>
-	                        <input type="checkbox" name="shoes" id="shoes">
+	                        <input type="checkbox" name="productTypeName" id="shoes" value="shoes">
 	                        <label for="shoes">신발</label>
                         </div>
                         <div>
-	                        <input type="checkbox" name="etc" id="etc">
+	                        <input type="checkbox" name="productTypeName" id="etc" value="etc">
 	                        <label for="etc">기타</label>
                         </div>
                     </span>
@@ -47,7 +47,7 @@
                 	<span>
                 		<c:forEach var="b" items="${brand}">
 	                		<div>
-		                        <input type="checkbox" name="${b.commonName}" id="${b.commonName}">
+		                        <input type="checkbox" name="brandName" id="${b.commonName}" value="${b.commonName}">
 		                        <label for="${b.commonName}">${b.commonName}</label>
 	                        </div>
                         </c:forEach>
@@ -58,53 +58,13 @@
                 	<span>
                 		<c:forEach var="c" items="${collection}">
 	                		<div>
-		                        <input type="checkbox" name="${c.commonName}" id="${c.commonName}">
+		                        <input type="checkbox" name="collectionName" id="${c.commonName}" value="${c.commonName}">
 		                        <label for="${c.commonName}">${c.commonName}</label>
 	                        </div>
                         </c:forEach>
                 	</span>
                 	
                 	</ul>
-                <ul>신발 사이즈</ul>
-                <ul>
-                	의류 사이즈 <br><br>
-                	<span>
-                		<button>XS</button>
-                		<button>S</button>
-                		<button>M</button>
-                		<button>L</button>
-                		<button>XL</button>
-                		<button>XXL</button>
-                		<br>
-                		<button>85</button>
-                		<button>90</button>
-                		<button>95</button>
-                		<button>100</button>
-                		<button>105</button>
-                		<button>110</button>
-                	</span>
-                	</ul>
-                <ul>
-                	가격 <br><br>
-                	<span>
-                		<div>
-                		<input type="checkbox" name="price1" id="price1">
-	                    <label for="price1">10만원 이하</label>
-	                    </div>
-	                    <div>
-	                    <input type="checkbox" name="price2" id="price2">
-	                    <label for="price2">10만원 ~ 30만원 미만</label>
-	                    </div>
-	                    <div>
-	                    <input type="checkbox" name="price3" id="price3">
-	                    <label for="price3">30만원 ~ 50만원 미만</label>
-	                    </div>
-	                    <div>
-	                    <input type="checkbox" name="price4" id="price4">
-	                    <label for="price4">50만원 이상</label>
-	                    </div>
-                	</span>
-            	</ul>
 		    	
 		    	
 	    </div>
