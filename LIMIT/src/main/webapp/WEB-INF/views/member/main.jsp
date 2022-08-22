@@ -105,7 +105,7 @@
 			$(function(){
 				topBoardList();
 				$(document).on("click","#product_item > div", function(){
-		            location.href="#?pno=" + $(this).children().eq(0).val();
+		            location.href="resellDetail.resell?pno=" + $(this).children().eq(0).val();
 		        });
 			})
 			

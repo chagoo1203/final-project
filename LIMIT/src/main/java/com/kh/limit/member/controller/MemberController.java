@@ -76,6 +76,7 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);		
 		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+
 		
 		//System.out.println("암호문 : " + encPwd);
 		
