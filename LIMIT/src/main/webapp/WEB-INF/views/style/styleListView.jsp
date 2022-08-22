@@ -86,6 +86,11 @@
         width: auto;
         height: auto;
     }
+    
+    .productImg {
+    	width:50px;
+    	height:50px;
+    }
 
     
     #pagingArea{
@@ -185,9 +190,11 @@
 	 
 	              
 	                	<c:forEach var="p" items="${ s.tag }">
+	                		
 		                    <li>
-		                        <a href="resellDetail.resell?pno=${p.productNo }">
-		                            <p class="product_name">${ p.productName }</p>  
+	                    		 <a href="resellDetail.resell?pno=${p.productNo }">	
+			                     	<img class="productImg" src="${p.titleImg }">	
+			                        <p class="product_name">${ p.productName }</p>  
 		                        </a>
 		                    </li>
 	                	</c:forEach>
