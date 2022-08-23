@@ -1,0 +1,2 @@
+{"text":"ㅎㅇ","date":"2022-08-23-10-30","msgWriter":"test01","readStatus":"Y"}
+{"text":"안녕하세요 ~ ","date":"2022-08-23-10-30","msgWriter":"naverUser46872","readStatus":"Y"}

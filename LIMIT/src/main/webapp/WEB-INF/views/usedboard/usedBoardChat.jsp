@@ -153,12 +153,14 @@
     <script>
         var toUser ="";
         var chatListInterval;
-        var loadChatTextInterval;
+        var loadChatTextInterval="";
         
-        function loadChatTextInterval(){
-        	if(aJaxLoadToTextList == true){
-        		if(aJaxloadToChatList() == true) return true;
+        function loadChatText(){
+        	if(aJaxLoadToTextList(toUser) == true){
+        		aJaxloadToChatList();
+        		return true;
         	}
+        	        	
         }
        
         $(function(){
@@ -171,7 +173,10 @@
             if(chatListInterval != null){
             	clearInterval(chatListInterval);
             }
-            loadChatTextInterval = setInterval(() => loadChatTextInterval(), 1000);
+            if(loadChatTextInterval != null){
+            	clearInterval(chatListInterval);
+            }
+            loadChatTextInterval = setInterval(() => loadChatText(toUser), 1000);
 
             $("#conversationTitle").empty();
             $("#conversationTitle").append(toUser+"님과의 대화");

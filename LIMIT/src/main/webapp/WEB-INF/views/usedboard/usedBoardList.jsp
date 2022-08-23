@@ -133,7 +133,7 @@
                     
                     </div>
                     
-                    <div id="pagingArea" align="center">
+                    <div id="pagingArea" align="center" style="margin-top : 50px;">
                                     
                     </div>
                     
@@ -196,23 +196,23 @@
         			success : function(pi){
         			
         				if(pi.currentPage == 1){
-        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
+        					result += '<button class = "btn btn-outline-secondary disabled" onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
         				}
         				else{
-        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
+        					result += '<button class = "btn btn-outline-secondary" onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
         				}
         				
         				
         				for(var i = pi.startPage; i <= pi.endPage; i++){
                            
                             if(i != pi.currentPage){
-                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + i + ')">'+ i +'</button>';
+                                result +=  '<button class ="btn btn-outline-secondary"  onclick="ajaxLoadToUsedBoardPaging(' + i + ')">'+ i +'</button>';
                             }else{
                                 result +=  '<button class="btn btn-outline-secondary" disabled>' + i + '</button>'
                             }
                         }
         				if(pi.currentPage < pi.maxPage){
-                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
+                            result += '<button class = "btn btn-outline-secondary"  onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage + 1) +')">&gt;</button>';
                         }
         			
         				$("#pagingArea").append(result);

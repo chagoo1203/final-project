@@ -37,7 +37,7 @@ td, th{
 		      <th scope="row">의류</th>
 		      <c:choose>
 		      	<c:when test="${empty clothingPayment}" >
-		      		<td colspan = "3">0</td>
+		      		<td colspan = "3" id="clothingPayment">0</td>
 		      	</c:when>
 		      	<c:otherwise>
 		      		<td colspan = "3" id="clothingPayment">${clothingPayment}</td>
@@ -48,7 +48,7 @@ td, th{
 		    <th scope="row">신발</th>
 		      <c:choose>
 		      	<c:when test="${empty shoosePayment}" >
-		      		<td colspan = "3">0</td>
+		      		<td colspan = "3" id="shoosePayment">0</td>
 		      	</c:when>
 		      	<c:otherwise>
 		      		<td colspan = "3" id="shoosePayment">${shoosePayment}</td>
@@ -59,7 +59,7 @@ td, th{
 		    <th scope="row">기타</th>
 		      <c:choose>
 		      	<c:when test="${empty otherPayment}" >
-		      		<td colspan = "3">0</td>
+		      		<td colspan = "3" id = "otherPayment">0</td>
 		      	</c:when>
 		      	<c:otherwise>
 		      		<td colspan = "3" id = "otherPayment">${otherPayment}</td>
@@ -74,11 +74,15 @@ td, th{
 		  </tbody>
 		</table>
 		<script>
-				var cval = $("#clothingPayment").text();
-				var sval = $("#shoosePayment").text();
-				var oval = $("#otherPayment").text();
-				
-				$("#resultPayment").text(cval + sval + oval); 
+		$(function(){
+			var cval = $("#clothingPayment").text();
+			var sval = $("#shoosePayment").text();
+			var oval = $("#otherPayment").text();
+			var result = parseInt(cval) + parseInt(sval) + parseInt(oval);
+
+			$("#resultPayment").text(result);
+		})
+				 
 		</script>
 		<table class="table">
 		  <thead class="thead-light">
@@ -105,9 +109,27 @@ td, th{
 		  	</c:forEach>		    
 		  </tbody>
 		</table>
+		
+		<input type="date" id="beforeDate"/> ~ <input type="date" id="afterDate"/> <button type="button" id="searchBtn"class="btn btn-outline-dark" style="height : 25px; font-size:10px;">검색</button>
+		<table class="table" style="margin-top:25px">
+			<thead class="thead-light">
+				<tr>
+					<th>날짜</th>
+					<th>매출 총액</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr>
+					<th id="date"></th>
+					<td id = "dateValue"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	
 	<script>
+		
 		$(function(){
 			var now = new Date();
 			var month = now.getMonth();
@@ -121,8 +143,29 @@ td, th{
 
 				j++;
 			}
-			
+			$("#searchBtn").click(function(){
+				var beforeDate = $("#beforeDate").val();
+				var afterDate = $("#afterDate").val();
+				console.log(beforeDate);
+				console.log(afterDate);
+				$.ajax({
+	                url : "aJaxPaymentDate.rs",	                
+	                data : {beforeDate : beforeDate, afterDate : afterDate},
+	                success : function(price){
+	               		console.log(price);
+	               		if(price == ""){
+	               			price = 0;
+	               		}
+	               		$("#date").text(beforeDate + " ~ " + afterDate);
+	               		$("#dateValue").text(price)
+	                },error : function(){
+						console.log("test");
+	                }
+	            })
+			})	
 		})
+		
+		
 	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
