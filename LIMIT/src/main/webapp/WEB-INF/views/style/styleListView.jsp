@@ -72,7 +72,6 @@
         height: auto;
     }
     .style{
-           
             width: 20%;
             height: auto;
             text-align: center;
@@ -85,6 +84,7 @@
     .style > img{
         width: auto;
         height: auto;
+        margin-top:15px;
     }
     
     .productImg {
@@ -141,7 +141,7 @@
             <a href="style.bo" class="option">최신</a> <a href="style.bo?type=like" class="option">인기</a> <a href="style.bo?type=count" class="option">조회수</a>
         </div>
         <div id="hash_tag">
-            <div id="hash_bar" align="center">#나이키 #아디다스 #조던1</div>
+            <div id="hash_bar" align="center"></div>
         </div>
         
      
@@ -198,6 +198,7 @@
 		                        </a>
 		                    </li>
 	                	</c:forEach>
+	            
 	            
 	                </ul>
 	            </div>  

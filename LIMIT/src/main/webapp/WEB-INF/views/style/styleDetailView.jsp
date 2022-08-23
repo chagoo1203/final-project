@@ -139,7 +139,10 @@
 			  .prev, .next,.text {font-size: 11px}
 			}
 			          
-       
+       .productImg{
+       		width: 100px;
+       		height: 100px;
+       }
           
     </style>
 </head>
