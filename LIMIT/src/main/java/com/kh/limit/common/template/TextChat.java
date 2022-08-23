@@ -65,7 +65,7 @@ public class TextChat {
 				}
 				fw.close();
 				scanner.close();
-				originFile.delete();	            				
+				while(!originFile.delete());	            				
 				newFile.renameTo(new File(url));
 			}			
 		} catch (FileNotFoundException e) {

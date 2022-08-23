@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -681,6 +682,17 @@ public class AdminController {
 		mv.setViewName("admin/paymentResult");
 		
 		return mv;
+	}
+	
+	@RequestMapping("aJaxPaymentDate.rs")
+	@ResponseBody
+	public String aJaxPaymentDate(String beforeDate, String afterDate) {
+		
+		HashMap<String, String> dates = new HashMap<String, String>();
+	    dates.put("minDate", beforeDate);
+	    dates.put("maxDate", afterDate);
+	    String paymentResult = adminService.selectSumPayment(dates);
+		return paymentResult;
 	}
 	
 }

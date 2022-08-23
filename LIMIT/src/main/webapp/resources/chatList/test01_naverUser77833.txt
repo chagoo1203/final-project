@@ -1,6 +1,0 @@
-{"text":"이래서안됐던걸까","date":"2022-08-22-02-48","msgWriter":"test01","readStatus":"Y"}
-{"text":"ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ그랬구나 씨ㅡ ㅏㅍㄹ","date":"2022-08-22-02-48","msgWriter":"naverUser77833","readStatus":"Y"}
-{"text":"많이 힘들었지?","date":"2022-08-22-02-52","msgWriter":"test01","readStatus":"Y"}
-{"text":"응 .. .존나게 ..","date":"2022-08-22-02-52","msgWriter":"naverUser77833","readStatus":"Y"}
-{"text":"다행이야 좋아보여서","date":"2022-08-22-02-52","msgWriter":"test01","readStatus":"Y"}
-{"text":"너도 ..","date":"2022-08-22-02-52","msgWriter":"naverUser77833","readStatus":"Y"}

@@ -35,7 +35,11 @@ public class ProductService {
 	}
 	
 	public ArrayList<Product> selectResellList(){
+		
+		
+	
 		return productDao.selectResellList(sqlSession);
+		
 	}
 
 	public int increaseCount(int productNo) {

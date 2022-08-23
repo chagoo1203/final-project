@@ -116,6 +116,7 @@
     .style > img{
         width: auto;
         height: auto;
+         margin-top:15px;
     }
     #styleWrap > div {
 		float : left;
