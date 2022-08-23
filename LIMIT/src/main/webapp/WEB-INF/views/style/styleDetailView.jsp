@@ -139,7 +139,10 @@
 			  .prev, .next,.text {font-size: 11px}
 			}
 			          
-       
+       .productImg{
+       		width: 100px;
+       		height: 100px;
+       }
           
     </style>
 </head>
@@ -266,6 +269,7 @@
             	<c:forEach var="p" items="${ plist }">
 	                <li>
 	                    <a href="resellDetail.resell?pno=${p.productNo }">
+	                    	<img class="productImg" src="${p.titleImg }">
 	                        <p class="product_name">${ p.productName }</p>    
 	                        <p class="price_box"></p>
 	                    </a>

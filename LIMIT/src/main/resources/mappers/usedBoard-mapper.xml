@@ -136,7 +136,7 @@
 			    WHERE (U.STATUS = 'Y' AND FILE_LEVEL = 1 AND TYPE_NO = 2)
 			    <if test="productTypeName != null">
 			    	<foreach item="p" index="i" collection="productTypeName" open="AND(" close=")" separator="OR">
-				   		  PRODUCT_TYPE_NAME = #{p}
+				   		 PRODUCT_TYPE_NAME = #{p}
 				    </foreach>
 			    </if>
 			    

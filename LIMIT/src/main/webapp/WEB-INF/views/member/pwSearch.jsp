@@ -42,7 +42,7 @@
 	        </button>
 	    </form>
 	    <hr>
-	     <a href="member/loginForm" class="btn btn-google btn-user btn-block">
+	     <a href="login.me" class="btn btn-google btn-user btn-block">
 	           Login
 	        </a>
 	        <hr>

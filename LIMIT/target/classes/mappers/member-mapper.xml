@@ -146,6 +146,7 @@
 			</otherwise>
 		</choose>
 			LIKE '%' || #{keyword} || '%'
+				AND FILE_LEVEL = 1
 				AND TYPE_NO = 1
 	</select>
 	<select id="selectIdPhoneList" resultMap="memberResultSet" parameterType="hashmap">
