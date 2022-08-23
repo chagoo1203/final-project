@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapper">
+
+
+	<resultMap type="interested" id="interestList">
+		<result column="USED_NO" property="usedNo"/>
+	</resultMap>
+	
+	<resultMap id="productResultSet" type="product">
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
+		<result column="LIKES" property="likes" />
+		<result column="COUNT" property="count" />
+		<result column="STATUS" property="status" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="PRODUCT_WRITER" property="productWriter" />
+		<result column="TRADE_COUNT" property="tradeCount" />
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="BRAND_NAME" property="brandName" />
+		<result column="RELEASE_DATE" property="releaseDate" />
+		<result column="MODEL_NO" property="modelNo" />
+		<result column="COLLECTION_NAME" property="collectionName" />
+		<result column="TITLEIMG" property="titleImg" />
+		<result column="RELEASE_PRICE" property="releasePrice" />
+		<result column="RESELL_PRICE" property="resellPrice" />
+	
+	</resultMap>
+	
+	<resultMap id="memberResultSet" type="member">
+		<result column="USER_ID" property="userId" />
+		<result column="USER_PWD" property="userPwd" />
+		<result column="USER_NAME" property="userName" />
+		<result column="EMAIL" property="email" />
+		<result column="GENDER" property="gender" />
+		<result column="BIRTH_DATE" property="birthDate" />
+		<result column="PHONE" property="phone" />
+		<result column="ADDRESS" property="address" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="STATUS" property="status" />
+		<result column="NICKNAME" property="nickName" />
+	
+	</resultMap>
+
+	 <select id="renickCheck" resultType="_int">
+		SELECT	COUNT(*)
+		FROM	MEMBER
+		WHERE	NICKNAME = #{checkNick}	
+	</select>
+	
+	
+	<!-- 회원정보수정 -->
+	<update id="updateMember">
+	update
+	member
+	set
+	nickName = #{nickName},
+	email = #{email},
+	phone = #{phone},
+	user_Pwd = #{userPwd},
+	address = #{address},
+	modify_date = sysdate
+	where
+	user_id = #{userId}
+	
+	
+	
+	</update>
+	
+
+ <!--  회원탈퇴  -->
+ 
+ <update id="deleteMember">
+ 	update
+ 	member
+ 	set
+ 	status = 'N'
+ 	where
+ 	user_id = #{userId}
+ 
+ 
+ </update>
+ 
+ <!-- 관심상품 리스트 -->
+ <select id="inteSelectListCount" resultType="_int">
+ select count(*)
+ from interested
+ where user_id = #{userId}
+ 
+ </select>
+ 
+  
+ <select id="inteList" resultMap="productResultSet" parameterType="string">
+select 
+		P.PRODUCT_NO,
+        P.PRODUCT_NAME,
+        P.PRODUCT_CONTENT
+        
+        from
+        INTERESTED I,
+        PRODUCT P,
+        MEMBER M
+        
+        WHERE I.USER_ID = #{userId}
+        AND I.USER_ID = M.USER_ID
+        AND I.PRODUCT_NO = P.PRODUCT_NO
+ </select>
+ 
+
+</mapper>

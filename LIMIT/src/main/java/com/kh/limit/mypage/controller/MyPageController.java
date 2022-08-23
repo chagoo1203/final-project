@@ -2,6 +2,8 @@ package com.kh.limit.mypage.controller;
 
 
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.mypage.model.service.MyPageService;
+import com.kh.limit.product.model.vo.Product;
+import com.kh.limit.common.model.vo.Interested;
+import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.template.Pagination;
 import com.kh.limit.member.model.service.MemberService;
 
 @Controller
@@ -22,6 +29,9 @@ public class MyPageController {
 	private MyPageService mypageService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private MemberService memberService;
 	
 
 @RequestMapping("myPage.me")
@@ -38,8 +48,8 @@ public String myPage() {
 		int result = mypageService.updateMember(m);
 		
 		if(result > 0) {
-			session.setAttribute("loginUser", mypageService.loginMember(m));
-			
+
+			session.setAttribute("loginUser", memberService.loginMember(m));
 			session.setAttribute("alertMsg", "회원정보수정 성공");
 			return "redirect:myPage.me";
 			
@@ -82,6 +92,43 @@ public String myPage() {
 		
 		return mypageService.nickCheck(checkNick) > 0 ? "NNNNN" : "NNNNY";
 		}
+	
+	//myPageInte?currentPage=
+	
+	@RequestMapping("myPageInte.me")
+	public String selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, String userId) {
+		
+		//System.out.println("cpage : " + currentPage);
+		
+		//int listCount = mypageService.selectListCount();
+		//int pageLimit = 10;
+		//int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(mypageService.inteselectListCount(), currentPage, 10, 5);
+		
+		ArrayList<Product> list = mypageService.InteList(pi,userId);
+		System.out.println(list.size());
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
+		return "mypage/myPageInte";
+	
+	
+	}
+	@RequestMapping ("myPageBuy.me")
+	public String myPageBuy() {
+		
+
+		
+		return "mypage/myPageBuy";
+	}
+	
+	@RequestMapping("myPageSell.me")
+	public String myPageSell() {
+		
+		return"mypage/myPageSell";
+	}
+	
 	
 	
 	

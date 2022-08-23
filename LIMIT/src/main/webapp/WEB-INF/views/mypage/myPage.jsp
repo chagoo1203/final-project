@@ -46,9 +46,9 @@
 	
 	<div class="mypageMenu">
 		<p class="title"></p>
-		<a href="">구매 내역</a> <br><br>
-		<a href="">판매 내역</a> <br><br>
-		<a href="">관심 상품</a>
+		<a href="myPageBuy.me">구매 상품</a> <br>
+		<a href="myPageSell.me">판매 상품</a> <br>
+		<a href="myPageInte.me?userId=${loginUser.userId}">관심 상품</a>
 	</div>
 	
     <div class="content">
@@ -66,20 +66,12 @@
                     <input type="text" class="form-control" id="userName" value="${loginUser.userName}" name="userName" readonly> <br>
                     
                      <label for=nickName"> &nbsp; 별명 : </label>
-                    <input type="text" class="form-control" id="nickName" value="${loginUser.nickName}" name="nickName"> <br>
+                    <input type="text" class="form-control" id="nickName" value="${loginUser.nickName}" name="nickName" onkeyup="renickCheck();"> <br>
                     <div id="checkResult" style="font-size:0.7em; display:none"></div>
                     <br>
-                   
-                   	 비밀번호 수정하기 : 
-                    <input type="password" class="form-control" id="userPwd" placeholder="현재비밀번호를 입력해주세요"> <br>
-					
-                                              새로 사용할 비밀번호 입력
-             		
-             		<input type="password" class="form-control" id="npwd" placeholder="새로 비밀번호를 입력해 주세요"><br>
-             		
-             		
-             		새로 사용할 비밀번호 입력이 동일한지 한번 더 입력해주세요         
-             		<input type="password" class="form-control" id="npwd2" placeholder="새로 비밀번호를 입력해 주세요"><br>      	
+
+                                              새로 사용할 비밀번호 입력                                                         		
+             		<input type="password" class="form-control" id="userPwd" value="${loginUser.userPwd}" name="userPwd" placeholder="새로 비밀번호를 입력해 주세요"><br>
                     
                      <label for="birthDate"> &nbsp; 생일 : </label>
                     <input type="text" class="form-control" id="birthDate" value="${loginUser.birthDate}" name="birthDate" readonly> <br>
@@ -91,8 +83,15 @@
                     <label for="phone"> &nbsp; Phone : </label>
                     <input type="tel" class="form-control" id="phone" value="${loginUser.phone }" name="phone"> <br>
                     
-                    <label for="address"> &nbsp; Address : </label>
-                    <input type="text" class="form-control" id="address" value="${loginUser.address}" name="address"> <br>
+                    <label for="addresss"> &nbsp; 현재주소 : </label>
+                    <input type="text" class="form-control" id="addresss" value="${loginUser.address}"  readonly> <br>
+                    
+                    <label for="address"> * 주소변경하기 : </label>
+		            <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
+		            <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
+		            <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
+		            <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+                    
                     
                     <label for=""> &nbsp; 성별 : </label> &nbsp;&nbsp;
                     <input type="radio" id="Male" value="M" name="gender" checked onclick="return(false);">
@@ -104,18 +103,42 @@
                 	
                 </div> 
                 
+                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 
-                   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                
                 <script>
-                	$(function(){
-                	if("${loginUser.gender }" != "" ){
-                			$('input[value="${loginUser.gender}"]').attr("checked",true);
-                		
-                		}
-                	})
+                window.onload = function(){
+        		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        		        //카카오 지도 발생
+        		        new daum.Postcode({
+        		            oncomplete: function(data) { //선택시 입력값 세팅
+        		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+        		                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+        		            }
+        		        }).open();
+        		    });
+        		}
+                	
+                	
+                	 function addrSuccess(){
+               		  
+               		  var addr1 = document.getElementById("address_kakao");
+               		  var addr2 = document.getElementById("address_detail");
+               		  var addr3 = addr1.value + " " + addr2.value;
+               		  
+               		  $('input[id=address]').attr('value',addr3);
+               		  console.log(addr3);
+               		  
+               	  }
+                	 $(function(){
+                     	if("${loginUser.gender }" != "" ){
+                     			$('input[value="${loginUser.gender}"]').attr("checked",true);
+                     		
+                     		}
+                     	})
                 
                 	
-        var ok7;
+        
         const $nickName = $('#mypageForm input[name=nickName]');
 		
 		if($nickName.val().length >= 2 && $nickName.val().length <= 8){
@@ -127,32 +150,32 @@
 					if(result1 == 'NNNNN'){
 						$('#nickCheck').show();
 						$('#nickCheck').css('color', 'orangered').text('이미 중복된 닉네임이 존재합니다');
-						ok7 = "N";
+						
 					}else{ //사용가능
 						var regExpNick = /^[가-힣]{2,8}$/
 						
 						if(!regExpNick.test($nickName.val())){ //정규식에 맞지 않는 경우
 							$('#nickCheck').show();
 							$('#nickCheck').css('color', 'orangered').text('한글만 입력해주세요');
-							ok7 = "N";
+							
 						}else{
 							$('#nickCheck').show();
 							$('#nickCheck').css('color', 'yellowgreen').text('사용가능한 닉네임입니다');
-							ok7 = "Y";
+						
 						}
 					}
 				},
 				error : function(){
 					console.log("닉네임 중복쳌 실패");
-					ok7 = "N";
+				
 				}
 			});
 		}else{
 			$('#nickCheck').show();
 			$('#nickCheck').css('color', 'orangered').text('2이상 8이하여야 합니다');
-			ok7 = "N";
+			
 		}
-return ok7;
+
                 </script>
                 <br>
                 <div class="btns" align="center">

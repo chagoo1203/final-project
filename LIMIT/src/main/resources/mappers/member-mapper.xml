@@ -164,6 +164,8 @@
 		
 	</update>
 
+
+
 	<select id="findPwCheck" resultType="_int" parameterType="member">
 		SELECT COUNT(*)
 		FROM MEMBER

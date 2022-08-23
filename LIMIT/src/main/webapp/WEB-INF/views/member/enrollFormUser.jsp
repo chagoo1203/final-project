@@ -375,7 +375,7 @@
 		}
 		
 		function genderCheck(){
-			
+					
 				//성별
 				var $genderCheck = $("#enrollForm input[name=gender]");
 				var regExpGender = /^[FM]$/;
