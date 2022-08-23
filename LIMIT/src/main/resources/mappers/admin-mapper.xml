@@ -54,7 +54,7 @@
 	
 	<resultMap type="trade" id="tradeResultSet">
 		<result column="TRADE_NO" property="tradeNo" />
-		<result column="RECEIVER_NAME" property="receviverName" />
+		<result column="RECEIVER_NAME" property="recevierName" />
 		<result column="RECEIVER_PHONE" property="recevierPhone" />
 		<result column="RECEVIER_ADDRESS" property="recevierAddress" />
 		<result column="ODER_COMMENT" property="orderComment" />
