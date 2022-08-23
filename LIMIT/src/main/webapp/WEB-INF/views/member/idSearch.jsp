@@ -6,14 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	#idRap{
+		align: center;
+    	border : solid 1px black;
+		width : 400px;
+		height : 300px;
+		margin : auto;
+		margin-top : 50px;
+		border-radius : 6px;
+	}
+	header{
+		background-color:lightgray;
+		height : 50px;
+		text-align: center;
+	  	padding-top : 5px;
+	}
+	#idin{
+		padding-left : 80px;
+        display: inline-block;
+        text-align: center;		
+	}
+</style>
 </head>
 <body>
 
 	<jsp:include page="../common/menubar.jsp" />
-	<form name="idfindscreen" method = "post">
+	<div id="idRap">
+		<header>
+			<h2>ID 찾기</h2>
+		</header><br>
+	<form name="idfindscreen" method = "post" id="idin">
 			<div class = "search-title">
 				<h3>휴대폰 본인확인</h3>
-			</div>
+			</div><br>
 		<section class = "form-search">
 			<div class = "find-name">
 				<label>이름</label>
@@ -26,11 +52,12 @@
 			</div>
 			<br>
 	</section>
-	<div class ="btnSearch">
-		<input type="button" name="enter" value="찾기"  onClick="id_search()">
-		<input type="button" name="cancle" value="취소" onClick="history.back()">
+	<div class ="btnSearch" align="center">
+		<input type="button" name="enter" value="찾기" class="btn-primary" onClick="id_search()">
+		<input type="button" name="cancle" value="취소" class="btn-dark" onClick="history.back()">
  	</div>
  </form>
+	</div>
  
  	<jsp:include page="../common/footer.jsp" />
  
