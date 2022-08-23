@@ -4,9 +4,18 @@
 <html>
 <head>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,300,1,0" />
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>	
+		.material-symbols-outlined {
+		color : red;
+		  font-variation-settings:
+		  'FILL' 1,
+		  'wght' 300,
+		  'GRAD' 0,
+		  'opsz' 48		 
+		}
         body * {
             
             box-sizing: border-box;
@@ -86,7 +95,7 @@
         .textWrapRight{
             margin-right: 10px;
         }
-        .textWrapLeft > span{
+        .textLeftContent{
             
             border-radius: 10%;
             padding: 5px;
@@ -94,7 +103,7 @@
             background-color :rgb(26, 25, 25);
              color : white;
         }
-        .textWrapRight > span{
+        .textRightContent{
 
             border-radius: 10%;
             padding: 5px;
@@ -102,23 +111,20 @@
             background-color :silver;
              color : black;
         }
+        .textDate{
+        	color : gray;
+        	font-size : 13px;
+        }
 </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
-<div id="chatWrap">
+	<div id="chatWrap">
         <div id="logWrap">
             <p style="font-size: 45px; font-family: cursive; margin-top : 15px" align="center">LIM:IT</p>
         </div>
         <div id="chatListWrap">
-            <div class="chatListMember">
-                <div class="chatListTitle" align ="center">
-                    admin 님과의 대화
-                </div>             
-                <div class="chatListContent">
-                    학교교육 및 평생교육을 포함한 교육제도와 그 운영, 교육재정 및 교원의 지위에 관한 기본적인...
-                </div>                
-            </div>            
+         
         </div>
 
 
@@ -127,21 +133,12 @@
         <div id="conversation">
             <div id="conversationTitleWrap">
                 <div id="conversationTitle" align="center" style="font-size: 25px; color : white; padding-top: 25px;">
-                    admin 님과의 대화
+
                 </div>                
             </div>
             <div id="conversationText">
                 
-                <div class="textWrapLeft" align = "left">
-                    <span>
-                        test
-                    </span>                    
-                </div>
-                <div class="textWrapRight" align = "right">
-                    <span>
-                        test
-                    </span>
-                </div>
+
             </div>
             <div id="conversationInputWrap">
                 
@@ -155,25 +152,53 @@
 
     <script>
         var toUser ="";
+        var chatListInterval;
+        var loadChatTextInterval="";
+        
+        function loadChatText(){
+        	if(aJaxLoadToTextList(toUser) == true){
+        		aJaxloadToChatList();
+        		return true;
+        	}
+        	        	
+        }
+       
         $(function(){
-            aJaxloadToChatList();
+        	chatListInterval = setInterval(() => aJaxloadToChatList(), 1000);            
         })
         $(document).on("click", ".chatListMember" , function(){
             //채팅 불러오기 
             toUser = $(this).children().siblings("input").val();
-            setInterval(() => aJaxLoadToTextList(toUser), 1000);
-            
+                                    
+            if(chatListInterval != null){
+            	clearInterval(chatListInterval);
+            }
+            if(loadChatTextInterval != null){
+            	clearInterval(chatListInterval);
+            }
+            loadChatTextInterval = setInterval(() => loadChatText(toUser), 1000);
+
             $("#conversationTitle").empty();
             $("#conversationTitle").append(toUser+"님과의 대화");
             $("#button-addon2").attr("disabled", false);
         })
-
-
+        
+       
 
         $(document).on("click", "#button-addon2" , function(){
             //채팅 입력 기능 이벤트
+            var today = new Date();
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);	
+			var hours = ('0' + today.getHours()).slice(-2); 
+			var minutes = ('0' + today.getMinutes()).slice(-2);
+			
+			var sysdate = year + '-' + month  + '-' + day + '-' + hours  + '-' + minutes;
+			
             var text = $("#textBox").val();
-            aJaxChatInsert(toUser, text);
+            $("#textBox").val("");
+            aJaxChatInsert(toUser, text, sysdate);
             $("#button-addon2").attr("disabled", false);
         })
         function aJaxloadToChatList(){
@@ -189,18 +214,29 @@
                         + list[0][i] + '님과의 대화'
                         + '</div>'
                         + '<div class="chatListContent">'
-                        + list[1][i] 
-                        + '</div></div>'
+                        + list[1][i];
+                        
+                        if(list[3][i] == "N" && list[4][i] != "${loginUser.userId}"){
+                       		console.log(list[3][i]);
+                       		result += '<div class = "chatAlram" style = "float:right"><span class="material-symbols-outlined">notifications</span></div>'
+                       	}
+                        
+                        result += '<div class ="chatListDate" style="margin-top : 20px;text-align : right" >'
+                       	+ list[2][i]
+                       	+ '</div>'                       	
+                        + '</div>'                       	
+                        + '</div>'
                     }
                     $("#chatListWrap").empty();
                     $("#chatListWrap").append(result);                    
                     
-                },error : function(request,status,error){
-                  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                },error : function(){
+                  
                   
                 }
                 
             })
+            return true;
         }
         function aJaxLoadToTextList(toUser){
             $.ajax({
@@ -213,30 +249,41 @@
                     for(var i = 0; i < textList.length; i++){
                         
                         if(textList[i].msgWriter != "${loginUser.userId}"){
-                            result += '<div class="textWrapLeft" align = "left"><span>'
+                            result += '<div class="textWrapLeft" align = "left">'
+                            	+ '<span class ="textLeftContent">'
                                 + textList[i].text
-                                + '</span></div>';
+                                + '</span>'
+                                + '<span class ="textDate" style = "margin-left : 8px;">'
+                                + textList[i].date
+                                + '</span>'
+                                + '</div>';
                         }else{
-                            result += '<div class="textWrapRight" align = "right"><span>'
-                                + textList[i].text
-                                + '</span></div>';
+                            result += '<div class="textWrapRight" align = "right">'
+                            	+ '<span class ="textDate" style = "margin-right : 8px;">'
+                                + textList[i].date
+                                + '</span>'
+                           		+ '<span class ="textRightContent">'
+                            	+ textList[i].text                                
+                            	+ '</span>'                                
+                                + '</div>';
                         }
                     }
                     $("#conversationText").append(result);
-                },error : function(request,status,error){
-                  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                },error : function(){
+                  
                 }
                 
             })
+            return true;
         }
-        function aJaxChatInsert(toUser, text){
+        function aJaxChatInsert(toUser, text, sysdate){        	
             $.ajax({
                 url : "aJaxChatInsert.used",
-                data : {userId : "${loginUser.userId}", toUser : toUser, text : text},
+                data : {userId : "${loginUser.userId}", toUser : toUser, text : text, sysdate : sysdate},
                 success : function(msg){
-                    console.log(msg);
-                },error : function(request,status,error){
-                  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    
+                },error : function(){
+                  
                 }
                 
             })

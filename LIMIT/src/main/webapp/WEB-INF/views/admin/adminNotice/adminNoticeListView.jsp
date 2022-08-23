@@ -29,7 +29,9 @@
     color: #495057;
     background-color: #e9ecef;
 }
-
+.table tbody>tr:hover{
+	cursor : pointer;
+}
 .select {width:20%;}
 .text {width:53%;}
 .searchBtn {width:20%;}

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>스타일 리스트</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <style>
     div{
    
@@ -32,7 +34,11 @@
     
     #style_tab_lst >  a:link { color: red; text-decoration: none;}
     #style_tab_lst > a:visited { color: black; text-decoration: none;}
-    #style_tab_lst > a:hover { color: blue; text-decoration: underline;}
+    #style_tab_lst > a:hover { color: blue; text-decoration: underline;
+    
+    
+    
+    }
 
 
     #hash_bar{
@@ -66,7 +72,6 @@
         height: auto;
     }
     .style{
-           
             width: 20%;
             height: auto;
             text-align: center;
@@ -79,39 +84,99 @@
     .style > img{
         width: auto;
         height: auto;
+        margin-top:15px;
+    }
+    
+    .productImg {
+    	width:50px;
+    	height:50px;
     }
 
-
-    .option  {
-        font-size: larger;
-    }
+    
     #pagingArea{
     	margin-left:500px;
     }
+    
+    
+	.option{
+		font-size: larger;
+		
+		    border: 1px solid rgb(128, 165, 221);
+            border-radius: 15px;
+            border-width: 2px;
+            background-color: rgb(128, 165, 221);
+            color: black;
+            box-shadow: 1px 1px 1px 1px gray;
+            padding: 5px;
+            width: 85px;
+            transition: all 0.5s; /*0.5초동안 변함*/
+            margin-right: 25px;
+		
+	}
+	
+	
+	.option:hover{
+            height:50px; /*변경할 세로사이즈*/
+            color: white;
+            background: rgb(129, 151, 224); /*변경할 배경색*/
+            -webkit-transform:scale(1.2);
+            -moz-transform:scale(1.2);
+            -ms-transform:scale(1.2);
+            -o-transform:scale(1.2);
+            transform:scale(1.2);
+        }
+    
 
 </style>
 </head>
 <body>
+
+        		
+
+
+
 	  <jsp:include page="../common/menubar.jsp" />
     <div class="wrap">
         <div id="style_tab_lst" align="center">
             <a href="style.bo" class="option">최신</a> <a href="style.bo?type=like" class="option">인기</a> <a href="style.bo?type=count" class="option">조회수</a>
         </div>
         <div id="hash_tag">
-            <div id="hash_bar" align="center">#나이키 #아디다스 #조던1 </div>
+            <div id="hash_bar" align="center"></div>
         </div>
         
+     
 
         <div class="style_feeds" >
         
             <c:if test="${ not empty loginUser }"> 
-	            <a href="styleEnrollForm.bo" style="margin-left: 1080px;">작성하기</a>
+	
+	            	<button class="btn-check" id="btn-check-outlined" autocomplete="off" >작성</button>
+        			<label  id="writerStyle" class="btn btn-outline-primary" for="btn-check-outlined" style="margin-left: 1080px;" >작성</label><br>
+        			
 	            <br>
 			</c:if>
 			
 			<c:if test="${ empty list}">
 				<h1 align="center">등록된 스타일이 없습니다.</h1>
 			</c:if>
+			
+			
+			   <script>
+					$(function(){
+			       		
+			   			$("#writerStyle").click(function(){
+			   				
+			   				location.href = "styleEnrollForm.bo";
+			   				
+			   			})
+			   			
+			   		})
+   			
+       			</script>
+			
+			
+			
+			
 			
 			<c:forEach var="s" items="${ list }">
 	            <div class="style">
@@ -125,12 +190,15 @@
 	 
 	              
 	                	<c:forEach var="p" items="${ s.tag }">
+	                		
 		                    <li>
-		                        <a href="">
-		                            <p class="product_name">${ p.productName }</p>  
+	                    		 <a href="resellDetail.resell?pno=${p.productNo }">	
+			                     	<img class="productImg" src="${p.titleImg }">	
+			                        <p class="product_name">${ p.productName }</p>  
 		                        </a>
 		                    </li>
 	                	</c:forEach>
+	            
 	            
 	                </ul>
 	            </div>  

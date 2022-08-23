@@ -173,9 +173,10 @@
 
         })
         $(document).on("click",".deleteBtn", function(){
-            
-            if(!$(this).next().next().length) usedImgCount--;
-            
+            var number = $(this).prev().prev().attr('id').substring(12);            
+            if(!$(this).next().next().length || usedImgCount > number) usedImgCount--;
+            if(usedImgCount < 0) usedImgCount = 0;
+            $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
             $(this).prev().remove();
             $(this).next().remove();
             $(this).remove();
@@ -205,6 +206,7 @@
                         $("#imgWrap").append(inputEl);
                         $(el).attr("src", e.target.result);   
                         $("#photoCount").text('(' + (usedImgCount + 1) + '/10)')
+                        console.log(usedImgCount);
                         usedImgCount++;                    
                     };
                 }else{//수정 

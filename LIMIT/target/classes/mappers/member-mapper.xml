@@ -146,109 +146,53 @@
 			</otherwise>
 		</choose>
 			LIKE '%' || #{keyword} || '%'
+				AND FILE_LEVEL = 1
 				AND TYPE_NO = 1
 	</select>
+	<select id="selectIdPhoneList" resultMap="memberResultSet" parameterType="hashmap">
+		SELECT USER_NAME,USER_ID, PHONE
+		FROM MEMBER
+		WHERE USER_NAME = #{member_name}
+		AND PHONE = #{member_phone}
+	
+	</select>
+	<update id="findPw" parameterType="hashmap">
+		UPDATE MEMBER
+		SET USER_PWD = #{userPw}
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+		
+	</update>
 
+	<select id="findPwCheck" resultType="_int" parameterType="member">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+		AND USER_ID = #{userId}
+	</select>
+  
 
+	<select id="checkMember" parameterType="member" resultMap="memberResultSet">
+		SELECT
+				USER_ID,
+				USER_PWD,
+				USER_NAME,
+				EMAIL,
+				GENDER,
+				BIRTH_DATE,
+				PHONE,  
+				ADDRESS,
+				ENROLL_DATE,
+				MODIFY_DATE,
+				STATUS,
+				NICKNAME
+		  FROM
+		  		MEMBER
+		 WHERE
+		 		USER_PWD = #{ userPwd }
+		   AND STATUS = 'Y' 
+     </select>
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	 <select id="renickCheck" resultType="_int">
 		SELECT	COUNT(*)
 		FROM	MEMBER
@@ -268,16 +212,8 @@
 	modify_date = sysdate
 	where
 	user_id = #{userId}
-	
-	
-	
+		
 	</update>
-	
-	
-	
-	
-	
-	
 	
  <!--  회원탈퇴  -->
  

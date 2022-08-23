@@ -89,8 +89,8 @@ public class StyleController {
 	@RequestMapping("styleEnrollForm.bo")
 	public String styleEnrollForm() {
 		return "style/styleEnrollForm";
-	}
 	
+	}
 	
 	
 	
@@ -113,7 +113,7 @@ public class StyleController {
 			}
 		
 		}
-		System.out.println(styleTag);
+
 		
 		style.setStyleTag(styleTag);
 		

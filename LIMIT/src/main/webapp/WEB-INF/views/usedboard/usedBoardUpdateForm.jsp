@@ -188,9 +188,12 @@
             $(this).prev().click();
 
         })
+        
         $(document).on("click",".deleteBtn", function(){
             
-            if(!$(this).next().next().length) usedImgCount--;
+        	var number = $(this).prev().prev().attr('id').substring(12);            
+            if(!$(this).next().next().length || usedImgCount > number) usedImgCount--;
+            if(usedImgCount < 0) usedImgCount = 0;
 
             if($(this).prev().val() > 0){//hidden element가 있다면
                 $(this).prev().remove();                    

@@ -6,13 +6,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonElement;
 import com.kh.limit.common.model.vo.Attachment;
 import com.kh.limit.common.model.vo.CommonName;
 import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.ResellInfo;
+import com.kh.limit.common.model.vo.SelectUsedBoardVo;
 import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.product.model.dao.ProductDao;
 import com.kh.limit.product.model.vo.Product;
+import com.kh.limit.style.model.vo.Style;
 
 @Service
 public class ProductService {
@@ -32,7 +35,11 @@ public class ProductService {
 	}
 	
 	public ArrayList<Product> selectResellList(){
+		
+		
+	
 		return productDao.selectResellList(sqlSession);
+		
 	}
 
 	public int increaseCount(int productNo) {
@@ -85,6 +92,58 @@ public class ProductService {
 
 	public ArrayList<Trade> priceGraphYear(int productNo) {
 		return productDao.priceGraphYear(sqlSession, productNo);
+	}
+
+	public ResellInfo selectResellInfo(int resellNo) {
+		return productDao.selectResellInfo(sqlSession, resellNo);
+	}
+
+	public int insertTrade(Trade t) {
+		return productDao.insertTrade(sqlSession, t);
+	}
+
+	public int updateResellInfo(int resellNo) {
+		return productDao.updateResellInfo(sqlSession, resellNo);
+	}
+
+	public int updateProduct(int productNo) {
+		return productDao.updateProduct(sqlSession, productNo);
+	}
+
+	public Object selectResellListCount() {
+		return productDao.selectResellListCount(sqlSession);
+	}
+
+	public Object selectResellListLikes() {
+		return productDao.selectResellListLikes(sqlSession);
+	}
+
+	public Object selectResellListTrade() {
+		return productDao.selectResellListTrade(sqlSession);
+	}
+
+	public Object selectResellListDate() {
+		return productDao.selectResellListDate(sqlSession);
+	}
+
+	public ArrayList<Product> selectBoard(SelectUsedBoardVo subv) {
+		return productDao.selectBoard(sqlSession, subv);
+	}
+
+	public int selectListCount(SelectUsedBoardVo subv) {
+		return productDao.selectListCount(sqlSession, subv);
+	}
+
+	public int selectCount() {
+		return productDao.selectCount(sqlSession);
+	}
+	
+	public ArrayList<Style> productNoStyle(int pno) {
+		return productDao.productNoStyle(sqlSession, pno);
+	}
+
+	public Product selectProductList(String l) {
+		return productDao.selectProductList(sqlSession, l);
 	}
 
 }

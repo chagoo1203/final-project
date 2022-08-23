@@ -320,7 +320,14 @@
                     </div>
                     
                     <div class = "btnWrap">
-                        <button id="chatBtn" type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
+                    <c:choose>
+                    	<c:when test="${loginUser.userId eq usedBoard.boardWriter}">
+                    		<button id="chatBtn" type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;" disabled>연락하기</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<button id="chatBtn" type="button" class="btn btn-dark btn-lg" style="width: 100%; height : 100%;">연락하기</button>
+                    	</c:otherwise>                    		
+					</c:choose>                        
                     </div>
                 </div>
             </div>

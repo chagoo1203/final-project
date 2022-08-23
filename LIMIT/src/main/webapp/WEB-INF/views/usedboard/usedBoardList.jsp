@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,167 +15,173 @@
             width: 1200px;
             overflow : auto;
             margin: 0 auto;
-        }
-        #productTypeForm{
-            height: 35px;          
-            width: 224px;     
-            margin : 0 auto;
-            margin-bottom: 100px;
-        }
-        #productTypeBrandCollectionList{
-            list-style-type: none;
-            margin : 0px;
-            padding : 0px;
-            height : 100%;
-            
-        }
-        #productTypeBrandCollectionList>li{
-            
-            float:left;
-            width : 50%;
-            text-align: center;
-            height:100%;
-            
-        }
-        #productTypeBrandCollectionList p{
-            text-decoration: none;            
-            font-size: 13px;
-            font-weight: 900;
-            width: 100%;
-            height: 100%; /*a태그는 이라인 요소이기때문에 100% 가 안먹음*/
-            display: block; /*그래서 블록으로 바꿈*/
-            line-height: 35px;
-            margin : 0px;
-            padding: 0px;
-            /*화면 통합시 이슈가 발생함*/            
-            transform: scale(1);
-        }
-        #productTypeBrandCollectionList p:hover{                                    
-            font-size:10px;
-            
-        }
-        #productTypeBrandCollectionList>li>ul p{font-size : 10px;}
-        #productTypeBrandCollectionList>li>ul p:hover{font-size: 13px;}
-        #productTypeBrandCollectionList>li>ul{
-            list-style-type: none; /*불릿 삭제*/
-            padding : 0px; /*padding 삭제*/            
-            display: none;
-            
-        }
-        
-        #productTypeBrandCollectionList>li>p:hover+ul{
-            
-            display: block;
-        }
-        #productTypeBrandCollectionList>li>ul:hover{
-
-            display: block;
-        }
+        }        
         #mainCotentForm {
-            width: 100%;
-            overflow: auto;
+            width: 100%;            
+            overflow : auto;
             
+        }
+        .resellFilter{
+     		width : 300px;
+     		height : 100%;
+     		margin : auto;
         }
         .usedItem{
             width: 24%;
-            height: 240px;
+            height: 255px;
             float:left;
-            
+            cursor : pointer;
         }
+        
         .usedImgWrap{
             width : 165px;
             height : 150px;
             margin: 0 auto;
-            border-top: 1px solid gray;
-            border-left: 1px solid gray;
-            border-right: 1px solid gray;
+            border : 3px solid gray;
+			border-radius : 10%;
             
             margin-top: 20px;
             
             
         }
+        .brandNameWrap{
+        	width : 165px;
+            height: 35px;
+            margin: 0 auto;
+
+            color : black;
+            font-weight : bold;
+            text-align : left;
+        }
         .titleWrap{
             width : 165px;
             height: 25px;
             margin: 0 auto;
-            border-left: 1px solid gray;
-            border-right: 1px solid gray;
-            color : gray;
+
+            color : black;
+            font-weight : middle;            
+            font-size : 8px;
         }
         .priceWrap{
             width: 165px;            
             height: 20px;
             margin: 0 auto;           
-            color : gray;
+            font-size : 15px;
+            font-weight : bold;
             text-align: right;
-         	border-left: 1px solid gray;
-            border-right: 1px solid gray;
-            border-bottom: 1px solid gray;
+            
+
         }
         img {
+        	border-radius : 10%;
         	
-        	cursor : pointer;
         }
     </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
-	<div id ="usedBoardArea">
-        <div id = "productTypeForm">
-            <ul id = "productTypeBrandCollectionList">
-                <li>
-                    <p>CATEGORY</p>
-                    <ul id ="categoryList">
-                        <li><p>의류</p></li>
-                        <li><p>신발</p></li>
-                        <li><p>악세서리</p></li>
-                        <li><p>기타</p></li>
-                    </ul>
-                </li>
-                
-                <li>                
-                    <p>BRAND</p>
-                    <ul id = "brandList">
-                        <li><p>NIKE</p></li>
-                        <li><p>JORDAN</p></li>
-                        <li><p>ADIDAS</p></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+	
+	<div id ="usedBoardArea">		
+        <div class="container-fluid">
+            <div class="row">
+              <div class="resellFilter" style ="margin-top : 25px;">              
+                  <ul>
+                          카테고리 <br><br>
+                      <span>
+                          <div>
+                              <input type="checkbox" name="productTypeName" id="clothes" value="의류">
+                              <label for="clothes">의류</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="productTypeName" id="shoes" value="신발">
+                              <label for="shoes">신발</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" name="productTypeName" id="etc" value="기타">
+                              <label for="etc">기타</label>
+                          </div>
+                      </span>
+                  </ul>
+                  <ul>
+                      브랜드 <br><br>
+                      <span>
+                          <c:forEach var="b" items="${brandList}">
+                              <div>
+                                  <input type="checkbox" name="brandName" class="${b.commonName}" value="${b.commonName}">
+                                  <label for="${b.commonName}">${b.commonName}</label>
+                              </div>
+                          </c:forEach>
+                      </span>
+                      </ul>
+                  <ul>
+                      컬렉션 <br><br>
+                      <span>
+                          <c:forEach var="c" items="${collectionList}">
+                              <div>
+                                  <input type="checkbox" name="collectionName" class="${c.commonName}" value="${c.commonName}">
+                                  <label for="${c.commonName}">${c.commonName}</label>
+                              </div>
+                          </c:forEach>
+                      </span>
+                      
+                      </ul>                                                      
+                </div>
 
-        <div id ="mainCotentForm">
-            
-            
-        </div>
-        
-        <div id="pagingArea" align="center">
-                          
+                <div id="mainCotentFormWrap" style="width : 75%; margin-top : 70px">
+                    <div id ="mainCotentForm">
+                    
+                    
+                    </div>
+                    
+                    <div id="pagingArea" align="center" style="margin-top : 50px;">
+                                    
+                    </div>
+                    
+                    <c:if test="${not empty loginUser }">
+                        <button type="button" class="btn btn-outline-dark" onclick="location.href = 'enrollForm.used'" style="float:right">등록</button>			        			
+                    </c:if>
+                </div>                
+            </div>
         </div>
     </div>
     <script>
         var cpage =1;
-        var productTypeName = "";
-        var brandName = "";        
-        var collectionName = "";
-        $(function(){
-            
+        var productTypeName = [];
+        var brandName = [];        
+        var collectionName = [];
+        $(function(){            
         	ajaxLoadToUsedBoardPaging();
         })
-        
+        $(document).on("change", "input[name=productTypeName]", function(){
+            productTypeName = [];
+            $("input[name=productTypeName]:checked").each(function(e){
+                productTypeName.push($(this).val());
+            });
+            ajaxLoadToUsedBoardPaging();  
+        })
+        $(document).on("change", "input[name=brandName]", function(){
+            brandName = [];
+            $("input[name=brandName]:checked").each(function(e){
+                brandName.push($(this).val());
+            });            
+            ajaxLoadToUsedBoardPaging();
+        })
+        $(document).on("change", "input[name=collectionName]", function(){
+            collectionName = [];
+            $("input[name=collectionName]:checked").each(function(e){
+                collectionName.push($(this).val());
+            });            
+            ajaxLoadToUsedBoardPaging();
+        })
+
+           
         $(document).on("click", "img", function(){
-        	var bno = $(this).parent().siblings("input").val();
-        	
+        	var bno = $(this).parent().siblings("input").val();        	
         	location.href = "detail.used?boardNo="+bno; 
         })
-        $(document).on("click","#categoryList > li", function(){
-            productTypeName = $(this).text();
-            ajaxLoadToUsedBoardPaging();
-        })
-        $(document).on("click","#brandList > li", function(){
-            collectionName = $(this).text();
-            ajaxLoadToUsedBoardPaging();
-        })
+        
+        
+        
         
         function ajaxLoadToUsedBoardPaging(page){
             if(page){
@@ -184,27 +191,28 @@
         	var result ="";
         	$.ajax({
         			url : "aJaxLoadtoUsedBoardPaging.used",
-        			data : {cpage : cpage,productTypeName : productTypeName, brandName : brandName, collectionName : collectionName},
+        			traditional: true,   			
+        			data : {cpage : cpage, productTypeName : productTypeName, brandName : brandName, collectionName : collectionName},
         			success : function(pi){
         			
         				if(pi.currentPage == 1){
-        					result += '<button class = "btn btn-outline-secondary disabled" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
+        					result += '<button class = "btn btn-outline-secondary disabled" onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'	
         				}
         				else{
-        					result += '<button class = "btn btn-outline-secondary" onclick="aJaxLoadtoUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
+        					result += '<button class = "btn btn-outline-secondary" onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage - 1) + ')" >&lt;</button>'
         				}
         				
         				
         				for(var i = pi.startPage; i <= pi.endPage; i++){
                            
                             if(i != pi.currentPage){
-                                result +=  '<button class ="btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + i + ')">'+ i +'</button>';
+                                result +=  '<button class ="btn btn-outline-secondary"  onclick="ajaxLoadToUsedBoardPaging(' + i + ')">'+ i +'</button>';
                             }else{
                                 result +=  '<button class="btn btn-outline-secondary" disabled>' + i + '</button>'
                             }
                         }
         				if(pi.currentPage < pi.maxPage){
-                            result += '<button class = "btn btn-outline-secondary"  onclick="aJaxLoadtoUsedBoardPaging(' + (recipan[1].currentPage + 1) +')">&gt;</button>';
+                            result += '<button class = "btn btn-outline-secondary"  onclick="ajaxLoadToUsedBoardPaging(' + (pi.currentPage + 1) +')">&gt;</button>';
                         }
         			
         				$("#pagingArea").append(result);
@@ -224,7 +232,8 @@
             
             $.ajax({
                 url : "aJaxLoadtoUsedBoard.used",
-                data : {cpage : cpage,productTypeName : productTypeName, brandName : brandName, collectionName : collectionName, startRow : startRow, endRow : endRow},
+                traditional: true,
+                data : {cpage : cpage, productTypeName : productTypeName, brandName : brandName, collectionName : collectionName, startRow : startRow, endRow : endRow},
                 success : function(list){
                 	console.log(list);
                 	for(let i in list){
@@ -234,11 +243,14 @@
                 		'<div class ="usedImgWrap">' +
                             '<img src="' + list[i].titleImg +'" alt="" width="100%" height="100%">' +
                         '</div>' +
+                        '<div class = "brandNameWrap">' +
+                        	list[i].brandName + 
+                        '</div>' +
                         '<div class = "titleWrap">' +
                             list[i].boardTitle +
                         '</div>' +
                         '<div class ="priceWrap">' +
-                            list[i].usedPrice + 
+                            list[i].usedPrice + '원' +
                         '</div>' +
                     	'</div>';
                 	}

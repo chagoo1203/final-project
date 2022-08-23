@@ -24,7 +24,8 @@ public class Member {
 	private String modifyDate;
 	private String status;
 	private String nickName;
-	public Member(String userId, String userName, String email, String gender, String birthDate, String phone,
+	
+	public Member(String userId, String userPwd, String userName, String email, String gender, String birthDate, String phone,
 			String nickName) {
 		super();
 		this.userId = userId;
@@ -34,6 +35,13 @@ public class Member {
 		this.birthDate = birthDate;
 		this.phone = phone;
 		this.nickName = nickName;
+		this.userPwd = userPwd;
 	}
+	public Member(String userId, String email) {
+		super();
+		this.userId = userId;
+		this.email = email;
+	}
+	
 	
 }

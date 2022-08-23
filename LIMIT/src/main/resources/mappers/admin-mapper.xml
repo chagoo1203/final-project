@@ -51,6 +51,22 @@
 		<result column="STATUS" property="status" />
 		<result column="NICKNAME" property="nickName" />
 	</resultMap>
+	
+	<resultMap type="trade" id="tradeResultSet">
+		<result column="TRADE_NO" property="tradeNo" />
+		<result column="RECEIVER_NAME" property="receviverName" />
+		<result column="RECEIVER_PHONE" property="recevierPhone" />
+		<result column="RECEVIER_ADDRESS" property="recevierAddress" />
+		<result column="ODER_COMMENT" property="orderComment" />
+		<result column="PAYMENT" property="payment" />
+		<result column="PURCHASE_DATE" property="purchaseDate" />
+		<result column="STATUS" property="status" />
+		<result column="DELIVERY" property="delivery" />
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="BUYER" property="buyer" />
+		<result column="SELLER" property="seller" />
+		<result column="RESELL_NO" property="resellNo" />
+	</resultMap>
 
 	<select id = "selectCategory" resultMap = "categorySet">
 		SELECT *
@@ -349,6 +365,7 @@
 				USER_NAME,
 				TO_CHAR(BIRTH_DATE, 'YYYY-MM-DD') AS "BIRTH_DATE", 
 				TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS "ENROLL_DATE",
+				STATUS,
 				NICKNAME
 		  FROM
 		  		MEMBER 
@@ -494,5 +511,100 @@
 		PURCHASE_DATE BETWEEN TO_DATE(#{minDate}, 'YYYY-MM-DD') 
 		                  AND TO_DATE(#{maxDate}, 'YYYY-MM-DD')
  	</select>
+ 	
+ 	<select id="deliveryCount" resultType="_int">
+ 		SELECT COUNT(*) 
+ 		  FROM TRADE
+ 	</select>
+ 	
+ 	<select id="searchDeliveryCount" parameterType="hashmap" resultType="_int">
+ 		SELECT COUNT(*) 
+ 		  FROM TRADE
+ 		 WHERE
+ 		 	<choose>
+ 		 		<when test="condition == 'tradeNo'">
+ 		 			TRADE_NO
+ 		 		</when>
+ 		 		<when test="condition == 'buyer'">
+ 		 			BUYER
+ 		 		</when>
+ 		 		<otherwise>
+ 		 			SELLER
+ 		 		</otherwise>
+ 		 	</choose>
+ 		 LIKE '%' || #{keyword} || '%'
+ 	</select>
+ 	
+ 	<select id="deliveryList" resultMap="tradeResultSet">
+ 		SELECT  
+ 				TRADE_NO,
+ 				TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE",
+ 				BUYER, 
+ 				SELLER, 
+ 				DELIVERY
+		  FROM  
+		  		TRADE
+ 	</select>
+ 	
+ 	<select id="searchDeliveryList" parameterType="hashmap" resultMap="tradeResultSet">
+ 		SELECT  
+ 				TRADE_NO,  
+ 				TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE", 
+ 				BUYER, 
+ 				SELLER, 
+ 				DELIVERY
+		  FROM  
+		  		TRADE
+		 WHERE
+		 	<choose>
+ 		 		<when test="condition == 'tradeNo'">
+ 		 			TRADE_NO
+ 		 		</when>
+ 		 		<when test="condition == 'buyer'">
+ 		 			BUYER
+ 		 		</when>
+ 		 		<otherwise>
+ 		 			SELLER
+ 		 		</otherwise>
+ 		 	</choose>
+ 		 LIKE '%' || #{keyword} || '%'
+ 	</select>
+ 	
+ 	<select id="selectDelivery" parameterType="_int" resultMap="tradeResultSet">
+ 		SELECT 
+ 				TRADE_NO,
+ 				RECEIVER_NAME,
+ 				RECEIVER_PHONE,
+ 				RECEVIER_ADDRESS,
+ 				ODER_COMMENT,
+ 				PAYMENT,
+ 				TO_CHAR(PURCHASE_DATE, 'YYYY-MM-DD') AS "PURCHASE_DATE",
+ 				STATUS,
+ 				DELIVERY,
+ 				PRODUCT_NO,
+ 				BUYER,
+ 				SELLER,
+ 				RESELL_NO
+ 		  FROM
+ 		  		TRADE
+ 		 WHERE
+ 		 		TRADE_NO = #{tradeNo}
+ 	</select>
+ 	
+ 	<update id="updateDelivery" parameterType="hashmap">
+ 		UPDATE
+ 				TRADE
+ 		 SET
+ 		 	<choose>
+ 		 		<when test="delivery == 'Y'.toString()">
+ 		 			DELIVERY = 'A'
+ 		 		</when>
+ 		 		<otherwise>
+		   			DELIVERY = 'E'
+ 		 		</otherwise>
+ 		 	</choose>
+ 		 WHERE
+ 		 		TRADE_NO = #{tradeNo}
+ 	</update>
 
 </mapper>

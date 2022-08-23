@@ -22,7 +22,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	 */
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object hadnler) throws IOException {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		// true 리턴 시 => 기존 요청 흐름대로 해당 Controller 정상실행
 		// flase 리턴 시 => Controller 실행 안됨
 		

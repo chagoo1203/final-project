@@ -1,7 +1,9 @@
 package com.kh.limit.member.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,7 @@ import com.google.gson.Gson;
 import com.kh.limit.common.model.vo.PageInfo;
 import com.kh.limit.common.template.NaverLoginBo;
 import com.kh.limit.common.template.Pagination;
+import com.kh.limit.member.model.dao.MemberDao;
 import com.kh.limit.member.model.service.MemberService;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
@@ -34,7 +39,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	@Autowired
+	private MemberDao memberDao;
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
 	
 	
 	private NaverLoginBo naverLoginBO;
@@ -52,10 +61,10 @@ public class MemberController {
         
         //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
         //redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-        System.out.println("네이버:" + naverAuthUrl);
+        //  System.out.println("네이버:" + naverAuthUrl);
         
         //네이버 
-        model.addAttribute("url", naverAuthUrl);
+        // model.addAttribute("url", naverAuthUrl);
         
 		return "member/loginForm";
 	}
@@ -66,10 +75,18 @@ public class MemberController {
 	@RequestMapping("loginForm.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);		
+
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		
+		System.out.println("암호문 : " + encPwd);
+
+
+
 		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-		
-		//System.out.println("암호문 : " + encPwd);
-		
+
+
+		// System.out.println("암호문 : " + encPwd);
+
 		if(loginUser != null && bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
 			session.setAttribute("loginUser", loginUser);
@@ -94,24 +111,32 @@ public class MemberController {
         JSONObject jsonObj = (JSONObject) jsonParse.parse(apiResult);
         
         jsonObj = (JSONObject) jsonParse.parse(jsonObj.get("response").toString());
-        String id = jsonObj.get("id").toString();
+        String pwd = jsonObj.get("id").toString();
+        
+        //ID 를 Pwd 로 사용할것
         
         Member check = new Member();
-        check.setUserId(id);
-        Member loginUser = memberService.loginMember(check);
+        
+        check.setUserPwd(pwd);
+        
+        Member loginUser = memberService.checkMember(check);
+        
         if(loginUser != null) {
         	session.setAttribute("loginUser", loginUser);
         	return "redirect:/";
         }else {
+        	String currentTime = new SimpleDateFormat("HHmmss").format(new Date());
+			int ranNum = (int)(Math.random() * 90000) + 100;
+        	String id = "naverUser" + ranNum;
             String gender = jsonObj.get("gender").toString();        
-            String nickName = jsonObj.get("nickname").toString();
+            String nickName = id;
             String email = jsonObj.get("email").toString();
             String name = jsonObj.get("name").toString();
             String phone = jsonObj.get("mobile").toString();
             String birthDate = jsonObj.get("birthyear").toString() + "-" + jsonObj.get("birthday").toString();
             
                     
-            Member loginNaver = new Member(id, name, email, gender, birthDate, phone, nickName);
+            Member loginNaver = new Member(id, pwd, name, email, gender, birthDate, phone, nickName);
             
             model.addAttribute("loginNaver", loginNaver);
      
@@ -147,14 +172,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("insert.me")
-	public String insertMember(Member m, Model model, HttpSession session) {
-		
-		//암호화 작업(암호문을 만4들어내는 과정)
-		System.out.println(m);
-		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-		//System.out.println(encPwd);
-		
-		m.setUserPwd(encPwd);
+	public String insertMember(Member m, Model model, HttpSession session, boolean loginNaver) {
+		if(loginNaver == false) {
+			//암호화 작업(암호문을 만4들어내는 과정)
+			System.out.println(m);
+			String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+			System.out.println(encPwd);
+			
+			m.setUserPwd(encPwd);
+		}
 		int result = memberService.insertMember(m);
 		if(result > 0) {
 			session.setAttribute("alertMsg", "성공적으로 회원가입~");
@@ -169,6 +195,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "topList.pr", produces="application/json; charset=UTF-8")
 	public String ajaxTopBoardList() {
+
 		return new Gson().toJson(memberService.selectTopBoardList());
 	}
 	
@@ -195,10 +222,62 @@ public class MemberController {
 		return "product/resellBoardList";
 	}
 
+
 	
+	@RequestMapping("idPwFind.me")
+	public String viewIdPwFind() {
+		return "member/id_pwFind";
+	}
+	@RequestMapping("idFind.me")
+	public String viewIdFind() {
+		return "member/idSearch";
+	}
+	@RequestMapping("pwFind.me")
+	public String findPwView() {
+		return "member/pwSearch";
+	}
+	@RequestMapping("findIdResult.me")
+	public ModelAndView viewIdFindResult(HttpSession session, String member_name, String member_phone, ModelAndView mv) {
+		
+		
+		HashMap<String, String> map = new HashMap();
+		map.put("member_name", member_name);
+		map.put("member_phone", member_phone);
+		
+		Member idFindList = memberService.selectIdPhoneList(map);
+		
+		//System.out.println(idFindList);
+		
+		if(idFindList != null) {
+			session.setAttribute("idFindList", idFindList);
+			mv.setViewName("member/idResult");
+		}else {
+			mv.addObject("errorMsg","일치하는 회원이 없습니다!").setViewName("common/errorPage");
+		}
+		
+		return mv;
+
+	}
+		
+	@RequestMapping(value="pwResult.me", method=RequestMethod.POST)
+	public String findPw(Member memberVO,Model model) throws Exception{
+		logger.info("memberId"+memberVO.getUserId());
+		logger.info("memberEmail"+memberVO.getEmail());
+		
+		if(memberService.findPwCheck(memberVO)==0) {
+			model.addAttribute("msg", "아이디와 이메일를 확인해주세요");
+			
+			return "member/pwSearch";
+		}else {
 	
-	
-	
+		memberService.findPw(memberVO.getEmail(),memberVO.getUserId());
+		model.addAttribute("memberEmail", memberVO.getEmail());
+		
+		return"member/pwResult";
+		}
+	}
+
 
 }
+
 

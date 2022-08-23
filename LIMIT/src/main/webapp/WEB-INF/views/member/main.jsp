@@ -35,6 +35,8 @@
   .list_detail > img{
   		display: block; 
   		margin: 0px auto;
+  		margin-top : 5px;
+  		height: 250px;
   }
   .product_list{
 	  	width : 100%;
@@ -104,7 +106,7 @@
 			$(function(){
 				topBoardList();
 				$(document).on("click","#product_item > div", function(){
-		            location.href="#?pno=" + $(this).children().eq(0).val();
+		            location.href="resellDetail.resell?pno=" + $(this).children().eq(0).val();
 		        });
 			})
 			
@@ -114,9 +116,13 @@
 					url : 'topList.pr',
 					success : function(data){
 						let value=''
-						for( var i = 0 ; i < 8 ; i ++ ){
+						var j = 8;
+						if(data.length < 8){
+							j = data.length;
+						}
+						for( var i = 0 ; i < j ; i ++ ){
 							value += '<div class="list_detail">'
-								   + '<input type="hidden" name="productName" value="' + data[i].productNo + '">'
+								   + '<input type="hidden" name="productNo" value="' + data[i].productNo + '">'
 								   + '<img id="thumbnail" src="' + data[i].titleImg + '">'
 								   + '<p>' + data[i].brandName + '</p>'
 								   + '<p>' + data[i].productName + '</p>'
