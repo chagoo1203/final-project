@@ -36,7 +36,7 @@
   		display: block; 
   		margin: 0px auto;
   		margin-top : 5px;
-  		height: 250px;
+		height: 250px;
   }
   .product_list{
 	  	width : 100%;

@@ -85,7 +85,7 @@ public class MemberController {
 		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 
 
-		// System.out.println("암호문 : " + encPwd);
+		//System.out.println("암호문 : " + encPwd);
 
 		if(loginUser != null && bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			//로그인 성공
@@ -261,6 +261,7 @@ public class MemberController {
 		
 	@RequestMapping(value="pwResult.me", method=RequestMethod.POST)
 	public String findPw(Member memberVO,Model model) throws Exception{
+		
 		logger.info("memberId"+memberVO.getUserId());
 		logger.info("memberEmail"+memberVO.getEmail());
 		

@@ -32,7 +32,7 @@
         <input type="text" readonly class="form-control" value="${t.tradeNo}">
         <br>
         <label>수령인 : </label>
-        <input type="text" readonly class="form-control" value="${t.receviverName}">
+        <input type="text" readonly class="form-control" value="${t.recevierName}">
         <br>
         <label>수령인 전화번호 :  </label>
         <input type="text" readonly class="form-control" value="${t.recevierPhone}">

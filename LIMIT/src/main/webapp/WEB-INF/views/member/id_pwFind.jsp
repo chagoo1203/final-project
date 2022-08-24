@@ -5,12 +5,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>아이디비번찾기</title>
+<style>
+	#idpwRap{
+		align: center;
+    	border : solid 1px black;
+		width : 400px;
+		height : 150px;
+		margin : auto;
+		margin-top : 50px;
+		border-radius : 6px;
+	}
+	header{
+		background-color:lightgray;
+		height : 50px;
+		text-align: center;
+	  	padding-top : 5px;
+	}
+	#idpw{
+		text-align: center;
+	}
+
+</style>
 </head>
 <body>
-	<div align="center" style="border:solid 1px black; width:300px; height:500px"> 
-		<a href="idFind.me" id="idfind" name="idfind">아이디 찾기</a>
-		<a href="pwFind.me" id="pwfind" name="pwfind">비밀번호 찾기</a>
+	<jsp:include page="../common/menubar.jsp" />
+	<div id="idpwRap">
+		<header>
+			<h2>ID / PW 찾기</h2>
+		</header><br>
+		<div id="idpw"> 
+			<a href="idFind.me" id="idfind" name="idfind" class="btn btn-dark">아이디 찾기</a>
+			<a href="pwFind.me" id="pwfind" name="pwfind" class="btn btn-dark">비밀번호 찾기</a>
+		</div>
 	</div>
+	<jsp:include page="../common/footer.jsp" />
+	
 </body>
 </html>
