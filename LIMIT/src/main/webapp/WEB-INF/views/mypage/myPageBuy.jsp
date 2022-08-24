@@ -80,9 +80,9 @@
                 <tbody>
                    <c:forEach var="i" items="${ list }">
                    <tr>
-                   <td>${ i.TRADE_NO }</td>
-                   <td>${ i.PRODUCT_NAME }</td>
-                   <td>${ i.PRODUCT_CONTENT }</td>
+                   <td>${ i.tradeNo }</td>
+                   <td>${ i.productName }</td>
+                   <td>${ i.productContent }</td>
                    
                    
                    </tr>

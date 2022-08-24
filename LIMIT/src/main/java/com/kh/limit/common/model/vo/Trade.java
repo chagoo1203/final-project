@@ -23,4 +23,7 @@ public class Trade {
 	private String buyer; 
 	private String seller; 
 	private int resellNo; 
+	private String productName;
+	private String productContent;
+	
 }

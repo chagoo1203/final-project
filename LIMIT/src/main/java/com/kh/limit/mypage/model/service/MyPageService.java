@@ -29,15 +29,14 @@ public class MyPageService {
 		return myPageDao.deleteMember(sqlSession, userId);
 	}
 
-	
 	public int inteselectListCount() {
 		return myPageDao.inteSelectListCount(sqlSession);
 	}
 	public ArrayList<Product> InteList(PageInfo pi, String userId) {
 		return myPageDao.InteList(sqlSession, pi, userId);
 	}
-	public int buyselectListCount() {
-		return myPageDao.buyselectListCount(sqlSession);
+	public int buyselectListCount(String buyer) {
+		return myPageDao.buyselectListCount(sqlSession, buyer);
 	}
 	public ArrayList<Trade> BuyList(PageInfo pi, String buyer) {
 		return myPageDao.BuyList(sqlSession, pi, buyer);

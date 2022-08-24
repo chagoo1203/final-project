@@ -46,7 +46,7 @@
 	
 	<div class="mypageMenu">
 		<p class="title"></p>
-		<a href="myPageBuy.me">구매 상품</a> <br>
+		<a href="myPageBuy.me?buyer=${loginUser.userId }">구매 상품</a> <br>
 		<a href="myPageInte.me?userId=${loginUser.userId}">관심 상품</a>
 	</div>
 	

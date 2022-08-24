@@ -41,9 +41,9 @@ public class MyPageDao {
 	}
 	
 	
-	public int buyselectListCount(SqlSessionTemplate sqlSession) {
+	public int buyselectListCount(SqlSessionTemplate sqlSession, String buyer) {
 		
-		return sqlSession.selectOne("mypageMapper.buyselectListCount");
+		return sqlSession.selectOne("mypageMapper.buyselectListCount", buyer);
 		
 	}
 	public ArrayList<Trade> BuyList(SqlSessionTemplate sqlSession, PageInfo pi, String buyer) {

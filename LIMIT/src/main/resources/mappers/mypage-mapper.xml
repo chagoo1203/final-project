@@ -47,7 +47,21 @@
 	
 	<resultMap type="trade" id="tradeSet">
 		<result column="PAYMENT" property="payment" />
+		<result column="TRADE_NO" property="tradeNo" />
 		<result column="PURCHASE_DATE" property="purchaseDate" />
+		<result column="RECEVIER_NAME" property="recevierName" />  
+		<result column="RECEVIER_PHONE" property="recevierPhone" />
+		<result column="ORDER_COMMENT" property="orderComment" />
+		<result column="PAYMENT" property="payment" />
+		<result column="PURCHASE_DATE" property="purchaseDate" />
+		<result column="STATUS" property="status" />
+		<result column="DELIVERY" property="delivery" />
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="BUYER" property="buyer" />
+		<result column="SELLER" property="seller" />
+		<result column="RESELL_NO" property="resellNo" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_CONTENT" property="productContent" />
 	</resultMap>
 
 	
@@ -110,11 +124,11 @@ select
  </select>
  
  <!-- 구매상품 리스트 -->
- <select id="buyselectListCount" resultMap="tradeSet" resultType="_int">
+ <select id="buyselectListCount" resultType="_int" parameterType="string">
  	        SELECT COUNT(*)
         FROM MEMBER M, TRADE T
         WHERE M.USER_ID = T.BUYER
-        AND M.USER_ID = #{userId}
+        AND M.USER_ID = #{buyer}
 </select>
  
 <select id="buyList" resultMap="tradeSet" parameterType="string">
@@ -127,7 +141,7 @@ SELECT
  PRODUCT P,
  MEMBER M
  
- WHERE T.BUYER = #{userId}    
+ WHERE T.BUYER = #{buyer}    
  AND T.PRODUCT_NO = P.PRODUCT_NO
  AND T.BUYER = M.USER_ID
 

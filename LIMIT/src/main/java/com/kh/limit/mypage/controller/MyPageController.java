@@ -97,9 +97,7 @@ public String myPage() {
 		
 		//System.out.println("cpage : " + currentPage);
 		
-		//int listCount = mypageService.selectListCount();
-		//int pageLimit = 10;
-		//int boardLimit = 5;
+
 		
 		PageInfo pi = Pagination.getPageInfo(mypageService.inteselectListCount(), currentPage, 10, 5);
 		
@@ -115,7 +113,7 @@ public String myPage() {
 	@RequestMapping ("myPageBuy.me")
 		public String BuyselectList(@RequestParam(value="bpage", defaultValue="1") int currentPage, Model model, String buyer) {
 			
-		PageInfo pi = Pagination.getPageInfo(mypageService.buyselectListCount(), currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(mypageService.buyselectListCount(buyer), currentPage, 10, 5);
 		
 		ArrayList<Trade> list = mypageService.BuyList(pi,buyer);
 		model.addAttribute("list", list);
@@ -123,17 +121,7 @@ public String myPage() {
 		
 		
 		return "mypage/myPageBuy";
-		}
-
-		
-	
-	
-	@RequestMapping("myPageSell.me")
-	public String myPageSell() {
-		
-		return"mypage/myPageSell";
 	}
-	
 	
 	
 	
