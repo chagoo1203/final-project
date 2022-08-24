@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.product.model.vo.Product;
 
@@ -21,10 +22,7 @@ public class MyPageDao {
 	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.update("mypageMapper.deleteMember", userId);
 	}
-	public int nickCheck(SqlSessionTemplate sqlSession, String checkNick) {
-		return sqlSession.selectOne("mypageMapper.nickCheck", checkNick);
 
-	}
 	
 	public int inteSelectListCount(SqlSessionTemplate sqlSession) {
 		
@@ -40,6 +38,22 @@ public class MyPageDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("mypageMapper.inteList", userId , rowBounds);
+	}
+	
+	
+	public int buyselectListCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("mypageMapper.buyselectListCount");
+		
+	}
+	public ArrayList<Trade> BuyList(SqlSessionTemplate sqlSession, PageInfo pi, String buyer) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("mypageMapper.buyList", buyer , rowBounds);
+		
 	}
 	
 

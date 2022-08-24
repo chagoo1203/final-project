@@ -47,7 +47,6 @@
 	<div class="mypageMenu">
 		<p class="title"></p>
 		<a href="myPageBuy.me">구매 상품</a> <br>
-		<a href="myPageSell.me">판매 상품</a> <br>
 		<a href="myPageInte.me?userId=${loginUser.userId}">관심 상품</a>
 	</div>
 	
@@ -65,14 +64,15 @@
                     <label for="userName"> 이름 : </label>
                     <input type="text" class="form-control" id="userName" value="${loginUser.userName}" name="userName" readonly> <br>
                     
-                     <label for=nickName"> &nbsp; 별명 : </label>
+                     <label for="nickName"> &nbsp; 별명 : </label>
                     <input type="text" class="form-control" id="nickName" value="${loginUser.nickName}" name="nickName" onkeyup="renickCheck();"> <br>
                     <div id="checkResult" style="font-size:0.7em; display:none"></div>
-                    <br>
-
-                                              새로 사용할 비밀번호 입력                                                         		
-             		<input type="password" class="form-control" id="userPwd" value="${loginUser.userPwd}" name="userPwd" placeholder="새로 비밀번호를 입력해 주세요"><br>
                     
+
+                    <label for="password"> &nbsp; 비밀번호 : </label>                     		
+             		<input type="password" class="form-control" id="userPwd"  name="userPwd"  placeholder="새 비밀번호를 입력해 주세요"><br>
+             	
+
                      <label for="birthDate"> &nbsp; 생일 : </label>
                     <input type="text" class="form-control" id="birthDate" value="${loginUser.birthDate}" name="birthDate" readonly> <br>
                     
@@ -90,7 +90,7 @@
 		            <input type="text" class="form-control" id="address_kakao" name="address_search" required readonly />
 		            <input type="text" class="form-control" id="address_detail" name="address_detail"/> <br>
 		            <input type="button" onclick="addrSuccess()" value="주소확인" required/> &nbsp;&nbsp;* 주소를 입력하고 버튼을 꼭 눌러주세요!!<br>
-		            <input type="hidden" class="form-control" id="address" name="address" value="" required /> <br>
+		            <input type="hidden" class="form-control" id="address" name="address"  required /> <br>
                     
                     
                     <label for=""> &nbsp; 성별 : </label> &nbsp;&nbsp;

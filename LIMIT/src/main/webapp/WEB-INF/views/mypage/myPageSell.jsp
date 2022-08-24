@@ -65,7 +65,7 @@
  <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>관심상품</h2>
+            <h2>판매 내역</h2>
             <br>
 
             <br>

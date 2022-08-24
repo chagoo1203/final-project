@@ -16,7 +16,7 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
-		
+	
 	 <resultMap id="productResultSet" type="product">
 		<result column="PRODUCT_NO" property="productNo" />
 		<result column="PRODUCT_NAME" property="productName" />

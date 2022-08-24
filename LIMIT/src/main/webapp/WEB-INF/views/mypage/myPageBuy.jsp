@@ -59,13 +59,12 @@
 	<div class="mypageMenu">
 		<p class="title"></p>
 		<a href="myPageBuy.me">구매 상품</a> <br>
-		<a href="myPageSell.me">판매 상품</a> <br>
 		<a href="myPageInte.me">관심 상품</a>
 	</div>
  <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>관심상품</h2>
+            <h2>구매상품</h2>
             <br>
 
             <br>
@@ -73,18 +72,19 @@
             <table id="myPageBuy" class="table table-hover" align="center">
                 <thead>
                     <tr>
-                        <th>상품번호</th>
+                        <th>거래번호</th>
                         <th>상품이름</th>
+                        <th>상품</th>
                     </tr>
                 </thead>
                 <tbody>
                    <c:forEach var="i" items="${ list }">
                    <tr>
-                   <td></td>
-                   <td></td>
-                   <td>
+                   <td>${ i.TRADE_NO }</td>
+                   <td>${ i.PRODUCT_NAME }</td>
+                   <td>${ i.PRODUCT_CONTENT }</td>
                    
-                   </td>
+                   
                    </tr>
                    </c:forEach>
                 </tbody>
@@ -100,14 +100,14 @@
                    </c:when>
                    
                    <c:otherwise>
-                    <li class="page-item"><a class="page-link" href="myPageInte?cPage=${ pi.currentPage -1 }">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="myPageBuy?cPage=${ pi.currentPage -1 }">Previous</a></li>
                    </c:otherwise>
                    
                    </c:choose>
                    
                    <c:forEach var="p" begin="${pi.startPage }" end="${ pi.endPage }">
                    
-                    <li class="page-item"><a class="page-link" href="myPageInte?cPage=${ p }">${ p }</a></li>
+                    <li class="page-item"><a class="page-link" href="myPageBuy?bPage=${ p }">${ p }</a></li>
 					</c:forEach>
 					
 					<c:choose>
@@ -116,7 +116,7 @@
                     </c:when> 
                     
                     <c:otherwise>
-                     <li class="page-item"><a class="page-link" href="myPageInte?cPage=${ pi.currentPage + 1 }">Next</a></li>
+                     <li class="page-item"><a class="page-link" href="myPageBuy?bPage=${ pi.currentPage + 1 }">Next</a></li>
                     </c:otherwise>
                     
                     </c:choose>

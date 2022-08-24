@@ -62,7 +62,6 @@
 	<div class="mypageMenu">
 		<p class="title"></p>
 		<a href="myPageBuy.me">구매 상품</a> <br>
-		<a href="myPageSell.me">판매 상품</a> <br>
 		<a href="myPageInte.me">관심 상품</a>
 	</div>
  <div class="content">
@@ -91,9 +90,7 @@
                    <td>${ i.productNo }</td>
                    <td>${ i.productName }</td>
                    <td>${ i.productContent }</td>
-                   <td>
-                   
-                   </td>
+
                    </tr>
                    </c:forEach>
                 </tbody>

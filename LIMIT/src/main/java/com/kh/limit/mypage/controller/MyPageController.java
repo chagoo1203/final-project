@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +22,7 @@ import com.kh.limit.mypage.model.service.MyPageService;
 import com.kh.limit.product.model.vo.Product;
 import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.common.template.Pagination;
 import com.kh.limit.member.model.service.MemberService;
 
@@ -85,14 +89,7 @@ public String myPage() {
 	
 	
 	}
-	
-	@ResponseBody
-	@RequestMapping("renickCheck.me")
-	public String ajaxCheckNick(String checkNick) {
-		
-		return mypageService.nickCheck(checkNick) > 0 ? "NNNNN" : "NNNNY";
-		}
-	
+
 	//myPageInte?currentPage=
 	
 	@RequestMapping("myPageInte.me")
@@ -107,7 +104,7 @@ public String myPage() {
 		PageInfo pi = Pagination.getPageInfo(mypageService.inteselectListCount(), currentPage, 10, 5);
 		
 		ArrayList<Product> list = mypageService.InteList(pi,userId);
-		System.out.println(list.size());
+
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		
@@ -116,12 +113,20 @@ public String myPage() {
 	
 	}
 	@RequestMapping ("myPageBuy.me")
-	public String myPageBuy() {
+		public String BuyselectList(@RequestParam(value="bpage", defaultValue="1") int currentPage, Model model, String buyer) {
+			
+		PageInfo pi = Pagination.getPageInfo(mypageService.buyselectListCount(), currentPage, 10, 5);
 		
-
+		ArrayList<Trade> list = mypageService.BuyList(pi,buyer);
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
 		
 		return "mypage/myPageBuy";
-	}
+		}
+
+		
+	
 	
 	@RequestMapping("myPageSell.me")
 	public String myPageSell() {

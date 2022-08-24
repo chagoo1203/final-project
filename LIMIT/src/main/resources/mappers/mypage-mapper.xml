@@ -44,13 +44,12 @@
 		<result column="NICKNAME" property="nickName" />
 	
 	</resultMap>
-
-	 <select id="renickCheck" resultType="_int">
-		SELECT	COUNT(*)
-		FROM	MEMBER
-		WHERE	NICKNAME = #{checkNick}	
-	</select>
 	
+	<resultMap type="trade" id="tradeSet">
+		<result column="PAYMENT" property="payment" />
+		<result column="PURCHASE_DATE" property="purchaseDate" />
+	</resultMap>
+
 	
 	<!-- 회원정보수정 -->
 	<update id="updateMember">
@@ -92,7 +91,8 @@
  
  </select>
  
-  
+ 
+ 
  <select id="inteList" resultMap="productResultSet" parameterType="string">
 select 
 		P.PRODUCT_NO,
@@ -109,5 +109,32 @@ select
         AND I.PRODUCT_NO = P.PRODUCT_NO
  </select>
  
+ <!-- 구매상품 리스트 -->
+ <select id="buyselectListCount" resultMap="tradeSet" resultType="_int">
+ 	        SELECT COUNT(*)
+        FROM MEMBER M, TRADE T
+        WHERE M.USER_ID = T.BUYER
+        AND M.USER_ID = #{userId}
+</select>
+ 
+<select id="buyList" resultMap="tradeSet" parameterType="string">
+SELECT 
+ T.TRADE_NO,
+ P.PRODUCT_NAME,
+ P.PRODUCT_CONTENT
+ 
+ FROM TRADE T,
+ PRODUCT P,
+ MEMBER M
+ 
+ WHERE T.BUYER = #{userId}    
+ AND T.PRODUCT_NO = P.PRODUCT_NO
+ AND T.BUYER = M.USER_ID
+
+        
+</select>
+ 
+ 
+
 
 </mapper>

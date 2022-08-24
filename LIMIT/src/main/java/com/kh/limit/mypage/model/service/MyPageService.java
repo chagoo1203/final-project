@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.limit.common.model.vo.Interested;
 import com.kh.limit.common.model.vo.PageInfo;
+import com.kh.limit.common.model.vo.Trade;
 import com.kh.limit.member.model.dao.MemberDao;
 import com.kh.limit.member.model.vo.Member;
 import com.kh.limit.mypage.model.dao.MyPageDao;
@@ -27,14 +28,19 @@ public class MyPageService {
 	public int deleteMember(String userId) {
 		return myPageDao.deleteMember(sqlSession, userId);
 	}
-	public int nickCheck(String checkNick) {
-		return myPageDao.nickCheck(sqlSession, checkNick);
-	}
+
+	
 	public int inteselectListCount() {
 		return myPageDao.inteSelectListCount(sqlSession);
 	}
 	public ArrayList<Product> InteList(PageInfo pi, String userId) {
 		return myPageDao.InteList(sqlSession, pi, userId);
+	}
+	public int buyselectListCount() {
+		return myPageDao.buyselectListCount(sqlSession);
+	}
+	public ArrayList<Trade> BuyList(PageInfo pi, String buyer) {
+		return myPageDao.BuyList(sqlSession, pi, buyer);
 	}
 	
 
