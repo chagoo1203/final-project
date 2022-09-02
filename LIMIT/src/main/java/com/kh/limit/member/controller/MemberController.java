@@ -64,7 +64,7 @@ public class MemberController {
         //  System.out.println("네이버:" + naverAuthUrl);
         
         //네이버 
-        // model.addAttribute("url", naverAuthUrl);
+        model.addAttribute("url", naverAuthUrl);
         
 		return "member/loginForm";
 	}
@@ -75,12 +75,6 @@ public class MemberController {
 	@RequestMapping("loginForm.me")
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		Member loginUser = memberService.loginMember(m);		
-
-		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-		
-		System.out.println("암호문 : " + encPwd);
-
-
 
 		//String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 
